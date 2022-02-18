@@ -1,0 +1,43 @@
+.datatable-rowexpansion-demo .product-image {
+    width: 100px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.datatable-rowexpansion-demo .orders-subtable {
+    padding: 1rem;
+}
+
+
+.logs-badge {
+    border-radius: 2px;
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+  }
+  
+  .logs-badge.status-debug {
+    background-color: #C8E6C9;
+    color: #256029;
+  }
+  
+  .logs-badge.status-error {
+    background-color: #FFCDD2;
+    color: #C63737;
+  }
+  
+  .logs-badge.status-warning {
+    background-color: #FEEDAF;
+    color: #8A5340;
+  }
+
+  .logs-badge.status-critical {
+    background-color: #febfaf;
+    color: #f50b0bd0;
+  }
+
+  .logs-badge.status-info {
+    background-color: #5a66d16e;
+    color: #2d2bb170;
+  }

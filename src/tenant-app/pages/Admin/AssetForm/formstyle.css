@@ -1,0 +1,77 @@
+.app {
+  width: 60%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.dropdown-demo .p-dropdown {
+  width: 14rem;
+}
+
+.bton{
+  transition: background-color .3s;
+  cursor: pointer; 
+  overflow: hidden;
+  border-width: 0;
+  outline: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+.btndiv{
+  display: block;
+  margin-left: 27vw;
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+.btn {
+  font-size: 20px;
+  position: relative;
+  display: block;
+  margin: 30px auto;
+  padding: 12px;
+  overflow: hidden;
+  border-width: 0;
+  outline: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+  background-color: #2ecc71;
+  color: #ecf0f1;
+  transition: background-color .3s;
+  cursor: pointer;
+}
+
+label {
+  display: inline-block;
+  color: #acacac;
+  margin-bottom: 10px;
+}
+
+.calClass button{
+  /* background-color:#f7f7f7; */
+  border:0.1px solid #acacac ;
+background: none;
+}
+
+.calClass .p-button.p-button-icon-only{
+  color: #3a3d3b;
+}
+
+#hasError {
+  border-color: red;
+  background-color: #fde6e6;
+}
+
+.error {
+  /* border: 2px solid red; */
+  /* background-color: #fde6e6; */
+  padding: 10px;
+  /* margin-bottom: 30px; */
+  color: red;
+  font-size: 15px;
+}
+
+.hidden {
+  display: none;
+}
