@@ -7,7 +7,7 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { connect } from "react-redux";
 import {
-  logout,
+  logOut,
   requestReset,
   verifyEmail,
 } from "../../redux/actions/authActions";
@@ -40,7 +40,7 @@ class Navbar extends Component {
     this.SendConfirmation = this.SendConfirmation.bind(this);
   }
   logout = () => {
-    this.props.logout();
+    this.props.logOut();
   };
 
   icons = [
@@ -556,7 +556,7 @@ class Navbar extends Component {
 }
 
 Navbar.propTypes = {
-  logout: PropTypes.func.isRequired,
+  logOut: PropTypes.func.isRequired,
   user: PropTypes.array.isRequired,
   verifyEmail: PropTypes.func.isRequired,
   requestReset: PropTypes.func.isRequired,
@@ -565,6 +565,6 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
   verifieddata: state.auth.verifieddata,
 });
-export default connect(mapStateToProps, { logout, verifyEmail, requestReset })(
+export default connect(mapStateToProps, { logOut, verifyEmail, requestReset })(
   Navbar
 );

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Chart } from "primereact/chart";
-
+import { Button } from "primereact/button";
+import { MultiSelect } from "primereact/multiselect";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchRecommendations } from "../../../../shared/redux/actions/recommendationActions";
@@ -10,6 +11,7 @@ import {
   decommissionAsset,
 } from "../../../../shared/redux/actions/assetActions";
 import { fetchInventories } from "../../../../shared/redux/actions/inventoryActions";
+import store from "../../../../shared/redux/store/store";
 import { fetchDashData } from "../../../../shared/redux/actions/dashboardActions";
 import ReportGenerator from "./reports";
 

@@ -3,7 +3,7 @@ import RouterFunction from "./shared/routes";
 
 function App() {
   return (
-    <div className=" overflow-x-hidden">
+    <div className="App overflow-x-hidden">
       <RouterFunction />
     </div>
   );

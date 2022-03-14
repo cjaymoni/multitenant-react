@@ -13,7 +13,7 @@ function Layout(props) {
         <div style={{ width: "82vw" }}>
           <Topnav />
 
-          <div className="mt-auto relative">
+          <div className="mt-auto relative ml-8">
             <Outlet></Outlet>
           </div>
         </div>

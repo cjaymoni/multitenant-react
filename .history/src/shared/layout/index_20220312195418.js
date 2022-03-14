@@ -6,14 +6,14 @@ import Topnav from "../components/topnav/Topnav";
 function Layout(props) {
   return (
     <Fragment>
-      <div style={{ display: "flex", width: "100vw" }}>
-        <div style={{ display: "flex", width: "18vw" }}>
+      <div className="flex w-full">
+        <div className="flex" style={{ width: "16vw" }}>
           <SidebarDemo />
         </div>
-        <div style={{ width: "82vw" }}>
+        <div className="flex" style={{ width: "84vw" }}>
           <Topnav />
 
-          <div className="mt-auto relative">
+          <div className="mt-auto relative ml-8">
             <Outlet></Outlet>
           </div>
         </div>

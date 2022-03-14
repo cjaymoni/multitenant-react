@@ -4,11 +4,11 @@ import { userService } from "../../services/auth.service";
 // import history from "../../services/history";
 import { authActions } from "./types";
 
-export const loginUser = (email, password) => (dispatch) => {
+export const loginUser = (userDetails) => (dispatch) => {
   return (
-    dispatch(request({ email, password })),
+    dispatch(request({ userDetails })),
     userService
-      .auth({ email, password })
+      .auth(userDetails)
       // .then((res) => res.data)
       .then((user) => {
         dispatch(success(user));

@@ -129,7 +129,7 @@ class Login extends React.Component {
               >
                 {(errors, status, touched, isSubmitting) => (
                   <div className="flex align-items-center justify-content-center ">
-                    <div className="align-items-center justify-content-center surface-card p-3 shadow-8 border-round w-9 mt-8 bg-purple-50">
+                    <div className="surface-card p-3 shadow-8 border-round w-9 mt-6 bg-purple-50">
                       <div className="text-center mb-2">
                         <img
                           src={process.env.PUBLIC_URL + "aiti-logo.png"}

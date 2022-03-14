@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import SidebarData from "./SidebarItems";
 import SubMenu from "./SubMenu";
 import Can from "../../casl/can";
-import history from "../../services/history";
 
 const SidebarParent = styled.div`
   background-image: linear-gradient(
@@ -69,7 +68,7 @@ function Sidebar(props, { defaultActive }) {
   const [sidebar, setSidebar] = useState(true);
 
   const showSidebar = () => setSidebar(!sidebar);
-  const location = history.location;
+  const location = props.history.location;
   const lastActiveIndexString = localStorage.getItem("lastActiveIndex");
   const lastActiveIndex = Number(lastActiveIndexString);
   const [activeIndex, setActiveIndex] = useState(

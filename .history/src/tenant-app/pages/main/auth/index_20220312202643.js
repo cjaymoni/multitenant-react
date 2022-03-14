@@ -18,59 +18,27 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      confirmResDialog: false,
-      useremail: "",
+      email: "",
+      password: "",
     };
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.SendConfirmation = this.SendConfirmation.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleOpen() {
-    this.setState({ confirmResDialog: true });
-  }
-  handleClose() {
-    this.setState({ confirmResDialog: false });
+  handleChange(e) {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   }
 
-  handleInputChange(evt, field) {
-    this.setState({ [field]: evt.target.value });
-  }
+  handleSubmit(e) {
+    e.preventDefault();
 
-  async SendConfirmation() {
-    const email = this.state.useremail;
-    await this.props.verifyEmail(email);
-    if (this.props.testingdata !== null) {
-      return (
-        // alert(localStorage.verified_id),
-        this.props.requestReset(this.props.verifieddata.email)
-      );
-    } else {
-      return alert("failed");
-    }
-    // this.props.requestReset(email)
-  }
+    // this.setState({ submitted: true });
+    const { email, password } = this.state;
+    const userDetails = { email, password };
 
-  ResetDialogFooter = (
-    <React.Fragment>
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        className="p-button-text"
-        onClick={() => this.handleClose()}
-      />
-      <Button
-        label="Save"
-        icon="pi pi-check"
-        className="p-button-text"
-        onClick={() => {
-          this.SendConfirmation();
-          this.handleClose();
-        }}
-      />
-    </React.Fragment>
-  );
+    this.props.loginUser(userDetails);
+  }
 
   render() {
     const bgImg = process.env.PUBLIC_URL + "default_bg.jpg";
@@ -128,8 +96,8 @@ class Login extends React.Component {
                 }}
               >
                 {(errors, status, touched, isSubmitting) => (
-                  <div className="flex align-items-center justify-content-center ">
-                    <div className="align-items-center justify-content-center surface-card p-3 shadow-8 border-round w-9 mt-8 bg-purple-50">
+                  <div className="flex align-items-center justify-content-center mt-8 ">
+                    <div className="surface-card p-3 shadow-8 border-round w-9 mt-6 bg-purple-50">
                       <div className="text-center mb-2">
                         <img
                           src={process.env.PUBLIC_URL + "aiti-logo.png"}
