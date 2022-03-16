@@ -17,8 +17,6 @@ axios.defaults.headers.get["Accept"] = "application/json"; // default header for
 axios.defaults.headers.post["Accept"] = "application/json"; // default header for all POST request
 axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
 axios.defaults.headers["Tenant-Key"] = `${tenantKey}`;
-axios.defaults.headers["Tenant-Keffy"] = `qwq`;
-
 axios.defaults.headers.Authorization =
   "Bearer " + localStorage.getItem("user.usertoken");
 

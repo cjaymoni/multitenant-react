@@ -650,12 +650,12 @@ class ReportGenerator extends React.Component {
           onHide={this.handleClose}
         >
           <div>
-            {/* <ReactToPrint
+            <ReactToPrint
               content={() => this.componentRef}
               trigger={() => (
                 <button className="btn btn-primary">Print to PDF!</button>
               )}
-            /> */}
+            />
             <ResultsTable
               data="asset"
               ref={(response) => (this.componentRef = response)}

@@ -10,7 +10,6 @@ import {
   selectTenantConfig,
   makeSelectItemsBySubDomain,
 } from "./shared/redux/selectors/tenantSelectors";
-import SubDomainError from "./tenant-app/pages/main/subdomainError";
 
 function App(props) {
   const dispatch = useDispatch();
@@ -18,16 +17,17 @@ function App(props) {
 
   useEffect(() => {
     dispatch(getConfig());
+    console.log(tenantInfo);
   }, [dispatch]);
 
-  if (tenantInfo !== undefined) {
+  if (tenantInfo !== []) {
     return (
       <div className=" overflow-x-hidden">
         <RouterFunction />
       </div>
     );
-  } else if (tenantInfo === undefined || {}) {
-    return <SubDomainError />;
+  } else {
+    return <div>Doesnt exist</div>;
   }
 }
 
@@ -36,7 +36,7 @@ function App(props) {
 // };
 
 const mapStateToProps = (state) => ({
-  tenantInfo: state.tenants.tenantConfig,
+  tenantInfo: state.tenants.tenantInfo,
   // tth: selectTenantConfig(),
 });
 export default connect(mapStateToProps, { getConfig })(App);

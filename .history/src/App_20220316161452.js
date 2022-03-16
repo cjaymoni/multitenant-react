@@ -10,7 +10,7 @@ import {
   selectTenantConfig,
   makeSelectItemsBySubDomain,
 } from "./shared/redux/selectors/tenantSelectors";
-import SubDomainError from "./tenant-app/pages/main/subdomainError";
+import { SubDomainError } from "./tenant-app/pages/main/subdomainError";
 
 function App(props) {
   const dispatch = useDispatch();

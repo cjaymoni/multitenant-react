@@ -10,7 +10,6 @@ import {
   selectTenantConfig,
   makeSelectItemsBySubDomain,
 } from "./shared/redux/selectors/tenantSelectors";
-import SubDomainError from "./tenant-app/pages/main/subdomainError";
 
 function App(props) {
   const dispatch = useDispatch();
@@ -18,6 +17,7 @@ function App(props) {
 
   useEffect(() => {
     dispatch(getConfig());
+    console.log(props.tenantInfo);
   }, [dispatch]);
 
   if (tenantInfo !== undefined) {
@@ -27,7 +27,7 @@ function App(props) {
       </div>
     );
   } else if (tenantInfo === undefined || {}) {
-    return <SubDomainError />;
+    return <div>Doesnt exist</div>;
   }
 }
 

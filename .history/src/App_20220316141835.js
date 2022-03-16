@@ -6,16 +6,11 @@ import PropTypes from "prop-types";
 import { getConfig } from "./shared/services/config.service";
 import { connect, useDispatch } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import {
-  selectTenantConfig,
-  makeSelectItemsBySubDomain,
-} from "./shared/redux/selectors/tenantSelectors";
-import SubDomainError from "./tenant-app/pages/main/subdomainError";
+import { selectTenantConfig } from "./shared/redux/selectors/tenantSelectors";
 
 function App(props) {
   const dispatch = useDispatch();
   const tenantInfo = props.tenantInfo;
-
   useEffect(() => {
     dispatch(getConfig());
   }, [dispatch]);
@@ -26,8 +21,8 @@ function App(props) {
         <RouterFunction />
       </div>
     );
-  } else if (tenantInfo === undefined || {}) {
-    return <SubDomainError />;
+  } else {
+    return <div>Doesnt exist</div>;
   }
 }
 
@@ -35,8 +30,7 @@ function App(props) {
 //   fetchTenantInfo: PropTypes.func.isRequired,
 // };
 
-const mapStateToProps = (state) => ({
-  tenantInfo: state.tenants.tenantConfig,
-  // tth: selectTenantConfig(),
+const mapStateToProps = createStructuredSelector({
+  tenantInfo: selectTenantConfig(),
 });
 export default connect(mapStateToProps, { getConfig })(App);

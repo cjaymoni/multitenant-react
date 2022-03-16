@@ -21,7 +21,7 @@ const tenantReducer = (state = initialState, action) => {
     case tenantActions.FETCH_TENANT_CONFIG:
       return {
         ...state,
-        tenantConfig: action.payload.data[0],
+        tenantConfig: Object.assign({}, action.payload.data),
       };
 
     case tenantActions.ADD_TENANT_SUCCESS:

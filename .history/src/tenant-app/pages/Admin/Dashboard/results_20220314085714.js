@@ -1,7 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import "./table.css";
-class ResultsTable extends React.Component {
+import React, { Component } from 'react';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { connect } from 'react-redux';
+import './table.css';
+class ResultsTable extends Component {
   constructor(props) {
     super(props);
 
@@ -10,10 +12,10 @@ class ResultsTable extends React.Component {
     };
 
     this.columns = [
-      { field: "year", header: "Year" },
+      { field: 'year', header: 'Year' },
 
-      { field: "month", header: "Month", body: this.monthTemplate },
-      { field: "sum", header: "Sum" },
+      { field: 'month', header: 'Month', body: this.monthTemplate },
+      { field: 'sum', header: 'Sum' },
     ];
     this.getd = this.getd.bind(this);
   }
@@ -58,32 +60,32 @@ class ResultsTable extends React.Component {
     var dt = this.props.data;
 
     switch (dt) {
-      case "asset":
-        await this.setState({ products: this.props.report["asset"].aggr });
+      case 'asset':
+        await this.setState({ products: this.props.report['asset'].aggr });
 
         return console.log(this.state.products);
 
-      case "request":
+      case 'request':
         await this.setState({
-          products: this.props.report["request"].aggr,
+          products: this.props.report['request'].aggr,
         });
         return console.log(this.state.products);
 
-      case "proposal":
+      case 'proposal':
         await this.setState({
-          products: this.props.report["proposal"].aggr,
+          products: this.props.report['proposal'].aggr,
         });
         return console.log(this.state.products);
 
-      case "inventory":
+      case 'inventory':
         await this.setState({
-          products: this.props.report["inventory"].aggr,
+          products: this.props.report['inventory'].aggr,
         });
         return console.log(this.state.products);
 
-      case "financial":
+      case 'financial':
         await this.setState({
-          products: this.props.report["financial"].aggr,
+          products: this.props.report['financial'].aggr,
         });
         return console.log(this.state.products);
 
@@ -102,16 +104,16 @@ class ResultsTable extends React.Component {
     return (
       <table className="w-full" id="customers">
         <tr>
-          {headers.map((header) => (
+          {headers.map(header => (
             <th>{header}</th>
           ))}
         </tr>
 
-        {objEntries.map((dog) => {
+        {objEntries.map(dog => {
           return (
             <tr>
-              {headers.map((header) => {
-                if (header === "month") {
+              {headers.map(header => {
+                if (header === 'month') {
                   switch (dog[header]) {
                     case 1:
                       return <span>January</span>;
@@ -151,7 +153,7 @@ class ResultsTable extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   report: state.dashboard.report,
 });
 export default connect(mapStateToProps, null)(ResultsTable);

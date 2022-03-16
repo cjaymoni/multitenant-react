@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./table.css";
-class ResultsTable extends React.Component {
+class ResultsTable extends Component {
   constructor(props) {
     super(props);
 

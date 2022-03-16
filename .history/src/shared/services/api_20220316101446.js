@@ -1,26 +1,13 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-import store from "../redux/store";
-
-const tenat = store.getState().tenants;
-const tenantKey = tenat.tenantConfig.sub_domain;
-
+//  const tenant_key = props.tenantConfig.key
 const api = axios.create({
   baseURL:
     // "http://asset-v2.herokuapp.com/",
-    "http://196.43.196.108:3100",
+    "http://196.43.196.108:3345",
   timeout: 20000,
   // interceptors.reques
 });
-
-axios.defaults.headers.get["Accept"] = "application/json"; // default header for all get request
-axios.defaults.headers.post["Accept"] = "application/json"; // default header for all POST request
-axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
-axios.defaults.headers["Tenant-Key"] = `${tenantKey}`;
-axios.defaults.headers["Tenant-Keffy"] = `qwq`;
-
-axios.defaults.headers.Authorization =
-  "Bearer " + localStorage.getItem("user.usertoken");
 
 // Add a request interceptor
 api.interceptors.request.use(

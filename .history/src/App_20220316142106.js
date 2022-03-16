@@ -10,24 +10,22 @@ import {
   selectTenantConfig,
   makeSelectItemsBySubDomain,
 } from "./shared/redux/selectors/tenantSelectors";
-import SubDomainError from "./tenant-app/pages/main/subdomainError";
 
 function App(props) {
   const dispatch = useDispatch();
   const tenantInfo = props.tenantInfo;
-
   useEffect(() => {
     dispatch(getConfig());
   }, [dispatch]);
 
-  if (tenantInfo !== undefined) {
+  if (tenantInfo !== []) {
     return (
       <div className=" overflow-x-hidden">
         <RouterFunction />
       </div>
     );
-  } else if (tenantInfo === undefined || {}) {
-    return <SubDomainError />;
+  } else {
+    return <div>Doesnt exist</div>;
   }
 }
 
@@ -35,8 +33,7 @@ function App(props) {
 //   fetchTenantInfo: PropTypes.func.isRequired,
 // };
 
-const mapStateToProps = (state) => ({
-  tenantInfo: state.tenants.tenantConfig,
-  // tth: selectTenantConfig(),
+const mapStateToProps = createStructuredSelector({
+  tenantInfo: makeSelectItemsBySubDomain("aiti-kaces"),
 });
 export default connect(mapStateToProps, { getConfig })(App);
