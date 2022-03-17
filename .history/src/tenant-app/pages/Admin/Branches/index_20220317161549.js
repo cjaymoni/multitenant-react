@@ -3,7 +3,6 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import "../../../../shared/components/Table/Table.css";
 import CardDemo from "../../../../shared/components/card/CardDemo";
-import { fetchCurrencies } from "../../../../shared/redux/actions/currencyActions";
 import { createCountry } from "../../../../shared/redux/actions/countryActions";
 import { createSubCountry } from "../../../../shared/redux/actions/subcountryActions";
 import { createCity } from "../../../../shared/redux/actions/cityActions";
@@ -26,7 +25,7 @@ import TableUI from "../../../../shared/components/Table/Table";
 import { dateBodyTemplate, depDateTemplate } from "./const";
 import { AutoComplete } from "primereact/autocomplete";
 import { InputMask } from "primereact/inputmask";
-class Location extends Component {
+class Branches extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -234,7 +233,7 @@ class Location extends Component {
     const actionBodyTemplate = (rowData) => {
       return (
         <React.Fragment>
-          <Can do="info" on="Location">
+          <Can do="info" on="Branches">
             <Button
               icon="pi pi-info"
               className="p-button-rounded p-button-info p-mr-2"
@@ -244,7 +243,7 @@ class Location extends Component {
             />
           </Can>
           &nbsp;
-          <Can do="edit" on="Location">
+          <Can do="edit" on="Branches">
             <Button
               icon="pi pi-pencil"
               className="p-button-rounded p-button-warning p-mr-2"
@@ -254,7 +253,7 @@ class Location extends Component {
             />
           </Can>
           &nbsp;
-          <Can do="disable" on="Location">
+          <Can do="disable" on="Branches">
             <Button
               icon="pi pi-ban"
               className="p-button-rounded p-button-danger p-mr-2"
@@ -264,7 +263,7 @@ class Location extends Component {
             />
           </Can>
           &nbsp;
-          <Can do="delete" on="Location">
+          <Can do="delete" on="Branches">
             <Button
               icon="pi pi-trash"
               className="p-button-rounded p-button-danger p-mr-2"
@@ -277,7 +276,7 @@ class Location extends Component {
       );
     };
     const locationColumns = [
-      { field: "title", header: "Location Name" },
+      { field: "title", header: "Branches Name" },
       {
         field: "ghana_post",
         header: "Digital Address",
@@ -297,7 +296,7 @@ class Location extends Component {
           className="p-mb-3 p-text-bold"
           style={{ marginLeft: "20px", color: "#495057" }}
         >
-          Location info
+          Branches info
         </h2>
         <br></br>
         <div className="p-grid p-justify-between cardFstyle">
@@ -344,7 +343,7 @@ class Location extends Component {
           draggable={false}
           visible={this.state["toggler"]}
           style={{ width: "35vw" }}
-          header="Add New Location"
+          header="Add New Branches"
           modal
           className="p-fluid"
           footer={this.addLocationFooter}
@@ -401,13 +400,13 @@ class Location extends Component {
                           htmlFor="firstname6"
                           className="block font-normal"
                         >
-                          Location name
+                          Branches name
                         </label>
                         <InputText
                           id="title"
                           type="text"
                           name="title"
-                          placeholder="Location name"
+                          placeholder="Branches name"
                           onChange={(event) => handleChange(event, "title")}
                           value={values.title}
                           className={
@@ -445,7 +444,7 @@ class Location extends Component {
           draggable={false}
           visible={this.state["toggler2"]}
           style={{ width: "30vw" }}
-          header="Edit Location Details"
+          header="Edit Branches Details"
           modal
           className="p-fluid"
           footer={this.editLocationDialogFooter}
@@ -454,7 +453,7 @@ class Location extends Component {
           <div className="formgrid grid">
             <div className="field col">
               <label htmlFor="namefItem" className="block font-normal">
-                Location name
+                Branches name
               </label>
               <InputText
                 id="title"
@@ -485,7 +484,7 @@ class Location extends Component {
           draggable={false}
           visible={this.state.openinfo}
           style={{ width: "50vw" }}
-          header="Location Info"
+          header="Branches Info"
           modal
           className="p-fluid"
           footer={this.infoDialogFooter}
@@ -539,7 +538,7 @@ class Location extends Component {
   }
 }
 
-Location.propTypes = {
+Branches.propTypes = {
   createCountry: PropTypes.func.isRequired,
   createSubCountry: PropTypes.func.isRequired,
   createCity: PropTypes.func.isRequired,
@@ -571,4 +570,4 @@ export default connect(mapStateToProps, {
   createCity,
   createCountry,
   createSubCountry,
-})(Location);
+})(Branches);
