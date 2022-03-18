@@ -1,28 +1,52 @@
 import api from "../../services/api";
 import Swal from "sweetalert2";
-import { departmentActions } from "./types";
-export const fetchDepartments = () => (dispatch) => {
+import { locationActions } from "./types";
+export const fetchLocation = () => (dispatch) => {
   return api
-    .get("/departments")
+    .get("/branches")
     .then((res) => res.data)
-    .then((departments) =>
+    .then((location) =>
       dispatch({
-        type: departmentActions.FETCH_DEPARTMENTS_SUCCESS,
-        payload: departments,
+        type: locationActions.FETCH_LOCATION_SUCCESS,
+        payload: location,
       })
     );
 };
 
-export const createDepartment = (postData) => (dispatch) => {
-  return api.post("/departments", postData).then((post) => {
+export const fetchLocationDepartments = (id) => (dispatch) => {
+  return api
+    .get(`/locations/${id}/departments?search=status&value=true`)
+    .then((res) => res.data)
+    .then((departmentlocation) =>
+      dispatch({
+        type: locationActions.FETCH_DEPARTMENT_LOCATION,
+        payload: departmentlocation,
+      })
+    );
+};
+export const fetchLocDepartments = () => (dispatch) => {
+  return api
+    .get(
+      `/locations/${localStorage.loc_id}/departments?search=status&value=true`
+    )
+    .then((res) => res.data)
+    .then((departmentlocation) =>
+      dispatch({
+        type: locationActions.FETCH_DEPARTMENT_LOCATION,
+        payload: departmentlocation,
+      })
+    );
+};
+export const createLocation = (postData) => (dispatch) => {
+  return api.post("/branches", postData).then((post) => {
     if (post.status === 201) {
       dispatch(
         {
-          type: departmentActions.ADD_DEPARTMENTS_SUCCESS,
+          type: locationActions.ADD_LOCATION_SUCCESS,
           payload: post,
         },
         Swal.fire({
-          title: "Department added successfully",
+          title: "Branch added successfully",
           icon: "success",
           timer: 2000,
           showConfirmButton: false,
@@ -42,17 +66,17 @@ export const createDepartment = (postData) => (dispatch) => {
   });
 };
 
-export const editDepartment = (id, updateData) => (dispatch) => {
-  return api.patch(`/departments/${id}`, updateData).then((update) => {
+export const updateLocation = (id, updateData) => (dispatch) => {
+  return api.patch(`/locations/${id}`, updateData).then((update) => {
     if (update.status === 200) {
       dispatch(
         {
-          type: departmentActions.UPDATE_DEPARTMENTS_SUCCESS,
+          type: locationActions.UPDATE_LOCATION_SUCCESS,
           payload: update,
         },
         Swal.fire({
-          title: "Department updated successfully",
           icon: "success",
+          title: "Branches updated successfully",
           timer: 2000,
           showConfirmButton: false,
         }).then(function () {
@@ -71,17 +95,17 @@ export const editDepartment = (id, updateData) => (dispatch) => {
   });
 };
 
-export const addDepartmentBranch = (updateData) => (dispatch) => {
-  return api.put(`/departments`, updateData).then((update) => {
+export const disableLocation = (id, updateData) => (dispatch) => {
+  return api.patch(`/locations/${id}`, updateData).then((update) => {
     if (update.status === 200) {
       dispatch(
         {
-          type: departmentActions.UPDATE_DEPARTMENTS_SUCCESS,
+          type: locationActions.DELETE_LOCATION_SUCCESS,
           payload: update,
         },
         Swal.fire({
-          title: "Department added to branch successfully",
           icon: "success",
+          title: "Branches has been removed",
           timer: 2000,
           showConfirmButton: false,
         }).then(function () {
@@ -100,44 +124,16 @@ export const addDepartmentBranch = (updateData) => (dispatch) => {
   });
 };
 
-export const disableDepartment = (id, updateData) => (dispatch) => {
-  return api.patch(`/departments/${id}`, updateData).then((update) => {
-    if (update.status === 200) {
-      dispatch(
-        {
-          type: departmentActions.UPDATE_DEPARTMENTS_SUCCESS,
-          payload: update,
-        },
-        Swal.fire({
-          title: "Department has been removed",
-          icon: "success",
-          timer: 2000,
-          showConfirmButton: false,
-        }).then(function () {
-          window.location.reload();
-        })
-      );
-    } else {
-      Swal.fire({
-        icon: "error",
-        text: update.data,
-        title: "Failed",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-    }
-  });
-};
-export const deleteDepartment = (id) => (dispatch) => {
-  return api.delete(`/departments/${id}`).then((remove) => {
+export const deleteLocation = (id) => (dispatch) => {
+  return api.delete(`/locations/${id}`).then((remove) => {
     if (remove.status === 200) {
       dispatch(
         {
-          type: departmentActions.DELETE_DEPARTMENTS_SUCCESS,
+          type: locationActions.DELETE_LOCATION_SUCCESS,
           payload: remove,
         },
         Swal.fire({
-          title: "Department has been  permanently removed ",
+          title: "Branches has been permanently removed",
           icon: "success",
           timer: 2000,
           showConfirmButton: false,

@@ -37,27 +37,59 @@ class Branches extends Component {
       toggler4: false,
       openinfo: false,
       info: [],
-      digital_address: "",
+      currency: "",
+      country: "",
+      ghana_post: "",
       title: "",
-      description: "",
-      postal_address: "",
-      street_address: "",
-      url: "",
-      phone: "",
-      email: "",
+      city: "",
+      portalPlacement: "bottom",
       selectedStatus: "",
+      cityoptions: [],
+      isLoading: false,
+      cityLoaded: false,
       globalFilter: "",
       modalFilter: "",
+      loading: false,
+      selectedCity: null,
+      filteredCities: null,
     };
     this.toggle = this.toggle.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.onStatusChange = this.onStatusChange.bind(this);
     this.handleLocInfoOpen = this.handleLocInfoOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.searchCity = this.searchCity.bind(this);
+
+    this.status = [
+      { label: "Active", value: "AU" },
+      { label: "InActive", value: "BR" },
+    ];
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.fetchCities().then((data) => {
+      this.setState({ cityoptions: data.payload.data });
+    });
+  }
+  searchCity(event) {
+    setTimeout(() => {
+      let filteredCities;
+      if (!event.query.trim().length) {
+        filteredCities = [...this.state.cityoptions];
+      } else {
+        filteredCities = this.state.cityoptions.filter((option) => {
+          return option.title
+            .toLowerCase()
+            .startsWith(event.query.toLowerCase());
+        });
+      }
+
+      this.setState({ filteredCities });
+      // console.log(filteredOptions);
+    }, 250);
+  }
 
   handleOpen(toggler) {
     let togglerStatus = this.state[toggler]; //check the status of the toggle you clicked
@@ -87,8 +119,16 @@ class Branches extends Component {
   async handleLocInfoOpen(rowData) {
     await localStorage.setItem("loc_id", rowData.id);
     //  this.props.fetchLocationDepartments(rowData.id);
-    return this.setState({ openinfo: true, info: rowData });
+    return this.setState({ openinfo: true });
   }
+
+  onStatusChange(e) {
+    this.setState({ selectedStatus: e.value });
+  }
+
+  onCityChange = (city) => {
+    this.setState({ city });
+  };
 
   addLocationFooter = (
     <React.Fragment>
@@ -166,16 +206,8 @@ class Branches extends Component {
     const id = this.state.info.id;
     const updateData = {
       title: this.state.title || this.state.info.title,
-      digital_address:
-        this.state.digital_address || this.state.info.digital_address,
-      postal_address:
-        this.state.postal_address || this.state.info.postal_address,
-      street_address:
-        this.state.street_address || this.state.info.street_address,
-      url: this.state.url || this.state.info.url,
-      phone: this.state.phone || this.state.info.phone,
-      email: this.state.email || this.state.info.email,
-      description: this.state.description || this.state.info.description,
+      ghana_post: this.state.ghana_post || this.state.info.ghana_post,
+      // city_id: this.state.city_id || this.state.info.city_id,
     };
     this.props.updateLocation(id, updateData);
   }
@@ -700,25 +732,15 @@ class Branches extends Component {
           draggable={false}
           visible={this.state.openinfo}
           style={{ width: "50vw" }}
-          header="Branch Info"
+          header="Branches Info"
           modal
           className="p-fluid"
           footer={this.infoDialogFooter}
           onHide={this.handleClose}
         >
           <div className="formgrid grid">
-            <div className="field col-6">
-              <label htmlFor="namefItem">Branch name</label>
-              <InputText value={this.state.info.title} disabled />
-            </div>
-            <div className="field col-6">
-              <label htmlFor="namefItem">Branch Contact</label>
-              <InputText value={this.state.info.phone} disabled />
-            </div>
-          </div>
-          <div className="formgrid grid">
             <TableUI
-              tableHeader="Departments in Branch"
+              tableHeader="Departments in location"
               columns={departmentColumns}
               fetchFunction={this.props.fetchLocDepartments}
               style={{

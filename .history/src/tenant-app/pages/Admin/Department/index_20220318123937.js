@@ -9,7 +9,6 @@ import {
   deleteDepartment,
   createDepartment,
   disableDepartment,
-  addDepartmentBranch,
 } from "../../../../shared/redux/actions/departmentActions";
 import PropTypes from "prop-types";
 import { Dialog } from "primereact/dialog";
@@ -44,6 +43,7 @@ class Department extends Component {
       locationoptions: [],
       usersoptions: [],
       userLoading: false,
+
       isLoading: false,
       usersLoaded: false,
       loactionLoaded: false,
@@ -51,15 +51,9 @@ class Department extends Component {
       filteredLocations: null,
       selectedHead: null,
       filteredHeads: null,
-      selectedBranch: null,
-      filteredBranch: null,
-      branch_id: "",
-      head_of_department_id: "",
-      depInfo: [],
     };
     this.searchLocation = this.searchLocation.bind(this);
     this.searchHead = this.searchHead.bind(this);
-    this.searchBranch = this.searchBranch.bind(this);
 
     this.reset = this.reset.bind(this);
     this.toggle = this.toggle.bind(this);
@@ -67,7 +61,6 @@ class Department extends Component {
     this.handleOpen = this.handleOpen.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleLocationChange = this.handleLocationChange.bind(this);
-    this.putDepartmentBranch = this.putDepartmentBranch.bind(this);
   }
 
   componentDidMount() {
@@ -92,24 +85,6 @@ class Department extends Component {
       // console.log(filteredOptions);
     }, 250);
   }
-  searchBranch(event) {
-    setTimeout(() => {
-      let filteredBranch;
-      if (!event.query.trim().length) {
-        filteredBranch = [...this.props.locations];
-      } else {
-        filteredBranch = this.props.locations.filter((option) => {
-          return option.title
-            .toLowerCase()
-            .startsWith(event.query.toLowerCase());
-        });
-      }
-
-      this.setState({ filteredBranch });
-      // console.log(filteredOptions);
-    }, 250);
-  }
-
   searchHead(event) {
     setTimeout(() => {
       let filteredHeads;
@@ -165,10 +140,9 @@ class Department extends Component {
     var rowd = rowData;
     this.setState({
       [toggler]: !togglerStatus,
-      info: rowData.info,
-      infohead: rowData.head_of_department,
+      info: rowData,
+      infohead: rowData.manager.info,
       rowd,
-      depInfo: rowData,
     });
   }
 
@@ -185,7 +159,6 @@ class Department extends Component {
     this.setState({ deleteToggler: false });
     this.setState({ createToggler: false });
     this.setState({ showlists: false });
-    this.setState({ toggler3: false });
   }
 
   handleInputChange(e) {
@@ -205,17 +178,6 @@ class Department extends Component {
     };
 
     this.props.editDepartment(id, departmentPayload);
-  }
-
-  putDepartmentBranch() {
-    const departmentPayload = {
-      id: this.state.depInfo.id,
-      branch_id: this.state.branch_id.id,
-      head_of_department_id: this.state.head_of_department_id.id,
-    };
-
-    this.props.addDepartmentBranch(departmentPayload);
-    this.handleClose();
   }
 
   deleteDepartment() {
@@ -245,25 +207,6 @@ class Department extends Component {
         onClick={() => {
           this.updateDepartment();
           this.handleClose();
-        }}
-      />
-    </React.Fragment>
-  );
-
-  putDialogFooter = (
-    <React.Fragment>
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        className="p-button-text"
-        onClick={() => this.handleClose()}
-      />
-      <Button
-        label="Save"
-        icon="pi pi-check"
-        className="p-button-text"
-        onClick={() => {
-          this.putDepartmentBranch();
         }}
       />
     </React.Fragment>
@@ -335,43 +278,37 @@ class Department extends Component {
           <Can do="info" on="Department">
             <Button
               icon="pi pi-info"
-              className="p-button-rounded p-button-info mr-2"
+              className="p-button-rounded p-button-info p-mr-2"
               onClick={() => this.toggle("toggler2", rowData)}
               tooltip="Info"
               tooltipOptions={{ position: "bottom" }}
             />
           </Can>
+          &nbsp;
           <Can do="edit" on="Department">
             <Button
               icon="pi pi-pencil"
-              className="p-button-rounded p-button-warning mr-2"
+              className="p-button-rounded p-button-warning p-mr-2"
               onClick={() => this.toggle("toggler", rowData)}
               tooltip="Edit"
               tooltipOptions={{ position: "bottom" }}
             />
           </Can>
-          <Can do="edit" on="Department">
-            <Button
-              icon="pi pi-plus"
-              className="p-button-rounded p-button-success mr-2"
-              onClick={() => this.toggle("toggler3", rowData)}
-              tooltip="Add To Branch"
-              tooltipOptions={{ position: "bottom" }}
-            />
-          </Can>
+          &nbsp;
           <Can do="disable" on="Department">
             <Button
               icon="pi pi-ban"
-              className="p-button-rounded p-button-danger mr-2"
+              className="p-button-rounded p-button-danger p-mr-2"
               onClick={() => this.toggle("deleteToggler", rowData)}
               tooltip="Delete"
               tooltipOptions={{ position: "bottom" }}
             />
           </Can>
+          &nbsp;
           <Can do="delete" on="Department">
             <Button
               icon="pi pi-trash"
-              className="p-button-rounded p-button-danger mr-auto"
+              className="p-button-rounded p-button-danger p-mr-2"
               // onClick={() => this.toggle("deleteToggler", rowData)}
               tooltip="Delete"
               tooltipOptions={{ position: "bottom" }}
@@ -382,9 +319,9 @@ class Department extends Component {
     };
 
     const departmentColumns = [
-      { field: "info.title", header: "Department Name" },
+      { field: "title", header: "Department Name" },
       { header: "Department Head", body: headBodyTemplate },
-      { field: "created_at", header: "Branch", body: dateBodyTemplate },
+      { field: "created_at", header: "Date Created", body: dateBodyTemplate },
       { header: "Action(s)", body: actionBodyTemplate },
     ];
     return (
@@ -580,41 +517,47 @@ class Department extends Component {
                 onChange={(event) => this.handleChange(event, "title")}
               />
             </div>
-
             <div className="field col-12">
-              <label htmlFor="email" className="block font-normal">
-                Department Head
+              <label htmlFor="departmentName" className="block font-normal">
+                Department location
               </label>
+
               <AutoComplete
-                name="head_of_department_id"
-                id="head_of_department_id"
                 className="w-full"
                 dropdown
-                suggestions={this.state.filteredHeads}
-                completeMethod={this.searchHead}
-                field="email"
-                itemTemplate={this.headTemplate}
-                placeholder={this.state.infohead.email}
-                value={this.state.head_of_department_id}
-                defaultValue={this.state.infohead.id}
+                id="location_id"
+                name="location_id"
+                suggestions={this.state.filteredLocations}
+                completeMethod={this.searchLocation}
+                field="title"
+                value={this.state.location_id}
+                placeholder="Select Branches"
+                defaultValue={this.state.info.location_id}
                 onChange={(selectedOption) => {
-                  this.setState({
-                    head_of_department_id: selectedOption.target.value,
-                  });
+                  this.setState({ location_id: selectedOption.target.value });
                 }}
               />
             </div>
 
             <div className="field col-12">
-              <label htmlFor="name" className="block font-normal">
-                Department Description
+              <label htmlFor="departmentName" className="block font-normal">
+                Department Head
               </label>
-              <InputTextarea
-                id="description"
-                placeholder="Description"
-                name="description"
-                defaultValue={this.state.info.description}
-                onChange={(event) => this.handleChange(event, "description")}
+              <AutoComplete
+                className="w-full"
+                dropdown
+                id="manager_id"
+                name="manager_id"
+                suggestions={this.state.filteredHeads}
+                completeMethod={this.searchHead}
+                field="email"
+                itemTemplate={this.headTemplate}
+                value={this.state.manager_id}
+                placeholder="Select Department Head"
+                defaultValue={this.state.info.manager_id}
+                onChange={(selectedOption) => {
+                  this.setState({ manager_id: selectedOption.target.value });
+                }}
               />
             </div>
           </div>
@@ -645,7 +588,7 @@ class Department extends Component {
         <Dialog
           draggable={false}
           visible={this.state["toggler2"]}
-          style={{ width: "35vw" }}
+          style={{ width: "25vw" }}
           header="Department Info"
           modal
           className="p-fluid"
@@ -673,76 +616,6 @@ class Department extends Component {
                 disabled
               />
             </div>
-            <div className="field col-12">
-              <label htmlFor="namefItem" className="block font-normal">
-                Branch
-              </label>
-              <InputText value={this.state.info.description} disabled />
-            </div>
-            <div className="field col-12">
-              <label htmlFor="namefItem" className="block font-normal">
-                Description
-              </label>
-              <InputTextarea value={this.state.info.description} disabled />
-            </div>
-          </div>
-        </Dialog>
-
-        <Dialog
-          draggable={false}
-          visible={this.state["toggler3"]}
-          style={{ width: "35vw" }}
-          header="Add Department To Branch"
-          modal
-          className="p-fluid"
-          footer={this.putDialogFooter}
-          onHide={this.handleClose}
-        >
-          <div className="formgrid grid">
-            <div className="field col-12">
-              <label htmlFor="email" className="block font-normal">
-                Select Branch
-              </label>
-              <AutoComplete
-                name="branch_id"
-                id="branch_id"
-                className="w-full"
-                dropdown
-                suggestions={this.state.filteredBranch}
-                placeholder="Select Department Branch"
-                completeMethod={this.searchBranch}
-                field="title"
-                value={this.state.branch_id}
-                onChange={(selectedOption) => {
-                  this.setState({
-                    branch_id: selectedOption.target.value,
-                  });
-                }}
-              />
-            </div>
-
-            <div className="field col-12">
-              <label htmlFor="email" className="block font-normal">
-                Department Head
-              </label>
-              <AutoComplete
-                name="head_of_department_id"
-                id="head_of_department_id"
-                className="w-full"
-                dropdown
-                suggestions={this.state.filteredHeads}
-                completeMethod={this.searchHead}
-                field="email"
-                itemTemplate={this.headTemplate}
-                placeholder="Select Department Head"
-                value={this.state.head_of_department_id}
-                onChange={(selectedOption) => {
-                  this.setState({
-                    head_of_department_id: selectedOption.target.value,
-                  });
-                }}
-              />
-            </div>
           </div>
         </Dialog>
       </div>
@@ -761,7 +634,6 @@ Department.propTypes = {
   fetchUsers: PropTypes.array.isRequired,
   users: PropTypes.array.isRequired,
   disableDepartment: PropTypes.func.isRequired,
-  addDepartmentBranch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -780,5 +652,4 @@ export default connect(mapStateToProps, {
   fetchUsers,
   fetchLocation,
   disableDepartment,
-  addDepartmentBranch,
 })(Department);

@@ -71,35 +71,6 @@ export const editDepartment = (id, updateData) => (dispatch) => {
   });
 };
 
-export const addDepartmentBranch = (updateData) => (dispatch) => {
-  return api.put(`/departments`, updateData).then((update) => {
-    if (update.status === 200) {
-      dispatch(
-        {
-          type: departmentActions.UPDATE_DEPARTMENTS_SUCCESS,
-          payload: update,
-        },
-        Swal.fire({
-          title: "Department added to branch successfully",
-          icon: "success",
-          timer: 2000,
-          showConfirmButton: false,
-        }).then(function () {
-          window.location.reload();
-        })
-      );
-    } else {
-      Swal.fire({
-        icon: "error",
-        text: update.data,
-        title: "Failed",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-    }
-  });
-};
-
 export const disableDepartment = (id, updateData) => (dispatch) => {
   return api.patch(`/departments/${id}`, updateData).then((update) => {
     if (update.status === 200) {

@@ -153,8 +153,8 @@ export const RequestSchema = Yup.object().shape({
 
 export const DepartmentSchema = Yup.object().shape({
   title: Yup.string().required("Name is required"),
-  description: Yup.string(),
-  head_of_department_id: Yup.mixed().required("Select Department Head"),
+  location_id: Yup.mixed().required("Select location"),
+  manager_id: Yup.mixed().required("Select Department Head"),
 });
 
 export const RecommendationSchema = Yup.object().shape({

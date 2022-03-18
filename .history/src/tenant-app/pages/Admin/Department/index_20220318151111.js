@@ -55,7 +55,6 @@ class Department extends Component {
       filteredBranch: null,
       branch_id: "",
       head_of_department_id: "",
-      depInfo: [],
     };
     this.searchLocation = this.searchLocation.bind(this);
     this.searchHead = this.searchHead.bind(this);
@@ -168,7 +167,6 @@ class Department extends Component {
       info: rowData.info,
       infohead: rowData.head_of_department,
       rowd,
-      depInfo: rowData,
     });
   }
 
@@ -209,7 +207,7 @@ class Department extends Component {
 
   putDepartmentBranch() {
     const departmentPayload = {
-      id: this.state.depInfo.id,
+      id: this.state.info.id,
       branch_id: this.state.branch_id.id,
       head_of_department_id: this.state.head_of_department_id.id,
     };

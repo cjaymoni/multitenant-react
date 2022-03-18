@@ -55,7 +55,6 @@ class Department extends Component {
       filteredBranch: null,
       branch_id: "",
       head_of_department_id: "",
-      depInfo: [],
     };
     this.searchLocation = this.searchLocation.bind(this);
     this.searchHead = this.searchHead.bind(this);
@@ -67,7 +66,7 @@ class Department extends Component {
     this.handleOpen = this.handleOpen.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleLocationChange = this.handleLocationChange.bind(this);
-    this.putDepartmentBranch = this.putDepartmentBranch.bind(this);
+    this.putDepartmentBranch = this.putDepartment.bind(this);
   }
 
   componentDidMount() {
@@ -168,7 +167,6 @@ class Department extends Component {
       info: rowData.info,
       infohead: rowData.head_of_department,
       rowd,
-      depInfo: rowData,
     });
   }
 
@@ -209,7 +207,7 @@ class Department extends Component {
 
   putDepartmentBranch() {
     const departmentPayload = {
-      id: this.state.depInfo.id,
+      id: this.state.info.id,
       branch_id: this.state.branch_id.id,
       head_of_department_id: this.state.head_of_department_id.id,
     };
@@ -761,7 +759,6 @@ Department.propTypes = {
   fetchUsers: PropTypes.array.isRequired,
   users: PropTypes.array.isRequired,
   disableDepartment: PropTypes.func.isRequired,
-  addDepartmentBranch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -780,5 +777,4 @@ export default connect(mapStateToProps, {
   fetchUsers,
   fetchLocation,
   disableDepartment,
-  addDepartmentBranch,
 })(Department);

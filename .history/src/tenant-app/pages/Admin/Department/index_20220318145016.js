@@ -9,7 +9,6 @@ import {
   deleteDepartment,
   createDepartment,
   disableDepartment,
-  addDepartmentBranch,
 } from "../../../../shared/redux/actions/departmentActions";
 import PropTypes from "prop-types";
 import { Dialog } from "primereact/dialog";
@@ -55,7 +54,6 @@ class Department extends Component {
       filteredBranch: null,
       branch_id: "",
       head_of_department_id: "",
-      depInfo: [],
     };
     this.searchLocation = this.searchLocation.bind(this);
     this.searchHead = this.searchHead.bind(this);
@@ -67,7 +65,6 @@ class Department extends Component {
     this.handleOpen = this.handleOpen.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleLocationChange = this.handleLocationChange.bind(this);
-    this.putDepartmentBranch = this.putDepartmentBranch.bind(this);
   }
 
   componentDidMount() {
@@ -168,7 +165,6 @@ class Department extends Component {
       info: rowData.info,
       infohead: rowData.head_of_department,
       rowd,
-      depInfo: rowData,
     });
   }
 
@@ -207,17 +203,6 @@ class Department extends Component {
     this.props.editDepartment(id, departmentPayload);
   }
 
-  putDepartmentBranch() {
-    const departmentPayload = {
-      id: this.state.depInfo.id,
-      branch_id: this.state.branch_id.id,
-      head_of_department_id: this.state.head_of_department_id.id,
-    };
-
-    this.props.addDepartmentBranch(departmentPayload);
-    this.handleClose();
-  }
-
   deleteDepartment() {
     const id = this.state.info.id;
     this.props.deleteDepartment(id);
@@ -245,25 +230,6 @@ class Department extends Component {
         onClick={() => {
           this.updateDepartment();
           this.handleClose();
-        }}
-      />
-    </React.Fragment>
-  );
-
-  putDialogFooter = (
-    <React.Fragment>
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        className="p-button-text"
-        onClick={() => this.handleClose()}
-      />
-      <Button
-        label="Save"
-        icon="pi pi-check"
-        className="p-button-text"
-        onClick={() => {
-          this.putDepartmentBranch();
         }}
       />
     </React.Fragment>
@@ -695,7 +661,7 @@ class Department extends Component {
           header="Add Department To Branch"
           modal
           className="p-fluid"
-          footer={this.putDialogFooter}
+          footer={this.infoDialogFooter}
           onHide={this.handleClose}
         >
           <div className="formgrid grid">
@@ -761,7 +727,6 @@ Department.propTypes = {
   fetchUsers: PropTypes.array.isRequired,
   users: PropTypes.array.isRequired,
   disableDepartment: PropTypes.func.isRequired,
-  addDepartmentBranch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -780,5 +745,4 @@ export default connect(mapStateToProps, {
   fetchUsers,
   fetchLocation,
   disableDepartment,
-  addDepartmentBranch,
 })(Department);

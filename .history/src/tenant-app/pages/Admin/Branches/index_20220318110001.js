@@ -87,7 +87,7 @@ class Branches extends Component {
   async handleLocInfoOpen(rowData) {
     await localStorage.setItem("loc_id", rowData.id);
     //  this.props.fetchLocationDepartments(rowData.id);
-    return this.setState({ openinfo: true, info: rowData });
+    return this.setState({ openinfo: true });
   }
 
   addLocationFooter = (

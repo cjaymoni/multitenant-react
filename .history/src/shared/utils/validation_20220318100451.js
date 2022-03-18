@@ -153,8 +153,8 @@ export const RequestSchema = Yup.object().shape({
 
 export const DepartmentSchema = Yup.object().shape({
   title: Yup.string().required("Name is required"),
-  description: Yup.string(),
-  head_of_department_id: Yup.mixed().required("Select Department Head"),
+  location_id: Yup.mixed().required("Select location"),
+  manager_id: Yup.mixed().required("Select Department Head"),
 });
 
 export const RecommendationSchema = Yup.object().shape({
@@ -184,7 +184,7 @@ export const LocationSchema = Yup.object().shape({
   description: Yup.string(),
   postal_address: Yup.string(),
   street_address: Yup.string(),
-  url: Yup.string().url(),
+  url: Yup.string(),
 });
 
 export const UserSchema = Yup.object().shape({

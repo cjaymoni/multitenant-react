@@ -9,7 +9,6 @@ import {
   deleteDepartment,
   createDepartment,
   disableDepartment,
-  addDepartmentBranch,
 } from "../../../../shared/redux/actions/departmentActions";
 import PropTypes from "prop-types";
 import { Dialog } from "primereact/dialog";
@@ -53,9 +52,6 @@ class Department extends Component {
       filteredHeads: null,
       selectedBranch: null,
       filteredBranch: null,
-      branch_id: "",
-      head_of_department_id: "",
-      depInfo: [],
     };
     this.searchLocation = this.searchLocation.bind(this);
     this.searchHead = this.searchHead.bind(this);
@@ -67,7 +63,6 @@ class Department extends Component {
     this.handleOpen = this.handleOpen.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleLocationChange = this.handleLocationChange.bind(this);
-    this.putDepartmentBranch = this.putDepartmentBranch.bind(this);
   }
 
   componentDidMount() {
@@ -168,7 +163,6 @@ class Department extends Component {
       info: rowData.info,
       infohead: rowData.head_of_department,
       rowd,
-      depInfo: rowData,
     });
   }
 
@@ -207,17 +201,6 @@ class Department extends Component {
     this.props.editDepartment(id, departmentPayload);
   }
 
-  putDepartmentBranch() {
-    const departmentPayload = {
-      id: this.state.depInfo.id,
-      branch_id: this.state.branch_id.id,
-      head_of_department_id: this.state.head_of_department_id.id,
-    };
-
-    this.props.addDepartmentBranch(departmentPayload);
-    this.handleClose();
-  }
-
   deleteDepartment() {
     const id = this.state.info.id;
     this.props.deleteDepartment(id);
@@ -245,25 +228,6 @@ class Department extends Component {
         onClick={() => {
           this.updateDepartment();
           this.handleClose();
-        }}
-      />
-    </React.Fragment>
-  );
-
-  putDialogFooter = (
-    <React.Fragment>
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        className="p-button-text"
-        onClick={() => this.handleClose()}
-      />
-      <Button
-        label="Save"
-        icon="pi pi-check"
-        className="p-button-text"
-        onClick={() => {
-          this.putDepartmentBranch();
         }}
       />
     </React.Fragment>
@@ -695,46 +659,19 @@ class Department extends Component {
           header="Add Department To Branch"
           modal
           className="p-fluid"
-          footer={this.putDialogFooter}
+          footer={this.infoDialogFooter}
           onHide={this.handleClose}
         >
           <div className="formgrid grid">
             <div className="field col-12">
-              <label htmlFor="email" className="block font-normal">
-                Select Branch
-              </label>
               <AutoComplete
                 name="branch_id"
                 id="branch_id"
                 className="w-full"
                 dropdown
-                suggestions={this.state.filteredBranch}
-                placeholder="Select Department Branch"
-                completeMethod={this.searchBranch}
-                field="title"
-                value={this.state.branch_id}
-                onChange={(selectedOption) => {
-                  this.setState({
-                    branch_id: selectedOption.target.value,
-                  });
-                }}
-              />
-            </div>
-
-            <div className="field col-12">
-              <label htmlFor="email" className="block font-normal">
-                Department Head
-              </label>
-              <AutoComplete
-                name="head_of_department_id"
-                id="head_of_department_id"
-                className="w-full"
-                dropdown
                 suggestions={this.state.filteredHeads}
                 completeMethod={this.searchHead}
-                field="email"
-                itemTemplate={this.headTemplate}
-                placeholder="Select Department Head"
+                field="title"
                 value={this.state.head_of_department_id}
                 onChange={(selectedOption) => {
                   this.setState({
@@ -761,7 +698,6 @@ Department.propTypes = {
   fetchUsers: PropTypes.array.isRequired,
   users: PropTypes.array.isRequired,
   disableDepartment: PropTypes.func.isRequired,
-  addDepartmentBranch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -780,5 +716,4 @@ export default connect(mapStateToProps, {
   fetchUsers,
   fetchLocation,
   disableDepartment,
-  addDepartmentBranch,
 })(Department);

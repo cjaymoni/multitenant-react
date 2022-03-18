@@ -37,27 +37,59 @@ class Branches extends Component {
       toggler4: false,
       openinfo: false,
       info: [],
-      digital_address: "",
+      currency: "",
+      country: "",
+      ghana_post: "",
       title: "",
-      description: "",
-      postal_address: "",
-      street_address: "",
-      url: "",
-      phone: "",
-      email: "",
+      city: "",
+      portalPlacement: "bottom",
       selectedStatus: "",
+      cityoptions: [],
+      isLoading: false,
+      cityLoaded: false,
       globalFilter: "",
       modalFilter: "",
+      loading: false,
+      selectedCity: null,
+      filteredCities: null,
     };
     this.toggle = this.toggle.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.onStatusChange = this.onStatusChange.bind(this);
     this.handleLocInfoOpen = this.handleLocInfoOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.searchCity = this.searchCity.bind(this);
+
+    this.status = [
+      { label: "Active", value: "AU" },
+      { label: "InActive", value: "BR" },
+    ];
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.fetchCities().then((data) => {
+      this.setState({ cityoptions: data.payload.data });
+    });
+  }
+  searchCity(event) {
+    setTimeout(() => {
+      let filteredCities;
+      if (!event.query.trim().length) {
+        filteredCities = [...this.state.cityoptions];
+      } else {
+        filteredCities = this.state.cityoptions.filter((option) => {
+          return option.title
+            .toLowerCase()
+            .startsWith(event.query.toLowerCase());
+        });
+      }
+
+      this.setState({ filteredCities });
+      // console.log(filteredOptions);
+    }, 250);
+  }
 
   handleOpen(toggler) {
     let togglerStatus = this.state[toggler]; //check the status of the toggle you clicked
@@ -87,8 +119,16 @@ class Branches extends Component {
   async handleLocInfoOpen(rowData) {
     await localStorage.setItem("loc_id", rowData.id);
     //  this.props.fetchLocationDepartments(rowData.id);
-    return this.setState({ openinfo: true, info: rowData });
+    return this.setState({ openinfo: true });
   }
+
+  onStatusChange(e) {
+    this.setState({ selectedStatus: e.value });
+  }
+
+  onCityChange = (city) => {
+    this.setState({ city });
+  };
 
   addLocationFooter = (
     <React.Fragment>
@@ -166,16 +206,8 @@ class Branches extends Component {
     const id = this.state.info.id;
     const updateData = {
       title: this.state.title || this.state.info.title,
-      digital_address:
-        this.state.digital_address || this.state.info.digital_address,
-      postal_address:
-        this.state.postal_address || this.state.info.postal_address,
-      street_address:
-        this.state.street_address || this.state.info.street_address,
-      url: this.state.url || this.state.info.url,
-      phone: this.state.phone || this.state.info.phone,
-      email: this.state.email || this.state.info.email,
-      description: this.state.description || this.state.info.description,
+      ghana_post: this.state.ghana_post || this.state.info.ghana_post,
+      // city_id: this.state.city_id || this.state.info.city_id,
     };
     this.props.updateLocation(id, updateData);
   }
@@ -334,7 +366,6 @@ class Branches extends Component {
             validateOnChange={true}
             initialValues={initialValues}
             onSubmit={(values) => {
-              // var head = 'htpp://'
               const postData = {
                 title: values.title,
                 phone: values.phone,
@@ -412,7 +443,6 @@ class Branches extends Component {
                           id="phone"
                           type="text"
                           name="phone"
-                          maxlength={10}
                           placeholder="Branch Contact Number"
                           onChange={(event) => handleChange(event, "phone")}
                           value={values.phone}
@@ -489,7 +519,7 @@ class Branches extends Component {
                         <small>eg: Ridge Gardens</small>
                         <div className="error-message">
                           {errors.street_address}
-                        </div>
+                        </div>{" "}
                         <div className="error-message">
                           {errors.street_address}
                         </div>
@@ -536,7 +566,7 @@ class Branches extends Component {
                           tooltipOptions={{ position: "bottom" }}
                           tooltip="Branch's website address"
                         />
-                        <small>eg: https://www.aiti-accra.com</small>
+                        <small>eg: www.aiti-accra.com</small>
                         <div className="error-message">{errors.url}</div>
                       </div>
 
@@ -565,6 +595,25 @@ class Branches extends Component {
                         </div>
                       </div>
                     </div>
+
+                    {/* <div
+                      className="p-dialog-footer"
+                      style={{ marginLeft: "50%", padding: "0" }}
+                    >
+                      <Button
+                        label="Close"
+                        icon="pi pi-times"
+                        className="p-button-text"
+                        onClick={() => this.handleClose()}
+                      />
+                      <Button
+                        label="Save"
+                        icon="pi pi-check"
+                        className="p-button-text"
+                        type="submit"
+                        // onClick={() => this.handleClose()}
+                      />
+                    </div> */}
                   </Form>
                 </>
               );
@@ -575,17 +624,17 @@ class Branches extends Component {
         <Dialog
           draggable={false}
           visible={this.state["toggler2"]}
-          style={{ width: "35vw" }}
-          header="Edit Branch Details"
+          style={{ width: "30vw" }}
+          header="Edit Branches Details"
           modal
           className="p-fluid"
           footer={this.editLocationDialogFooter}
           onHide={this.handleClose}
         >
           <div className="formgrid grid">
-            <div className="field col-6">
+            <div className="field col">
               <label htmlFor="namefItem" className="block font-normal">
-                Branch name
+                Branches name
               </label>
               <InputText
                 id="title"
@@ -594,104 +643,20 @@ class Branches extends Component {
                 onChange={(event) => this.handleChange(event, "title")}
               />
             </div>
-
-            <div className="field col-6">
-              <label htmlFor="firstname6" className="block font-normal">
-                Branch Contact
-              </label>
-              <InputText
-                id="phone"
-                type="text"
-                name="phone"
-                maxlength={10}
-                placeholder="Branch Contact Number"
-                onChange={(event) => this.handleChange(event, "phone")}
-                defaultValue={this.state.info.phone}
-              />
-            </div>
-
-            <div className="field col-6">
-              <label htmlFor="firstname6" className="block font-normal">
-                Branch Email Address
-              </label>
-              <InputText
-                id="email"
-                type="email"
-                name="email"
-                placeholder="Branch Email Address"
-                onChange={(event) => this.handleChange(event, "email")}
-                defaultValue={this.state.info.email}
-              />
-            </div>
-
-            <div className="field col-6">
-              <label htmlFor="firstname6" className="block font-normal">
-                Postal Address
-              </label>
-              <InputText
-                id="postal_address"
-                type="text"
-                name="postal_address"
-                placeholder="Postal Address"
-                onChange={(event) => this.handleChange(event, "postal_address")}
-                defaultValue={this.state.info.postal_address}
-              />
-            </div>
-
-            <div className="field col-6">
-              <label htmlFor="firstname6" className="block font-normal">
-                Street Address
-              </label>
-              <InputText
-                id="street_address"
-                type="text"
-                name="street_address"
-                placeholder="Street Address"
-                onChange={(event) => this.handleChange(event, "street_address")}
-                defaultValue={this.state.info.street_address}
-              />
-            </div>
-            <div className="field col-6">
+          </div>
+          <div className="formgrid grid">
+            <div className="field col">
               <label htmlFor="currency" className="block font-normal">
-                Digital Address
+                Digital Address{" "}
               </label>
               <InputMask
                 id="ghana_post"
                 name="ghana_post"
                 mask="aa-999-9999"
-                placeholder={this.state.info.digital_address}
-                defaultValue={this.state.info.digital_address}
-                onChange={(event) =>
-                  this.handleChange(event, "digital_address")
-                }
+                placeholder={this.state.info.ghana_post}
+                defaultValue={this.state.info.ghana_post}
+                onChange={(event) => this.handleChange(event, "ghana_post")}
               ></InputMask>
-            </div>
-
-            <div className="field col-6">
-              <label htmlFor="firstname6" className="block font-normal">
-                Branch Website
-              </label>
-              <InputText
-                id="url"
-                type="text"
-                name="url"
-                placeholder="Branch Website"
-                defaultValue={this.state.info.url}
-                onChange={(event) => this.handleChange(event, "url")}
-              />
-            </div>
-            <div className="field col-6">
-              <label htmlFor="firstname6" className="block font-normal">
-                Description
-              </label>
-              <InputTextarea
-                id="description"
-                type="text"
-                name="description"
-                placeholder="Branch's Description"
-                onChange={(event) => this.handleChange(event, "description")}
-                defaultValue={this.state.info.description}
-              />
             </div>
           </div>
         </Dialog>
@@ -700,25 +665,15 @@ class Branches extends Component {
           draggable={false}
           visible={this.state.openinfo}
           style={{ width: "50vw" }}
-          header="Branch Info"
+          header="Branches Info"
           modal
           className="p-fluid"
           footer={this.infoDialogFooter}
           onHide={this.handleClose}
         >
           <div className="formgrid grid">
-            <div className="field col-6">
-              <label htmlFor="namefItem">Branch name</label>
-              <InputText value={this.state.info.title} disabled />
-            </div>
-            <div className="field col-6">
-              <label htmlFor="namefItem">Branch Contact</label>
-              <InputText value={this.state.info.phone} disabled />
-            </div>
-          </div>
-          <div className="formgrid grid">
             <TableUI
-              tableHeader="Departments in Branch"
+              tableHeader="Departments in location"
               columns={departmentColumns}
               fetchFunction={this.props.fetchLocDepartments}
               style={{

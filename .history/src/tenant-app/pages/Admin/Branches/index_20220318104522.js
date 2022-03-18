@@ -87,7 +87,7 @@ class Branches extends Component {
   async handleLocInfoOpen(rowData) {
     await localStorage.setItem("loc_id", rowData.id);
     //  this.props.fetchLocationDepartments(rowData.id);
-    return this.setState({ openinfo: true, info: rowData });
+    return this.setState({ openinfo: true });
   }
 
   addLocationFooter = (
@@ -700,25 +700,15 @@ class Branches extends Component {
           draggable={false}
           visible={this.state.openinfo}
           style={{ width: "50vw" }}
-          header="Branch Info"
+          header="Branches Info"
           modal
           className="p-fluid"
           footer={this.infoDialogFooter}
           onHide={this.handleClose}
         >
           <div className="formgrid grid">
-            <div className="field col-6">
-              <label htmlFor="namefItem">Branch name</label>
-              <InputText value={this.state.info.title} disabled />
-            </div>
-            <div className="field col-6">
-              <label htmlFor="namefItem">Branch Contact</label>
-              <InputText value={this.state.info.phone} disabled />
-            </div>
-          </div>
-          <div className="formgrid grid">
             <TableUI
-              tableHeader="Departments in Branch"
+              tableHeader="Departments in location"
               columns={departmentColumns}
               fetchFunction={this.props.fetchLocDepartments}
               style={{
