@@ -19,7 +19,7 @@ import { DepartmentSchema } from "../../../../shared/utils/validation";
 import { fetchLocation } from "../../../../shared/redux/actions/locationActions";
 import { fetchUsers } from "../../../../shared/redux/actions/userActions";
 import CardDemo from "../../../../shared/components/card/CardDemo";
-import { headBodyTemplate } from "./const";
+import { headBodyTemplate, dateBodyTemplate } from "./const";
 import TableUI from "../../../../shared/components/Table/Table";
 import { AutoComplete } from "primereact/autocomplete";
 import { InputTextarea } from "primereact/inputtextarea";

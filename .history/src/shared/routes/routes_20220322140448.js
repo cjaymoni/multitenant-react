@@ -151,7 +151,7 @@ const routes = [
   },
   {
     element: <Department />,
-    path: "/base-department",
+    path: "/department",
     exact: true,
     layout: Layout,
     name: "Department",
@@ -161,7 +161,7 @@ const routes = [
     path: "/branch-department",
     exact: true,
     layout: Layout,
-    name: "Department",
+    name: "Branch Department",
   },
   {
     element: <Category />,

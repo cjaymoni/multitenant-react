@@ -138,7 +138,7 @@ const SidebarData = [
       {
         title: "Base Departments List",
         path: "/base-department",
-        icon: <i className="pi pi-list" />,
+        icon: <i className="pi pi-plus" />,
       },
       {
         title: "Branch Department List",

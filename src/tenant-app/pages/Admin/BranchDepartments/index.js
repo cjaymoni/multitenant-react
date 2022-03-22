@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import "../../../../shared/components/Table/Table.css";
 import { connect } from "react-redux";
 import {
   fetchDepartments,
@@ -19,12 +18,12 @@ import { DepartmentSchema } from "../../../../shared/utils/validation";
 import { fetchLocation } from "../../../../shared/redux/actions/locationActions";
 import { fetchUsers } from "../../../../shared/redux/actions/userActions";
 import CardDemo from "../../../../shared/components/card/CardDemo";
-import { headBodyTemplate } from "./const";
+import { headBodyTemplate } from "../Department/const";
 import TableUI from "../../../../shared/components/Table/Table";
 import { AutoComplete } from "primereact/autocomplete";
 import { InputTextarea } from "primereact/inputtextarea";
 
-class Department extends Component {
+class BranchDepartment extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -56,7 +55,6 @@ class Department extends Component {
       branch_id: "",
       head_of_department_id: "",
       depInfo: [],
-      infobranch: [],
     };
     this.searchLocation = this.searchLocation.bind(this);
     this.searchHead = this.searchHead.bind(this);
@@ -167,7 +165,6 @@ class Department extends Component {
     this.setState({
       [toggler]: !togglerStatus,
       info: rowData.info,
-      infobranch: rowData.branch,
       infohead: rowData.head_of_department,
       rowd,
       depInfo: rowData,
@@ -343,21 +340,13 @@ class Department extends Component {
               tooltipOptions={{ position: "bottom" }}
             />
           </Can>
+
           <Can do="edit" on="Department">
             <Button
               icon="pi pi-pencil"
               className="p-button-rounded p-button-warning mr-2"
-              onClick={() => this.toggle("toggler", rowData)}
-              tooltip="Edit"
-              tooltipOptions={{ position: "bottom" }}
-            />
-          </Can>
-          <Can do="edit" on="Department">
-            <Button
-              icon="pi pi-plus"
-              className="p-button-rounded p-button-success mr-2"
               onClick={() => this.toggle("toggler3", rowData)}
-              tooltip="Add To Branch"
+              tooltip="Edit Branch"
               tooltipOptions={{ position: "bottom" }}
             />
           </Can>
@@ -395,7 +384,7 @@ class Department extends Component {
           className="p-mb-3 p-text-bold"
           style={{ marginLeft: "20px", color: "#495057" }}
         >
-          Department info
+          Branch Departments info
         </h2>
         <br></br>
         <div className="p-grid p-justify-between cardFstyle">
@@ -428,20 +417,12 @@ class Department extends Component {
             <TableUI
               columns={departmentColumns}
               fetchFunction={this.props.fetchDepartments}
-              tableHeader="Manage Base Departments"
-              clickFunction={() => this.handleOpen("createToggler")}
+              tableHeader="Manage Branch Departments"
               style={{
                 width: "76vw",
                 marginLeft: "15px",
                 marginBottom: "0px",
                 marginTop: "0px",
-              }}
-              figment={{
-                position: "absolute",
-                top: "4%",
-                left: "32%",
-                height: "35px",
-                width: "40%",
               }}
             />
           </div>
@@ -679,7 +660,7 @@ class Department extends Component {
               <label htmlFor="namefItem" className="block font-normal">
                 Branch
               </label>
-              <InputText value={this.state.infobranch.title} disabled />
+              <InputText value={this.state.info.description} disabled />
             </div>
             <div className="field col-12">
               <label htmlFor="namefItem" className="block font-normal">
@@ -752,7 +733,7 @@ class Department extends Component {
   }
 }
 
-Department.propTypes = {
+BranchDepartment.propTypes = {
   fetchDepartments: PropTypes.func.isRequired,
   departments: PropTypes.array.isRequired,
   editDepartment: PropTypes.func.isRequired,
@@ -783,4 +764,4 @@ export default connect(mapStateToProps, {
   fetchLocation,
   disableDepartment,
   addDepartmentBranch,
-})(Department);
+})(BranchDepartment);

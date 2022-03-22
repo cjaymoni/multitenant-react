@@ -19,7 +19,7 @@ import { DepartmentSchema } from "../../../../shared/utils/validation";
 import { fetchLocation } from "../../../../shared/redux/actions/locationActions";
 import { fetchUsers } from "../../../../shared/redux/actions/userActions";
 import CardDemo from "../../../../shared/components/card/CardDemo";
-import { headBodyTemplate } from "./const";
+import { headBodyTemplate, dateBodyTemplate } from "./const";
 import TableUI from "../../../../shared/components/Table/Table";
 import { AutoComplete } from "primereact/autocomplete";
 import { InputTextarea } from "primereact/inputtextarea";
@@ -56,7 +56,6 @@ class Department extends Component {
       branch_id: "",
       head_of_department_id: "",
       depInfo: [],
-      infobranch: [],
     };
     this.searchLocation = this.searchLocation.bind(this);
     this.searchHead = this.searchHead.bind(this);
@@ -167,7 +166,6 @@ class Department extends Component {
     this.setState({
       [toggler]: !togglerStatus,
       info: rowData.info,
-      infobranch: rowData.branch,
       infohead: rowData.head_of_department,
       rowd,
       depInfo: rowData,
@@ -386,7 +384,7 @@ class Department extends Component {
     const departmentColumns = [
       { field: "info.title", header: "Department Name" },
       { header: "Department Head", body: headBodyTemplate },
-      { field: "branch.title", header: "Branch" },
+      { field: "created_at", header: "Branch", body: dateBodyTemplate },
       { header: "Action(s)", body: actionBodyTemplate },
     ];
     return (
@@ -428,7 +426,7 @@ class Department extends Component {
             <TableUI
               columns={departmentColumns}
               fetchFunction={this.props.fetchDepartments}
-              tableHeader="Manage Base Departments"
+              tableHeader="Manage Departments"
               clickFunction={() => this.handleOpen("createToggler")}
               style={{
                 width: "76vw",
@@ -679,7 +677,7 @@ class Department extends Component {
               <label htmlFor="namefItem" className="block font-normal">
                 Branch
               </label>
-              <InputText value={this.state.infobranch.title} disabled />
+              <InputText value={this.state.info.description} disabled />
             </div>
             <div className="field col-12">
               <label htmlFor="namefItem" className="block font-normal">
