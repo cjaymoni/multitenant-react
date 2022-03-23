@@ -173,15 +173,6 @@ export const VendorSchema = Yup.object().shape({
   website: Yup.string(),
 });
 
-export const ConsumableSchema = Yup.object().shape({
-  title: Yup.string().required("Item name is required"),
-  inventory_id: Yup.mixed().required("Inventory is required"),
-
-  quantity: Yup.number().required("Quantity is required"),
-  description: Yup.string(),
-  unit_price: Yup.number(),
-});
-
 export const LocationSchema = Yup.object().shape({
   title: Yup.string().required("Branches name is required"),
   // city_id: Yup.mixed().required(" City is required"),

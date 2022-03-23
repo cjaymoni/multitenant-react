@@ -408,23 +408,6 @@ const TableUI = (props) => {
           </div>
         );
 
-      case "Manage Consumables":
-        return (
-          <div className=" flex justify-content-between flex-wrap md:flex-wrap">
-            <h2 className="mt-2 flex">{props.tableHeader}</h2>
-            {search}
-
-            <Can do="add" on="Consumables">
-              <Button
-                icon="pi pi-plus"
-                label="Consumables"
-                className="flex h-3rem p-button-raised p-button-outlined"
-                onClick={() => props.clickFunction()}
-              ></Button>
-            </Can>
-          </div>
-        );
-
       case "Manage Manufacturers":
         return (
           <div className=" flex justify-content-between flex-wrap md:flex-wrap">

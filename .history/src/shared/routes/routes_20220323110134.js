@@ -27,7 +27,7 @@ import Aggregation from "../../tenant-app/pages/TenantManager/Aggregation";
 import TenantForm from "../../tenant-app/pages/System/TenantForm";
 import ForwardedProposals from "../../tenant-app/pages/Procurement/Forwardedproposals";
 import Manufacturers from "../../tenant-app/pages/Admin/Manufacturers";
-import Consumables from "../../tenant-app/pages/Admin/Consumables";
+
 const routes = [
   {
     element: <Home />,
@@ -78,13 +78,6 @@ const routes = [
     exact: true,
     layout: Layout,
     name: "Asset",
-  },
-  {
-    element: <Consumables />,
-    path: "/consumables",
-    exact: true,
-    layout: Layout,
-    name: "Consumables",
   },
   {
     element: <AssetInfo />,

@@ -1,52 +1,29 @@
 import api from "../../services/api";
 import Swal from "sweetalert2";
-import { locationActions } from "./types";
-export const fetchLocation = () => (dispatch) => {
+import { manufacturerActions } from "./types";
+
+export const fetchManufacturers = () => (dispatch) => {
   return api
-    .get("/branches")
+    .get("/manufacturers")
     .then((res) => res.data)
-    .then((location) =>
+    .then((manufacturers) =>
       dispatch({
-        type: locationActions.FETCH_LOCATION_SUCCESS,
-        payload: location,
+        type: manufacturerActions.FETCH_MANUFACTURERS_SUCCESS,
+        payload: manufacturers,
       })
     );
 };
 
-export const fetchLocationDepartments = (id) => (dispatch) => {
-  return api
-    .get(`/branches/${id}/departments?search=status&value=true`)
-    .then((res) => res.data)
-    .then((departmentlocation) =>
-      dispatch({
-        type: locationActions.FETCH_DEPARTMENT_LOCATION,
-        payload: departmentlocation,
-      })
-    );
-};
-export const fetchLocDepartments = () => (dispatch) => {
-  return api
-    .get(
-      `/branches/${localStorage.loc_id}/departments?search=status&value=true`
-    )
-    .then((res) => res.data)
-    .then((departmentlocation) =>
-      dispatch({
-        type: locationActions.FETCH_DEPARTMENT_LOCATION,
-        payload: departmentlocation,
-      })
-    );
-};
-export const createLocation = (postData) => (dispatch) => {
-  return api.post("/branches", postData).then((post) => {
+export const createManufacturer = (postData) => (dispatch) => {
+  return api.post("/manufacturers", postData).then((post) => {
     if (post.status === 201) {
       dispatch(
         {
-          type: locationActions.ADD_LOCATION_SUCCESS,
+          type: manufacturerActions.ADD_MANUFACTURERS_SUCCESS,
           payload: post,
         },
         Swal.fire({
-          title: "Branch added successfully",
+          title: "Manufacturer added successfully",
           icon: "success",
           timer: 2000,
           showConfirmButton: false,
@@ -66,17 +43,17 @@ export const createLocation = (postData) => (dispatch) => {
   });
 };
 
-export const updateLocation = (id, updateData) => (dispatch) => {
-  return api.patch(`/branches/${id}`, updateData).then((update) => {
+export const updateManufacturer = (id, updateData) => (dispatch) => {
+  return api.patch(`/manufacturers/${id}`, updateData).then((update) => {
     if (update.status === 200) {
       dispatch(
         {
-          type: locationActions.UPDATE_LOCATION_SUCCESS,
+          type: manufacturerActions.UPDATE_MANUFACTURERS_SUCCESS,
           payload: update,
         },
         Swal.fire({
           icon: "success",
-          title: "Branch updated successfully",
+          title: "Manufacturer updated successfully",
           timer: 2000,
           showConfirmButton: false,
         }).then(function () {
@@ -95,17 +72,17 @@ export const updateLocation = (id, updateData) => (dispatch) => {
   });
 };
 
-export const disableLocation = (id, updateData) => (dispatch) => {
-  return api.patch(`/branches/${id}`, updateData).then((update) => {
+export const disableManufacturer = (id, updateData) => (dispatch) => {
+  return api.patch(`/manufacturers/${id}`, updateData).then((update) => {
     if (update.status === 200) {
       dispatch(
         {
-          type: locationActions.DELETE_LOCATION_SUCCESS,
+          type: manufacturerActions.UPDATE_MANUFACTURERS_SUCCESS,
           payload: update,
         },
         Swal.fire({
           icon: "success",
-          title: "Branch has been removed",
+          title: "Manufacturer has been removed",
           timer: 2000,
           showConfirmButton: false,
         }).then(function () {
@@ -124,16 +101,16 @@ export const disableLocation = (id, updateData) => (dispatch) => {
   });
 };
 
-export const deleteLocation = (id) => (dispatch) => {
-  return api.delete(`/branches/${id}`).then((remove) => {
+export const deleteManufacturer = (id) => (dispatch) => {
+  return api.delete(`/manufacturers/${id}`).then((remove) => {
     if (remove.status === 200) {
       dispatch(
         {
-          type: locationActions.DELETE_LOCATION_SUCCESS,
+          type: manufacturerActions.DELETE_MANUFACTURERS_SUCCESS,
           payload: remove,
         },
         Swal.fire({
-          title: "Branch has been permanently removed",
+          title: "Manufacturer has been permanently removed",
           icon: "success",
           timer: 2000,
           showConfirmButton: false,
