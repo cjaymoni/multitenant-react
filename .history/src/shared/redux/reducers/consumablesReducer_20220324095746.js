@@ -41,27 +41,25 @@ const consumableReducer = (state = initialState, action) => {
     case consumablesActionTypes.FETCH_CONSUMABLE_BY_ID:
       return {
         ...state,
-        consumableInfo: action.payload,
         loading: false,
+        error: true,
       };
     case consumablesActionTypes.UPDATE_CONSUMABLE:
       return {
         ...state,
-        loading: true,
+        loading: false,
         error: false,
       };
     case consumablesActionTypes.UPDATE_CONSUMABLE_SUCCESS:
       return {
         ...state,
-        consumableList: state.consumableList.map((content, i) =>
+        departments: state.departments.map((content, i) =>
           content.id === action.payload.id
             ? {
                 ...content,
                 title: action.payload.title,
-                quantity: action.payload.quantity,
-                inventory_id: action.payload.inventory_id,
-                description: action.payload.description,
-                unit_price: action.payload.unit_price,
+                location_id: action.payload.location_id,
+                manager_id: action.payload.manager_id,
               }
             : content
         ),
@@ -69,15 +67,14 @@ const consumableReducer = (state = initialState, action) => {
     case consumablesActionTypes.DELETE_CONSUMABLE:
       return {
         ...state,
-        loading: true,
-        error: false,
+        loading: false,
+        error: true,
       };
     case consumablesActionTypes.DELETE_CONSUMABLE_SUCCESS:
       return {
         ...state,
-        consumableList: state.consumableList.filter(
-          (consumable) => consumable.id !== action.payload
-        ),
+        loading: false,
+        error: true,
       };
     default:
       return state;

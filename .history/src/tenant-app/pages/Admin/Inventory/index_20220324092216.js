@@ -14,7 +14,10 @@ import {
   disableInventory,
 } from "../../../../shared/redux/actions/inventoryActions";
 import { fetchUsers } from "../../../../shared/redux/actions/userActions";
-import { fetchDepartments } from "../../../../shared/redux/actions/departmentActions";
+import {
+  fetchLocation,
+  fetchLocationDepartments,
+} from "../../../../shared/redux/actions/locationActions";
 import PropTypes from "prop-types";
 import Can from "../../../../shared/casl/can";
 import { Form, Formik } from "formik";
@@ -37,7 +40,6 @@ class Inventory extends Component {
       toggler2: false,
       disableToggler: false,
       info: [],
-      infoMan: [],
       title: "",
       department_name: "",
       owner_name: "",
@@ -45,7 +47,6 @@ class Inventory extends Component {
       globalFilter: "",
       location_id: "",
       manager_id: "",
-      department_id: "",
       description: "",
       portalPlacement: "bottom",
       usersoptions: [],
@@ -77,7 +78,7 @@ class Inventory extends Component {
 
   componentDidMount() {
     this.props.fetchUsers();
-    this.props.fetchDepartments();
+    this.props.fetchLocation();
   }
   searchDepartment(event) {
     setTimeout(() => {
@@ -86,7 +87,7 @@ class Inventory extends Component {
         filteredDepartments = [...this.props.departments];
       } else {
         filteredDepartments = this.props.departments.filter((option) => {
-          return option.info.title
+          return option.title
             .toLowerCase()
             .startsWith(event.query.toLowerCase());
         });
@@ -107,9 +108,9 @@ class Inventory extends Component {
           .filter((option) => {
             return (
               option.email.toLowerCase().startsWith(event.query.toLowerCase()),
-              option.last_name,
-              option.first_name,
-              option.middle_name
+              option.info.last_name,
+              option.info.first_name,
+              option.info.middle_name
             );
           });
       }
@@ -125,11 +126,11 @@ class Inventory extends Component {
           <div className="font-bold flex mr-1">Name:</div>
           <div className="flex">
             {"  ".concat(
-              item.last_name,
+              item.info.last_name,
               " ",
-              item.middle_name,
+              item.info.middle_name,
               " ",
-              item.first_name
+              item.info.first_name
             )}
           </div>
         </div>
@@ -151,7 +152,6 @@ class Inventory extends Component {
     this.setState({
       [toggler]: !togglerStatus,
       info: rowData,
-      infoMan: rowData.mananger,
       rowd,
     });
   }
@@ -171,10 +171,9 @@ class Inventory extends Component {
     const id = this.state.info.id;
     const inventoryPayload = {
       title: this.state.title || this.state.info.title,
-      manager_id: this.state.manager_id.id || this.state.infoMan.id,
+      manager_id: this.state.manager_id.id || this.state.info.manager_id,
       description: this.state.description || this.state.info.description,
-      department_id:
-        this.state.department_id.id || this.state.info.department_id,
+      location_id: this.state.location_id.id || this.state.info.location_id,
     };
 
     this.props.editInventory(id, inventoryPayload);
@@ -300,11 +299,7 @@ class Inventory extends Component {
 
   managerBody(rowData) {
     return (
-      rowData.manager.last_name +
-      " " +
-      rowData.manager.middle_name +
-      " " +
-      rowData.manager.first_name
+      rowData.manager.info.last_name + " " + rowData.manager.info.first_name
     );
   }
 
@@ -428,6 +423,13 @@ class Inventory extends Component {
               marginBottom: "0px",
               marginTop: "0px",
             }}
+            figment={{
+              position: "absolute",
+              top: "4%",
+              left: "30%",
+              height: "35px",
+              width: "40%",
+            }}
           />
         </div>
 
@@ -532,7 +534,7 @@ class Inventory extends Component {
                           dropdown
                           suggestions={this.state.filteredDepartments}
                           completeMethod={this.searchDepartment}
-                          field="info.title"
+                          field="title"
                           placeholder="Select Department"
                           value={props.values.department_id}
                           onChange={(selectedOption) => {
@@ -627,26 +629,6 @@ class Inventory extends Component {
                 }}
               />
             </div>
-            {/* <div className="field col-12">
-              <label htmlFor="departmentName" className="block font-normal">
-                Department
-              </label>
-              <AutoComplete
-                className="w-full"
-                dropdown
-                id="department_id"
-                name="department_id"
-                suggestions={this.state.filteredDepartments}
-                completeMethod={this.searchDepartment}
-                field="info.title"
-                value={this.state.department_id}
-                placeholder="Select Department"
-                defaultValue={this.state.info.manager_id}
-                onChange={(selectedOption) => {
-                  this.setState({ manager_id: selectedOption.target.value });
-                }}
-              />
-            </div> */}
             <div className="field col-12">
               <label htmlFor="departmentName" className="block font-normal">
                 Inventory description
@@ -696,7 +678,10 @@ Inventory.propTypes = {
   createInventory: PropTypes.func.isRequired,
   editInventory: PropTypes.func.isRequired,
   fetchUsers: PropTypes.func.isRequired,
-  departments: PropTypes.array.isRequired,
+  fetchLocation: PropTypes.func.isRequired,
+  locations: PropTypes.array.isRequired,
+  fetchLocationDepartments: PropTypes.func.isRequired,
+  departmentlocations: PropTypes.array.isRequired,
   disableInventory: PropTypes.func.isRequired,
 };
 
@@ -704,17 +689,19 @@ const mapStateToProps = (state) => ({
   inventories: state.inventories.inventories,
   inventoryasset: state.inventories.invassets,
   users: state.users.users,
-  departments: state.departments.departments,
+  locations: state.locations.locations,
+  departmentlocations: state.locations.departmentlocations,
   booksize: state.inventories.booksize,
   pagesize: state.inventories.pagesize,
 });
 
 export default connect(mapStateToProps, {
   fetchInventories,
+  fetchLocation,
   disableInventory,
+  fetchLocationDepartments,
   fetchUsers,
   fetchInventoryAssets,
   createInventory,
   editInventory,
-  fetchDepartments,
 })(Inventory);

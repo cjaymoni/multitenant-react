@@ -348,7 +348,6 @@ class Category extends Component {
                         <InputText
                           id="title"
                           name="title"
-                          placeholder="Category Name"
                           value={values.title}
                           onChange={(event) => handleChange(event, "title")}
                           tooltipOptions={{ position: "bottom" }}
@@ -363,7 +362,6 @@ class Category extends Component {
                           id="description"
                           name="description"
                           value={values.description}
-                          placeholder="Category Description"
                           onChange={(event) =>
                             handleChange(event, "description")
                           }

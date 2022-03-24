@@ -37,7 +37,6 @@ class Inventory extends Component {
       toggler2: false,
       disableToggler: false,
       info: [],
-      infoMan: [],
       title: "",
       department_name: "",
       owner_name: "",
@@ -45,7 +44,6 @@ class Inventory extends Component {
       globalFilter: "",
       location_id: "",
       manager_id: "",
-      department_id: "",
       description: "",
       portalPlacement: "bottom",
       usersoptions: [],
@@ -151,7 +149,6 @@ class Inventory extends Component {
     this.setState({
       [toggler]: !togglerStatus,
       info: rowData,
-      infoMan: rowData.mananger,
       rowd,
     });
   }
@@ -171,10 +168,9 @@ class Inventory extends Component {
     const id = this.state.info.id;
     const inventoryPayload = {
       title: this.state.title || this.state.info.title,
-      manager_id: this.state.manager_id.id || this.state.infoMan.id,
+      manager_id: this.state.manager_id.id || this.state.info.manager_id,
       description: this.state.description || this.state.info.description,
-      department_id:
-        this.state.department_id.id || this.state.info.department_id,
+      location_id: this.state.location_id.id || this.state.info.location_id,
     };
 
     this.props.editInventory(id, inventoryPayload);
@@ -428,6 +424,13 @@ class Inventory extends Component {
               marginBottom: "0px",
               marginTop: "0px",
             }}
+            figment={{
+              position: "absolute",
+              top: "4%",
+              left: "30%",
+              height: "35px",
+              width: "40%",
+            }}
           />
         </div>
 
@@ -627,26 +630,6 @@ class Inventory extends Component {
                 }}
               />
             </div>
-            {/* <div className="field col-12">
-              <label htmlFor="departmentName" className="block font-normal">
-                Department
-              </label>
-              <AutoComplete
-                className="w-full"
-                dropdown
-                id="department_id"
-                name="department_id"
-                suggestions={this.state.filteredDepartments}
-                completeMethod={this.searchDepartment}
-                field="info.title"
-                value={this.state.department_id}
-                placeholder="Select Department"
-                defaultValue={this.state.info.manager_id}
-                onChange={(selectedOption) => {
-                  this.setState({ manager_id: selectedOption.target.value });
-                }}
-              />
-            </div> */}
             <div className="field col-12">
               <label htmlFor="departmentName" className="block font-normal">
                 Inventory description

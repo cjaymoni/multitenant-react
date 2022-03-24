@@ -282,7 +282,7 @@ class Consumables extends Component {
         <Dialog
           draggable={false}
           visible={this.state["createToggler"]}
-          style={{ width: "40vw" }}
+          style={{ width: "35vw" }}
           header="Create Consumable"
           modal
           className="p-fluid"
@@ -311,7 +311,7 @@ class Consumables extends Component {
                 <>
                   <Form id="postform">
                     <div className="formgrid grid">
-                      <div className="field col-6">
+                      <div className="field col-12">
                         <label htmlFor="namefItem">Item name</label>
                         <InputText
                           id="title"
@@ -327,7 +327,7 @@ class Consumables extends Component {
                         <div className="error-message">{errors.title}</div>
                       </div>
 
-                      <div className="field col-6">
+                      <div className="field col-12">
                         <label htmlFor="" className="block font-normal mb-2">
                           Unit Price
                         </label>
@@ -359,7 +359,7 @@ class Consumables extends Component {
                           eg: 50
                         </small>
                       </div>
-                      <div className="field col-6">
+                      <div className="field col-12">
                         <label htmlFor="" className="block font-normal mb-2">
                           Quantity
                         </label>
@@ -390,7 +390,7 @@ class Consumables extends Component {
                         <div className="error-message">{errors.quantity}</div>
                       </div>
 
-                      <div className="field col-6">
+                      <div className="field col-12">
                         <label htmlFor="email" className="block font-normal">
                           Inventory
                         </label>
@@ -423,7 +423,7 @@ class Consumables extends Component {
                         </div>
                       </div>
 
-                      <div className="field col-6">
+                      <div className="field col-12">
                         <label>Description</label>
                         <InputTextarea
                           id="description"
@@ -453,7 +453,7 @@ class Consumables extends Component {
         <Dialog
           draggable={false}
           visible={this.state["infoToggler"]}
-          style={{ width: "40vw" }}
+          style={{ width: "35vw" }}
           header="Consumable Info"
           modal
           className="p-fluid"
@@ -508,7 +508,7 @@ class Consumables extends Component {
         <Dialog
           draggable={false}
           visible={this.state["updateToggler"]}
-          style={{ width: "40vw" }}
+          style={{ width: "35vw" }}
           header="Edit Consumable"
           modal
           className="p-fluid"
@@ -516,7 +516,7 @@ class Consumables extends Component {
           onHide={this.handleClose}
         >
           <div className="formgrid grid">
-            <div className="field col-6">
+            <div className="field col-12">
               <label htmlFor="namefItem">Item name</label>
               <InputText
                 id="title"
@@ -528,7 +528,7 @@ class Consumables extends Component {
               />
             </div>
 
-            <div className="field col-6">
+            <div className="field col-12">
               <label htmlFor="" className="block font-normal mb-2">
                 Unit Price
               </label>
@@ -557,7 +557,7 @@ class Consumables extends Component {
                 }}
               />
             </div>
-            <div className="field col-6">
+            <div className="field col-12">
               <label htmlFor="" className="block font-normal mb-2">
                 Quantity
               </label>
@@ -584,7 +584,7 @@ class Consumables extends Component {
               />
             </div>
 
-            <div className="field col-6">
+            <div className="field col-12">
               <label htmlFor="email" className="block font-normal">
                 Inventory
               </label>
@@ -611,7 +611,7 @@ class Consumables extends Component {
               />
             </div>
 
-            <div className="field col-6">
+            <div className="field col-12">
               <label>Description</label>
               <InputTextarea
                 id="description"
@@ -634,7 +634,6 @@ Consumables.propTypes = {
   fetchConsumables: PropTypes.func.isRequired,
   fetchInventories: PropTypes.func.isRequired,
   createConsumable: PropTypes.func.isRequired,
-  editConsumable: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -647,5 +646,4 @@ export default connect(mapStateToProps, {
   fetchConsumables,
   fetchInventories,
   createConsumable,
-  editConsumable,
 })(Consumables);

@@ -32,24 +32,16 @@ class Consumables extends Component {
       deleteToggler: false,
       createToggler: false,
       disableToggler: false,
-      infoToggler: false,
-      updateToggler: false,
       toggler2: false,
       info: [],
       selectedInventory: null,
       filteredInventory: null,
-      title: "",
-      quantity: "",
-      unit_price: "",
-      description: "",
-      inventory_id: "",
     };
     this.toggle = this.toggle.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.searchInventory = this.searchInventory.bind(this);
-    this.updateConsumable = this.updateConsumable.bind(this);
   }
 
   componentDidMount() {
@@ -90,27 +82,11 @@ class Consumables extends Component {
   }
   handleClose() {
     this.setState({ toggler: false });
-    this.setState({ infoToggler: false });
-    this.setState({ updateToggler: false });
-
+    this.setState({ toggler2: false });
     this.setState({ deleteToggler: false });
     this.setState({ disableToggler: false });
     this.setState({ createToggler: false });
     this.setState({ showlists: false });
-  }
-
-  updateConsumable() {
-    const id = this.state.info.id;
-    const payload = {
-      title: this.state.title || this.state.info.title,
-      inventory_id: this.state.inventory_id.id || this.state.info.inventory_id,
-      description: this.state.description || this.state.info.description,
-      quantity: this.state.quantity || this.state.info.quantity,
-      unit_price: this.state.unit_price || this.state.info.unit_price,
-    };
-
-    this.props.editConsumable(id, payload);
-    this.handleClose();
   }
 
   createDialogFooter = (
@@ -129,35 +105,6 @@ class Consumables extends Component {
       />
     </React.Fragment>
   );
-
-  infoDialogFooter = (
-    <React.Fragment>
-      <Button
-        label="Close"
-        icon="pi pi-times"
-        className="p-button-text"
-        onClick={() => this.handleClose()}
-      />
-    </React.Fragment>
-  );
-
-  updateDialogFooter = (
-    <React.Fragment>
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        className="p-button-text"
-        onClick={() => this.handleClose()}
-      />
-      <Button
-        label="Update"
-        icon="pi pi-check"
-        className="p-button-text"
-        onClick={() => this.updateConsumable()}
-      />
-    </React.Fragment>
-  );
-
   render() {
     const actionBodyTemplate = (rowData) => {
       return (
@@ -166,7 +113,7 @@ class Consumables extends Component {
             <Button
               icon="pi pi-info"
               className="p-button-rounded p-button-info p-mr-2"
-              onClick={() => this.toggle("infoToggler", rowData)}
+              onClick={() => this.toggle("toggler2", rowData)}
               tooltip="More Info"
               tooltipOptions={{ position: "bottom" }}
             />
@@ -176,7 +123,7 @@ class Consumables extends Component {
             <Button
               icon="pi pi-pencil"
               className="p-button-rounded p-button-warning p-mr-2"
-              onClick={() => this.toggle("updateToggler", rowData)}
+              onClick={() => this.toggle("toggler", rowData)}
               tooltip="Edit"
               tooltipOptions={{ position: "bottom" }}
             />
@@ -226,7 +173,6 @@ class Consumables extends Component {
       description: "",
       unit_price: "",
     };
-
     return (
       <div>
         <h2
@@ -236,7 +182,6 @@ class Consumables extends Component {
           Consumables info
         </h2>
         <br></br>
-
         <div className="p-grid p-justify-between cardFstyle">
           <div className="p-col-12 p-lg-6">
             <CardDemo
@@ -282,7 +227,7 @@ class Consumables extends Component {
         <Dialog
           draggable={false}
           visible={this.state["createToggler"]}
-          style={{ width: "40vw" }}
+          style={{ width: "35vw" }}
           header="Create Consumable"
           modal
           className="p-fluid"
@@ -311,7 +256,7 @@ class Consumables extends Component {
                 <>
                   <Form id="postform">
                     <div className="formgrid grid">
-                      <div className="field col-6">
+                      <div className="field col-12">
                         <label htmlFor="namefItem">Item name</label>
                         <InputText
                           id="title"
@@ -327,7 +272,7 @@ class Consumables extends Component {
                         <div className="error-message">{errors.title}</div>
                       </div>
 
-                      <div className="field col-6">
+                      <div className="field col-12">
                         <label htmlFor="" className="block font-normal mb-2">
                           Unit Price
                         </label>
@@ -359,7 +304,7 @@ class Consumables extends Component {
                           eg: 50
                         </small>
                       </div>
-                      <div className="field col-6">
+                      <div className="field col-12">
                         <label htmlFor="" className="block font-normal mb-2">
                           Quantity
                         </label>
@@ -390,7 +335,7 @@ class Consumables extends Component {
                         <div className="error-message">{errors.quantity}</div>
                       </div>
 
-                      <div className="field col-6">
+                      <div className="field col-12">
                         <label htmlFor="email" className="block font-normal">
                           Inventory
                         </label>
@@ -423,7 +368,7 @@ class Consumables extends Component {
                         </div>
                       </div>
 
-                      <div className="field col-6">
+                      <div className="field col-12">
                         <label>Description</label>
                         <InputTextarea
                           id="description"
@@ -449,182 +394,6 @@ class Consumables extends Component {
             }}
           </Formik>
         </Dialog>
-
-        <Dialog
-          draggable={false}
-          visible={this.state["infoToggler"]}
-          style={{ width: "40vw" }}
-          header="Consumable Info"
-          modal
-          className="p-fluid"
-          footer={this.infoDialogFooter}
-          onHide={this.handleClose}
-        >
-          <div className="formgrid grid">
-            <div className="field col-12">
-              <label htmlFor="namefItem">Item name</label>
-              <InputText value={this.state.info.title} disabled />
-            </div>
-
-            <div className="field col-12">
-              <label htmlFor="" className="block font-normal mb-2">
-                Unit Price
-              </label>
-
-              <InputNumber
-                name="unit_price"
-                mode="currency"
-                currency="GHS"
-                locale="en-GH"
-                min={1}
-                inputId="stacked"
-                value={this.state.info.unit_price}
-                disabled
-                className="w-full"
-                inputClassName="w-full"
-              />
-            </div>
-            <div className="field col-12">
-              <label htmlFor="" className="block font-normal mb-2">
-                Quantity
-              </label>
-              <InputText value={this.state.info.quantity} disabled />
-            </div>
-
-            <div className="field col-12">
-              <label>Description</label>
-              <InputTextarea
-                id="description"
-                type="text"
-                name="description"
-                placeholder="Description"
-                disabled
-                value={this.state.info.description}
-              />
-            </div>
-          </div>
-        </Dialog>
-
-        <Dialog
-          draggable={false}
-          visible={this.state["updateToggler"]}
-          style={{ width: "40vw" }}
-          header="Edit Consumable"
-          modal
-          className="p-fluid"
-          footer={this.updateDialogFooter}
-          onHide={this.handleClose}
-        >
-          <div className="formgrid grid">
-            <div className="field col-6">
-              <label htmlFor="namefItem">Item name</label>
-              <InputText
-                id="title"
-                type="text"
-                name="title"
-                placeholder="Item Name"
-                onChange={(event) => this.handleChange(event, "title")}
-                defaultValue={this.state.info.title}
-              />
-            </div>
-
-            <div className="field col-6">
-              <label htmlFor="" className="block font-normal mb-2">
-                Unit Price
-              </label>
-
-              <InputNumber
-                showButtons
-                name="unit_price"
-                mode="currency"
-                currency="GHS"
-                locale="en-GH"
-                min={1}
-                inputId="stacked"
-                defaultValue={this.state.info.unit_price}
-                placeholder={this.state.info.unit_price}
-                value={this.state.unit_price}
-                className="w-full"
-                inputClassName="w-full"
-                onValueChange={(event) => {
-                  let change = {
-                    target: {
-                      name: "unit_price",
-                      value: event.value,
-                    },
-                  };
-                  this.handleChange(change);
-                }}
-              />
-            </div>
-            <div className="field col-6">
-              <label htmlFor="" className="block font-normal mb-2">
-                Quantity
-              </label>
-              <InputNumber
-                min={1}
-                id="quantity"
-                name="quantity"
-                inputId="stacked"
-                defaultValue={this.state.info.quantity}
-                value={this.state.quantity}
-                placeholder={this.state.info.quantity}
-                onValueChange={(event) => {
-                  let change = {
-                    target: {
-                      name: "quantity",
-                      value: event.value,
-                    },
-                  };
-                  this.handleChange(change);
-                }}
-                showButtons
-                inputClassName="w-full"
-                className="w-full"
-              />
-            </div>
-
-            <div className="field col-6">
-              <label htmlFor="email" className="block font-normal">
-                Inventory
-              </label>
-              <AutoComplete
-                name="inventory_id"
-                id="inventory_id"
-                className="w-full"
-                dropdown
-                suggestions={this.state.filteredInventory}
-                completeMethod={this.searchInventory}
-                field="title"
-                placeholder="Select Inventory"
-                defaultValue={this.state.info.inventory_id}
-                value={this.state.inventory_id}
-                onChange={(selectedOption) => {
-                  let event = {
-                    target: {
-                      name: "inventory_id",
-                      value: selectedOption.target.value,
-                    },
-                  };
-                  this.handleChange(event);
-                }}
-              />
-            </div>
-
-            <div className="field col-6">
-              <label>Description</label>
-              <InputTextarea
-                id="description"
-                type="text"
-                name="description"
-                placeholder="Description"
-                onChange={(event) => this.handleChange(event, "description")}
-                defaultValue={this.state.info.description}
-                value={this.state.description}
-              />
-            </div>
-          </div>
-        </Dialog>
       </div>
     );
   }
@@ -634,7 +403,6 @@ Consumables.propTypes = {
   fetchConsumables: PropTypes.func.isRequired,
   fetchInventories: PropTypes.func.isRequired,
   createConsumable: PropTypes.func.isRequired,
-  editConsumable: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -647,5 +415,4 @@ export default connect(mapStateToProps, {
   fetchConsumables,
   fetchInventories,
   createConsumable,
-  editConsumable,
 })(Consumables);
