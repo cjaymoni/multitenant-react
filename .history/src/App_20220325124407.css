@@ -1,0 +1,350 @@
+.App {
+  text-align: center;
+  /* overflow-x: hidden;
+  overflow-y: hidden; */
+}
+.sidebar {
+  height: 100vh;
+  width: 100%;
+  overflow-y: scroll;
+  background-image: linear-gradient(
+    to right top,
+    #2d6678,
+    #2e6a7d,
+    #2e6d81,
+    #2f7186,
+    #2f758b,
+    #2a768f,
+    #247694,
+    #1f7798,
+    #12759c,
+    #0473a0,
+    #0070a4,
+    #026da7
+  );
+}
+/* .activeNavItem {
+  color: #dbeafe;
+  background-color: #040b20;
+} */
+.active {
+  color: #dbeafe;
+  background-color: rgb(226, 226, 245);
+  border-left: 10px solid #333;
+}
+
+.p-sortable-column-badge {
+  display: none;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(24, 22, 22);
+  border-radius: 50px;
+  /* display: none; */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 50px;
+  /* display: none; */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+  display: block;
+}
+.p-multiselect {
+  overflow: hidden;
+}
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+  padding-top: 20px;
+}
+.bton {
+  transition: background-color 0.3s;
+  cursor: pointer;
+  overflow: hidden;
+  border-width: 0;
+  outline: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  display: block;
+  position: relative;
+}
+.cardFstyle {
+  margin-left: 8px;
+  width: 80vw;
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+}
+.full {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background-color: #0f718f;
+  padding-top: 20px;
+}
+.left {
+  left: 0;
+  background-color: #0f718f;
+}
+
+.right {
+  right: 0;
+  background-color: rgb(231, 228, 228);
+}
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+  align-self: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #edf8fd;
+  min-height: 90vh;
+  height: 90vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(15, 13, 13);
+}
+.datestyle {
+  width: "10%";
+}
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* .message {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #bbb;
+  background-color: #eee;
+} */
+
+.message span {
+  font-size: 1.2em;
+  text-decoration: none;
+  color: #333;
+}
+.wrapper {
+  height: 97vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #4a4e69;
+}
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 17%;
+  right: 13%;
+  width: 36vw;
+  max-width: 80%;
+  min-width: 100px;
+  min-height: 400px;
+  padding: 20px 40px;
+  border-radius: 6px;
+  box-shadow: 0px 8px 36px #222;
+  background-color: #fefefe;
+}
+
+.form-wrapper > h2 {
+  display: flex;
+  justify-content: center;
+  font-family: "Segoe UI", "Ubuntu", "Roboto", "Open Sans", "Helvetica Neue",
+    sans-serif;
+  font-size: 2em;
+  font-weight: lighter;
+  margin-top: 0.25em;
+  color: #222;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.info {
+  padding-bottom: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+label {
+  margin-bottom: 0.5em;
+  color: #444;
+  font-weight: lighter;
+}
+
+input {
+  padding: 10px 10px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #d6d1d5;
+}
+input::placeholder {
+  font-size: 1.2em;
+  font-weight: lighter;
+  color: #bbb;
+}
+input.error {
+  border: 1px solid #eadae4;
+}
+
+.error {
+  color: #db2269;
+  font-size: 1em;
+  display: relative;
+}
+
+.fullName {
+  margin-right: 1%;
+}
+
+.fullName,
+.email,
+.password {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.fullName {
+  width: 100%;
+}
+
+.email,
+.password {
+  width: 100%;
+}
+
+.submit {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.priority-badge {
+  border-radius: 2px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+
+.status-badge {
+  border-radius: 2px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+
+.priority-badge.status-low {
+  background-color: #c8e6c9;
+  color: #256029;
+}
+.status-badge.status-accepted {
+  background-color: #c8e6c9;
+  color: #256029;
+}
+
+.status-badge.status-declined {
+  background-color: #ffcdd2;
+  color: #c63737;
+}
+
+.status-badge.status-ready {
+  background-color: #feedaf;
+  color: #8a5340;
+}
+
+.status-badge.status-created {
+  background-color: #aff5fe;
+  color: #407b8a;
+}
+.status-badge.status-active {
+  background-color: #aff5fe;
+  color: #407b8a;
+}
+.status-badge.status-picked {
+  background-color: #afbdfe;
+  color: #404b8a;
+}
+.status-badge.status-returned {
+  background-color: #e6feaf;
+  color: #858a40;
+}
+.status-badge.status-completed {
+  background-color: #cbaffe;
+  color: #50408a;
+}
+.status-badge.status-delivered {
+  background-color: #cbaffe;
+  color: #50408a;
+}
+
+.priority-badge.status-high {
+  background-color: #ffcdd2;
+  color: #c63737;
+}
+
+.priority-badge.status-medium {
+  background-color: #feedaf;
+  color: #8a5340;
+}
+
+.card-style {
+  border: 2px solid;
+  border-radius: 5px;
+  width: 200vw;
+}
+.card-style.item {
+  border: 2px solid;
+  border-radius: 5px;
+  size: 20px;
+}

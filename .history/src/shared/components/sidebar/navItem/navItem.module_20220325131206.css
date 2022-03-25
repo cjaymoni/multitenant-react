@@ -1,0 +1,53 @@
+.navItem {
+  padding: 20px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  height: 70px;
+}
+
+.navItem:hover {
+  background-color: rgb(161, 161, 211);
+}
+
+.activeNavItem {
+  color: #dbeafe;
+  background-color: #1e3a8a;
+}
+
+.navIcon {
+  color: #d1d5db;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 1rem;
+}
+
+.navLabel {
+  color: #d1d5db;
+  font-size: 17px;
+  font-weight: 550;
+}
+
+.navItemHeaderButton {
+  width: 100%;
+  outline: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.navItemHeaderChevron {
+  color: #d1d5db;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: auto;
+  transition: all 0.25s;
+}
+
+.chevronExpanded {
+  transform: rotate(180deg);
+}
+
+.navChildrenBlock {
+  background-color: hsl(226, 71%, 36%);
+}
