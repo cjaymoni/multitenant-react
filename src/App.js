@@ -15,12 +15,18 @@ import SubDomainError from "./tenant-app/pages/main/subdomainError";
 function App(props) {
   const dispatch = useDispatch();
   const tenantInfo = props.tenantInfo;
+  const host = window.location.href;
 
   useEffect(() => {
     dispatch(getConfig());
   }, [dispatch]);
-
-  if (Object.keys(tenantInfo).length === 0) {
+  if (host.includes("admin")) {
+    return (
+      <div className=" overflow-x-hidden">
+        <RouterFunction />
+      </div>
+    );
+  } else if (Object.keys(tenantInfo).length === 0) {
     return <SubDomainError />;
   } else if (typeof tenantInfo === "undefined") {
     return <SubDomainError />;

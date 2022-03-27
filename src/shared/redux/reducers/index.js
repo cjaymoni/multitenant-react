@@ -18,6 +18,7 @@ import tenantReducer from "./tenantReducer";
 import dashboardReducer from "./dashboardReducer";
 import manufacturerReducer from "./manufacturerReducer";
 import consumableReducer from "./consumablesReducer";
+import currencyReducer from "./currencyReducer";
 
 const persistConfig = {
   key: "root",
@@ -43,6 +44,7 @@ const allReducers = combineReducers({
   dashboard: dashboardReducer,
   manufacturers: manufacturerReducer,
   consumables: consumableReducer,
+  currencies: currencyReducer,
 });
 
 export default persistReducer(persistConfig, allReducers);

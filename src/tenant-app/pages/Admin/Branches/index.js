@@ -322,7 +322,7 @@ class Branches extends Component {
         <Dialog
           draggable={false}
           visible={this.state["toggler"]}
-          style={{ width: "35vw" }}
+          style={{ width: "40vw" }}
           header="Add New Branch"
           modal
           className="p-fluid"

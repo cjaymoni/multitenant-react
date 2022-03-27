@@ -32,46 +32,83 @@ export function jsonToFormData(data) {
 const alpha = /^[a-zA-Z_]+( [a-zA-Z_]+)*$/;
 
 export const AssSchema = Yup.object().shape({
+  code: Yup.string().required("Asset code required"),
+  make: Yup.string().required("Asset Make required"),
   title: Yup.string()
     .matches(alpha, { message: "Enter Valid Name", excludeEmptyString: true })
     .required("Asset Name required")
+    .min(2)
+    .max(35),
+  model: Yup.string().required("Model required"),
+  price: Yup.number()
+    .positive("Number must be more than 0")
+    .integer()
+    .required("Price required"),
+  lifespan: Yup.number()
+    .positive("Lifespan must be more than 0")
+    .integer()
+    .required("Lifespan is required"),
+  serial_number: Yup.string().required("Serial number required"),
+
+  dep_factor: Yup.number()
+    .positive("Depreciation factor must be more than 0")
+    .integer()
+    .required("Depreciation factor is required"),
+  description: Yup.string("Enter Asset Description"),
+  salvage_price: Yup.string().required("Salvage amount required"),
+  service_date: Yup.string().required("Service date required"),
+  purchase_date: Yup.string().required("Purchase date required"),
+  warranty_deadline: Yup.string().required("Warranty Deadline required"),
+  purchase_order_number: Yup.string().required(
+    "Purchase Order Number required"
+  ),
+  depreciation_algorithm: Yup.mixed().required("Depreciation type required"),
+  category_ids: Yup.mixed().required("Category required"),
+  currency_id: Yup.mixed().required("Currency required"),
+  vendor_id: Yup.mixed(),
+  inventory_id: Yup.mixed(),
+});
+
+export const AsseSchema = Yup.object().shape({
+  title: Yup.string()
+    .matches(alpha, { message: "Enter Valid Name", excludeEmptyString: true })
+    .required("Asset Name required")
+    .min(2)
     .max(35),
   code: Yup.string().required("Asset code required"),
   serial_number: Yup.string().required("Serial number required"),
   model: Yup.string().required("Model required"),
   make: Yup.string().required("Asset Make required"),
-  lifespan: Yup.number()
-    .positive("Lifespan must be more than 0")
-    .integer()
-    .required("Lifespan is required"),
+
   amount: Yup.number()
     .positive("Number must be more than 0")
     .integer()
     .required("Price required"),
+  purchase_date: Yup.string().required("Purchase date required"),
+  warranty_deadline: Yup.string().required("Warranty Deadline required"),
+  service_date: Yup.string().required("Service date required"),
+
+  lifespan: Yup.number()
+    .positive("Lifespan must be more than 0")
+    .integer()
+    .required("Lifespan is required"),
+  inventory_id: Yup.mixed(),
+  department_id: Yup.mixed(),
+  salvage_amount: Yup.string().required("Salvage amount required"),
+  depreciation_algorithm: Yup.mixed().required("Depreciation type required"),
+
   dep_factor: Yup.number()
     .positive("Depreciation factor must be more than 0")
     .integer()
     .required("Depreciation factor is required"),
-  description: Yup.string("Enter Inventory Description"),
-  salvage_amount: Yup.string().required("Salvage amount required"),
-  available: Yup.string(),
   category_ids: Yup.mixed().required("Category required"),
-  service_date: Yup.string().required("Service date required"),
-  purchase_date: Yup.string().required("Purchase date required"),
-  warranty_deadline: Yup.string().required("Warranty Deadline required"),
-  depreciation_algorithm: Yup.mixed().required("Depreciation type required"),
-  numerable: Yup.mixed().required("Field required"),
-  quantity: Yup.number().positive("Quantity must be more than 1").integer(),
-  returnable: Yup.mixed().required("Returnability required"),
   vendor: Yup.mixed(),
-  inventory_name: Yup.mixed(),
-  department: Yup.mixed(),
 
-  occupation: Yup.mixed().required("required"),
-  message: Yup.string().required("message required"),
-  terms: Yup.string()
-    .test("terms", "you must agree to terms", (value) => value !== false)
-    .required("required"),
+  description: Yup.string("Enter Inventory Description"),
+  // available: Yup.string(),
+  // numerable: Yup.mixed().required('Field required'),
+  // quantity: Yup.number().positive('Quantity must be more than 1').integer(),
+  // returnable: Yup.mixed().required('Returnability required'),
 });
 
 export const LoginSchema = Yup.object().shape({
@@ -169,7 +206,8 @@ export const VendorSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address format")
     .required("Email is required"),
-  website: Yup.string(),
+  url: Yup.string().url("Invalid website url"),
+  description: Yup.string(),
 });
 
 export const ConsumableSchema = Yup.object().shape({

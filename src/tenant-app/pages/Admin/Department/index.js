@@ -387,7 +387,7 @@ class Department extends Component {
     const departmentColumns = [
       { field: "info.title", header: "Department Name" },
       { header: "Department Head", body: headBodyTemplate },
-      { field: "branch.title", header: "Branch" },
+      { field: "info.description", header: "Description" },
       { header: "Action(s)", body: actionBodyTemplate },
     ];
     return (

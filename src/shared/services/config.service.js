@@ -22,24 +22,37 @@ import api from "./api";
 //     return (resp )
 //   }
 // }
+var isSubdomain = function (url) {
+  url = url || "http://www.test-domain.com"; // just for the example
+  var regex = new RegExp(/^([a-z]+\:\/{2})?([\w-]+\.[\w-]+\.\w+)$/);
+
+  return !!url.match(regex); // make sure it returns boolean
+};
 
 export const getConfig = () => async (dispatch) => {
   const host = window.location.host; // gets the full domain of the app
-  const sub_domain = host.split(".")[0];
+  var sub_domain = host.split(".")[0];
+  if (sub_domain === "admin") {
+    return true;
 
-  try {
-    return await api
-      .get(`/tenants?sub_domain=${sub_domain}`)
-      .then((res) => res.data)
-      .then((tenantitems) => {
-        dispatch({
-          type: tenantActions.FETCH_TENANT_CONFIG,
-          payload: tenantitems,
+    // (window.location.host = "admin.localhost:3000");
+  } else if (host.includes(".") && sub_domain !== "admin") {
+    try {
+      return await api
+        .get(`/tenants?sub_domain=${sub_domain}`)
+        .then((res) => res.data)
+        .then((tenantitems) => {
+          dispatch({
+            type: tenantActions.FETCH_TENANT_CONFIG,
+            payload: tenantitems,
+          });
+          console.log(tenantitems.data);
         });
-        console.log(tenantitems.data);
-      });
-  } catch (error) {
-    console.log(error);
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    return (sub_domain = "admin");
   }
 };
 

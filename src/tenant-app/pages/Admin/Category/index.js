@@ -38,12 +38,14 @@ class Category extends Component {
       loading: false,
       items: [],
       catloading: false,
+      scheme: "",
     };
 
     this.toggle = this.toggle.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.openCategoryDetails = this.openCategoryDetails.bind(this);
   }
 
   // componentDidMount() {
@@ -54,7 +56,11 @@ class Category extends Component {
   handleChange(evt, field) {
     this.setState({ [field]: evt.target.value });
   }
-
+  async openCategoryDetails(rowData) {
+    const row = rowData;
+    await localStorage.setItem("cat_id", row.id);
+    return window.location.assign("/category-info");
+  }
   async toggle(toggler, rowData) {
     let togglerStatus = this.state[toggler]; //check the status of the toggle you clicked
     var rowd = rowData;
@@ -82,17 +88,10 @@ class Category extends Component {
     this.setState({ showlists: false });
   }
 
-  createCategory() {
-    const categoryPayload = {
-      title: this.state.title,
-    };
-    // console.log(postData)
-    this.props.createCategory(categoryPayload);
-  }
-
   updateCategory() {
     const categoryPayload = {
       title: this.state.title || this.state.info.title,
+      scheme: this.state.scheme || this.state.info.scheme,
       description: this.state.description || this.state.info.description,
     };
     const id = this.state.info.id;
@@ -213,7 +212,7 @@ class Category extends Component {
             <Button
               icon="pi pi-info"
               className="p-button-rounded p-button-info p-mr-2"
-              onClick={() => this.toggle("toggler2", rowData)}
+              onClick={() => this.openCategoryDetails(rowData)}
               tooltip="More Info"
               tooltipOptions={{ position: "bottom" }}
             />
@@ -316,7 +315,7 @@ class Category extends Component {
         <Dialog
           draggable={false}
           visible={this.state["createToggler"]}
-          style={{ width: "30vw" }}
+          style={{ width: "35vw" }}
           header="Create Category"
           modal
           className="p-fluid"
@@ -386,7 +385,7 @@ class Category extends Component {
         <Dialog
           draggable={false}
           visible={this.state["toggler"]}
-          style={{ width: "27vw" }}
+          style={{ width: "35vw" }}
           header="Edit Category Details"
           modal
           className="p-fluid"
@@ -419,7 +418,7 @@ class Category extends Component {
         <Dialog
           draggable={false}
           visible={this.state["deleteToggler"]}
-          style={{ width: "450px" }}
+          style={{ width: "30vw" }}
           header="Confirm Delete"
           modal
           footer={this.deleteCategoryDialogFooter}
@@ -437,10 +436,11 @@ class Category extends Component {
             )}
           </div>
         </Dialog>
+
         <Dialog
           draggable={false}
           visible={this.state["disableToggler"]}
-          style={{ width: "450px" }}
+          style={{ width: "30vw" }}
           header="Confirm Delete"
           modal
           footer={this.disableCategoryDialogFooter}
@@ -456,50 +456,6 @@ class Category extends Component {
                 Are you sure you want to delete <b>{this.state.info.title}</b>?
               </span>
             )}
-          </div>
-        </Dialog>
-
-        <Dialog
-          draggable={false}
-          visible={this.state["toggler2"]}
-          style={{ width: "70vw" }}
-          header="Category Info"
-          modal
-          className="p-fluid"
-          footer={this.infoDialogFooter}
-          onHide={this.handleClose}
-        >
-          <div className="formgrid grid">
-            <div className="field col-12">
-              <label htmlFor="namefItem">Category name</label>
-              <InputText value={this.state.info.title} disabled />
-            </div>
-            <div className="field col-12">
-              <label htmlFor="namefItem">Description</label>
-              <InputText value={this.state.info.description} disabled />
-            </div>
-          </div>
-          <div className="datatable-responsive-demo">
-            <div>
-              <TableUI
-                tableHeader="Items in Category"
-                columns={infoColumns}
-                fetchFunction={this.props.fetchCategoryItems}
-                style={{
-                  width: "66vw",
-                  marginLeft: "5px",
-                  marginBottom: "0px",
-                  marginTop: "0px",
-                }}
-                figment={{
-                  position: "absolute",
-                  top: "4%",
-                  left: "30%",
-                  height: "35px",
-                  width: "40%",
-                }}
-              />
-            </div>
           </div>
         </Dialog>
       </div>

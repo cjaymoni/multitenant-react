@@ -27,26 +27,26 @@ export const sideMenu = [
     to: "/consumables",
     Icon: <i className="pi pi-palette text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Consumables List",
-        to: "/consumables",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Consumables List",
+    //     to: "/consumables",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
   {
     label: "Inventory",
     to: "/inventory",
     Icon: <i className="pi pi-table text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Inventory List",
-        to: "/inventory",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Inventory List",
+    //     to: "/inventory",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
 
   {
@@ -54,13 +54,13 @@ export const sideMenu = [
     to: "/requestlist",
     Icon: <i className="pi pi-ticket text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Requests List",
-        to: "/request-list",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Requests List",
+    //     to: "/request-list",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
 
   {
@@ -68,13 +68,13 @@ export const sideMenu = [
     to: "/request",
     Icon: <i className="pi pi-tag text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Request List",
-        to: "/request",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Request List",
+    //     to: "/request",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
 
   {
@@ -82,13 +82,13 @@ export const sideMenu = [
     to: "/category",
     Icon: <i className="pi pi-star text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Categories List",
-        to: "/category",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Categories List",
+    //     to: "/category",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
 
   {
@@ -115,13 +115,13 @@ export const sideMenu = [
     to: "/vendor",
     Icon: <i className="fa fa-truck text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Suppliers List",
-        to: "/vendor",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Suppliers List",
+    //     to: "/vendor",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
 
   {
@@ -129,26 +129,26 @@ export const sideMenu = [
     to: "/manufacturers",
     Icon: <i className="pi pi-cog text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Manufacturers List",
-        to: "/manufacturers",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Manufacturers List",
+    //     to: "/manufacturers",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
   {
     label: "Branches",
     to: "/location",
     Icon: <i className="pi pi-map-marker text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Branches List",
-        to: "/location",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Branches List",
+    //     to: "/location",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
 
   {
@@ -199,13 +199,13 @@ export const sideMenu = [
     to: "/transfer",
     Icon: <i className="pi pi-sign-out text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Transfer List",
-        to: "/transfer",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Transfer List",
+    //     to: "/transfer",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
 
   {
@@ -213,13 +213,13 @@ export const sideMenu = [
     to: "/recommendation",
     Icon: <i className="pi pi-lock-open text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Recommendations List",
-        to: "/recommendation",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Recommendations List",
+    //     to: "/recommendation",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
 
   {
@@ -227,13 +227,13 @@ export const sideMenu = [
     to: "/requestrecommendation",
     Icon: <i className="pi pi-unlock text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Recommendation List",
-        to: "/requestrecommendation",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Recommendation List",
+    //     to: "/requestrecommendation",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
 
   {
@@ -241,13 +241,13 @@ export const sideMenu = [
     to: "/user",
     Icon: <i className="pi pi-users text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Users List",
-        to: "/user",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Users List",
+    //     to: "/user",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
 
   {
@@ -255,12 +255,12 @@ export const sideMenu = [
     to: "/fore-proposals",
     Icon: <i className="pi pi-tag text-xl mr-3 text-white" />,
 
-    children: [
-      {
-        label: "Proposal List",
-        to: "/fore-proposals",
-        Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: "Proposal List",
+    //     to: "/fore-proposals",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
   },
 ];

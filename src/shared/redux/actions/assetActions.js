@@ -17,7 +17,7 @@ export const fetchAssets = () => (dispatch) => {
   return (
     dispatch({ type: assetActionTypes.FETCH_ASSETS }),
     api
-      .get("/items")
+      .get("/assets")
       .then((res) => res.data)
       .then((assets) =>
         dispatch({
@@ -45,7 +45,7 @@ export const fetchAssets = () => (dispatch) => {
 
 export const fetchAssetById = (id) => (dispatch) => {
   return api
-    .get(`/items?search=id&value=${id}`)
+    .get(`/assets/${id}`)
     .then((res) => res.data)
     .then((asset) =>
       dispatch({
@@ -103,7 +103,7 @@ export const fetchDecommissedAssets = () => (dispatch) => {
 };
 export const fetchAllAssets = () => (dispatch) => {
   return api
-    .get("/items")
+    .get("/assets")
     .then((res) => res.data)
     .then((assets) =>
       dispatch({
@@ -116,11 +116,8 @@ export const fetchAllAssets = () => (dispatch) => {
 export const createAsset = (postData) => (dispatch) => {
   return api({
     method: "post",
-    url: "/items",
+    url: "/assets",
     data: postData,
-    headers: {
-      "Content-Type": `multipart/form-data; boundary=${postData._boundary}`,
-    },
   }).then((post) => {
     if (post.status === 201) {
       dispatch(
@@ -148,9 +145,44 @@ export const createAsset = (postData) => (dispatch) => {
     }
   });
 };
+// export const createAsset = (postData) => (dispatch) => {
+//   return api({
+//     method: "post",
+//     url: "/assets",
+//     data: postData,
+//     headers: {
+//       "Content-Type": `multipart/form-data; boundary=${postData._boundary}`,
+//     },
+//   }).then((post) => {
+//     if (post.status === 201) {
+//       dispatch(
+//         {
+//           type: assetActionTypes.ADD_ASSET,
+//           payload: post,
+//         },
+//         Swal.fire({
+//           title: "Asset added successfully",
+//           icon: "success",
+//           timer: 2000,
+//           showConfirmButton: false,
+//         }).then(function () {
+//           window.location.reload();
+//         })
+//       );
+//     } else {
+//       Swal.fire({
+//         icon: "error",
+//         text: post.data,
+//         title: "Failed",
+//         timer: 2000,
+//         showConfirmButton: false,
+//       });
+//     }
+//   });
+// };
 
 export const editAsset = (id, updateData) => (dispatch) => {
-  return api.patch(`/items/${id}`, updateData).then((update) => {
+  return api.patch(`/assets/${id}`, updateData).then((update) => {
     if (update.status === 200) {
       dispatch(
         {
@@ -179,8 +211,8 @@ export const editAsset = (id, updateData) => (dispatch) => {
 };
 
 export const deleteAsset = (id) => (dispatch) => {
-  return api.delete(`/items/${id}`).then((del) => {
-    if (del.status === 200) {
+  return api.delete(`/assets/${id}`).then((del) => {
+    if (del.status === 204) {
       dispatch(
         {
           type: assetActionTypes.DELETE_ASSET,
@@ -208,7 +240,7 @@ export const deleteAsset = (id) => (dispatch) => {
 };
 
 export const decommissionAsset = (id, postData) => (dispatch) => {
-  return api.patch(`/items/${id}`, postData).then((del) => {
+  return api.patch(`/assets/${id}`, postData).then((del) => {
     if (del.status === 200) {
       dispatch(
         {

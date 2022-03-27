@@ -305,7 +305,7 @@ Dashboard.propTypes = {
 const mapStateToProps = (state) => ({
   pagesize: state.assets.pagesize,
   booksize: state.assets.booksize,
-  dashitems: state.dashboard.dashitems,
+  dashitems: state.dashboard.dashitems || [],
 });
 
 export default connect(mapStateToProps, {

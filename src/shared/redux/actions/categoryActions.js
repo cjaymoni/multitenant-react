@@ -27,7 +27,236 @@ export const fetchCategoryItems = () => (dispatch) => {
       })
     );
 };
+export const fetchCategoryDetails = () => (dispatch) => {
+  return api
+    .get(`/categories/${localStorage.cat_id}`)
+    .then((res) => res.data)
+    .then((categoryitems) =>
+      dispatch({
+        type: categoryActions.FETCH_CATEGORY_DETAILS,
+        payload: categoryitems,
+      })
+    );
+};
 
+export const fetchCategoryVedors = () => (dispatch) => {
+  return api
+    .get(`/categories/${localStorage.cat_id}/vendors`)
+    .then((res) => res.data)
+    .then((categoryitems) =>
+      dispatch({
+        type: categoryActions.FETCH_CATEGORY_VENDORS,
+        payload: categoryitems,
+      })
+    );
+};
+
+export const fetchCategoryAssets = () => (dispatch) => {
+  return api
+    .get(`/categories/${localStorage.cat_id}/assets`)
+    .then((res) => res.data)
+    .then((categoryitems) =>
+      dispatch({
+        type: categoryActions.FETCH_CATEGORY_ASSETS,
+        payload: categoryitems,
+      })
+    );
+};
+
+export const fetchCategoryConsumables = () => (dispatch) => {
+  return api
+    .get(`/categories/${localStorage.cat_id}/consumables`)
+    .then((res) => res.data)
+    .then((categoryitems) =>
+      dispatch({
+        type: categoryActions.FETCH_CATEGORY_CONSUMABLES,
+        payload: categoryitems,
+      })
+    );
+};
+
+export const addCategoryVendor = (catid, venid) => (dispatch) => {
+  return api
+    .put(`/categories/${catid}/append-vendors`, [venid])
+    .then((update) => {
+      if (update.status === 200) {
+        dispatch(
+          {
+            type: categoryActions.ADD_CATEGORY_VENDOR,
+            payload: update,
+          },
+          Swal.fire({
+            title: "Vendor added to category",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          }).then(function () {
+            window.location.reload();
+          })
+        );
+      } else {
+        Swal.fire({
+          icon: "error",
+          text: update.data,
+          title: "Failed",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    });
+};
+export const addCategoryAsset = (catid, venid) => (dispatch) => {
+  return api
+    .put(`/categories/${catid}/append-assets`, [venid])
+    .then((update) => {
+      if (update.status === 200) {
+        dispatch(
+          {
+            type: categoryActions.ADD_CATEGORY_ASSET,
+            payload: update,
+          },
+          Swal.fire({
+            title: "Asset added to category",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          }).then(function () {
+            window.location.reload();
+          })
+        );
+      } else {
+        Swal.fire({
+          icon: "error",
+          text: update.data,
+          title: "Failed",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    });
+};
+
+export const addCategoryConsumable = (catid, venid) => (dispatch) => {
+  return api
+    .put(`/categories/${catid}/append-consumables`, [venid])
+    .then((update) => {
+      if (update.status === 200) {
+        dispatch(
+          {
+            type: categoryActions.ADD_CATEGORY_CONSUMABLE,
+            payload: update,
+          },
+          Swal.fire({
+            title: "Consumable added to category",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          }).then(function () {
+            window.location.reload();
+          })
+        );
+      } else {
+        Swal.fire({
+          icon: "error",
+          text: update.data,
+          title: "Failed",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    });
+};
+export const removeCategoryVendor = (catid, venid) => (dispatch) => {
+  return api
+    .put(`/categories/${catid}/remove-vendors`, [venid])
+    .then((update) => {
+      if (update.status === 200) {
+        dispatch(
+          {
+            type: categoryActions.REMOVE_CATEGORY_VENDOR,
+            payload: update,
+          },
+          Swal.fire({
+            title: "Vendor removed from category",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          }).then(function () {
+            window.location.reload();
+          })
+        );
+      } else {
+        Swal.fire({
+          icon: "error",
+          text: update.data,
+          title: "Failed",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    });
+};
+
+export const removeCategoryAsset = (catid, venid) => (dispatch) => {
+  return api
+    .put(`/categories/${catid}/remove-assets`, [venid])
+    .then((update) => {
+      if (update.status === 200) {
+        dispatch(
+          {
+            type: categoryActions.REMOVE_CATEGORY_ASSET,
+            payload: update,
+          },
+          Swal.fire({
+            title: "Asset removed from category",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          }).then(function () {
+            window.location.reload();
+          })
+        );
+      } else {
+        Swal.fire({
+          icon: "error",
+          text: update.data,
+          title: "Failed",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    });
+};
+export const removeCategoryConsumable = (catid, venid) => (dispatch) => {
+  return api
+    .put(`/categories/${catid}/remove-consumables`, [venid])
+    .then((update) => {
+      if (update.status === 200) {
+        dispatch(
+          {
+            type: categoryActions.REMOVE_CATEGORY_CONSUMABLE,
+            payload: update,
+          },
+          Swal.fire({
+            title: "Consumable removed from category",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          }).then(function () {
+            window.location.reload();
+          })
+        );
+      } else {
+        Swal.fire({
+          icon: "error",
+          text: update.data,
+          title: "Failed",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+    });
+};
 export const fetchCategoryItemsN = (id) => (dispatch) => {
   return api
     .get(`/categories/${id}/items?search=decommission&value=false`)

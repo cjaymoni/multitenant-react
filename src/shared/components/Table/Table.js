@@ -526,7 +526,51 @@ const TableUI = (props) => {
             </Can>
           </div>
         );
-
+      case "Category Assets":
+        return (
+          <div className=" flex justify-content-between flex-wrap md:flex-wrap">
+            <h2 className="mt-2 flex">{props.tableHeader}</h2>
+            {search}
+            <Can do="add" on="Categories">
+              <Button
+                icon="pi pi-plus"
+                label="Asset"
+                className="p-button-raised p-button-outlined flex h-3rem"
+                onClick={() => props.clickFunction()}
+              ></Button>
+            </Can>
+          </div>
+        );
+      case "Category Vendors":
+        return (
+          <div className=" flex justify-content-between flex-wrap md:flex-wrap">
+            <h2 className="mt-2 flex">{props.tableHeader}</h2>
+            {search}
+            <Can do="add" on="Categories">
+              <Button
+                icon="pi pi-plus"
+                label="Vendor"
+                className="p-button-raised p-button-outlined flex h-3rem"
+                onClick={() => props.clickFunction()}
+              ></Button>
+            </Can>
+          </div>
+        );
+      case "Category Consumables":
+        return (
+          <div className=" flex justify-content-between flex-wrap md:flex-wrap">
+            <h2 className="mt-2 flex">{props.tableHeader}</h2>
+            {search}
+            <Can do="add" on="Categories">
+              <Button
+                icon="pi pi-plus"
+                label="Consumable"
+                className="p-button-raised p-button-outlined flex h-3rem"
+                onClick={() => props.clickFunction()}
+              ></Button>
+            </Can>
+          </div>
+        );
       case "Items in Category":
         return (
           <div className="flex justify-content-between flex-wrap md:flex-wrap">
@@ -535,7 +579,7 @@ const TableUI = (props) => {
           </div>
         );
 
-      case "Manage Vendors":
+      case "Manage Suppliers":
         return (
           <div className="flex justify-content-between flex-wrap md:flex-wrap">
             <h2 className="mt-2 flex">{props.tableHeader}</h2>

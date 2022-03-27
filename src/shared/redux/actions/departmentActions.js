@@ -15,7 +15,7 @@ export const fetchDepartments = () => (dispatch) => {
 
 export const fetchBaseDepartments = () => (dispatch) => {
   return api
-    .get("/departments?branch_id=0")
+    .get("/departments-base")
     .then((res) => res.data)
     .then((departments) =>
       dispatch({

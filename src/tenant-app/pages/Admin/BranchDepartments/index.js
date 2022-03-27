@@ -374,7 +374,7 @@ class BranchDepartment extends Component {
 
     const departmentColumns = [
       { field: "info.title", header: "Department Name" },
-      { header: "Department Head", body: headBodyTemplate },
+      { header: "Department Head" },
       { field: "branch.title", header: "Branch" },
       { header: "Action(s)", body: actionBodyTemplate },
     ];

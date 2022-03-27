@@ -470,8 +470,8 @@ class Asset extends Component {
           <div className="datatable-responsive-demo">
             <TableUI
               columns={assetColumns}
-              fetchFunction={this.props.fetchAvailableAssets}
-              fetchFunction1={this.props.fetchAvailableAssets}
+              fetchFunction={this.props.fetchAssets}
+              fetchFunction1={this.props.fetchAssets}
               tableHeader="Assets List"
               addOn="AvailableAsset"
               clickFunction={() => this.createNewAsset()}

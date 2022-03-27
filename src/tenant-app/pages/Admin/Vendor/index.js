@@ -20,13 +20,12 @@ import { Dialog } from "primereact/dialog";
 import Can from "../../../../shared/casl/can";
 import TableUI from "../../../../shared/components/Table/Table";
 import {
-  CardData,
   contactBodyTemplate,
   emailBodyTemplate,
   titleBodyTemplate,
 } from "./const";
-import { AutoCompleteDemo } from "../../../../shared/components/autocomplete/AutoComplete";
 import { AutoComplete } from "primereact/autocomplete";
+import { InputTextarea } from "primereact/inputtextarea";
 
 class Vendor extends Component {
   constructor(props) {
@@ -43,7 +42,7 @@ class Vendor extends Component {
       contact: "",
       email: "",
       category: "",
-      website: "",
+      url: "",
       title: "",
       ven_category: "",
       selectedVendor: null,
@@ -55,6 +54,7 @@ class Vendor extends Component {
       loading: false,
       selectedOption: null,
       filteredOptions: null,
+      description: "",
     };
 
     this.toggle = this.toggle.bind(this);
@@ -124,7 +124,8 @@ class Vendor extends Component {
       title: this.state.title || this.state.info.title,
       contact: this.state.contact || this.state.info.contact,
       email: this.state.email || this.state.info.email,
-      website: this.state.website || this.state.info.website,
+      url: this.state.url || this.state.info.url,
+      description: this.state.description || this.state.info.description,
     };
     const id = this.state.info.id;
 
@@ -284,15 +285,15 @@ class Vendor extends Component {
     const initialValues = {
       title: "",
       contact: "",
-      website: "",
+      url: "",
       email: "",
+      description: "",
     };
-    const tte = "";
     const actionBodyTemplate = (rowData) => {
       return (
         <React.Fragment>
           <div className="p-d-flex">
-            <Can do="info" on="Vendor">
+            <Can do="info" on="Suppliers">
               <Button
                 icon="pi pi-info"
                 className="p-button-rounded p-button-info mr-2"
@@ -302,17 +303,17 @@ class Vendor extends Component {
               />
             </Can>
             &nbsp;
-            <Can do="edit" on="Vendor">
+            <Can do="edit" on="Suppliers">
               <Button
                 icon="pi pi-pencil"
                 className="p-button-rounded p-button-warning mr-2"
                 onClick={() => this.toggle("toggler", rowData)}
-                tooltip="Edit Vendor"
+                tooltip="Edit Supplier"
                 tooltipOptions={{ position: "bottom" }}
               />
             </Can>
             &nbsp;
-            <Can do="edit" on="Vendor">
+            <Can do="edit" on="Suppliers">
               <Button
                 icon="pi pi-plus"
                 className="p-button-rounded p-button-success mr-2"
@@ -322,22 +323,22 @@ class Vendor extends Component {
               />
             </Can>
             &nbsp;
-            <Can do="disable" on="Vendor">
+            <Can do="disable" on="Suppliers">
               <Button
                 icon="pi pi-ban"
                 className="p-button-rounded p-button-danger mr-2"
                 onClick={() => this.toggle("disableToggler", rowData)}
-                tooltip="Delete Vendor"
+                tooltip="Delete Suppliers"
                 tooltipOptions={{ position: "bottom" }}
               />
             </Can>
             &nbsp;
-            <Can do="delete" on="Vendor">
+            <Can do="delete" on="Suppliers">
               <Button
                 icon="pi pi-ban"
                 className="p-button-rounded p-button-danger mr-auto"
                 // onClick={() => this.toggle("deleteToggler", rowData)}
-                tooltip="Delete Vendor"
+                tooltip="Delete Suppliers"
                 tooltipOptions={{ position: "bottom" }}
               />
             </Can>
@@ -346,9 +347,13 @@ class Vendor extends Component {
       );
     };
     const vendorColumns = [
-      { field: "title", header: "Vendor Name", body: titleBodyTemplate },
-      { field: "contact", header: "Vendor Contact", body: contactBodyTemplate },
-      { field: "email", header: "Vendor Email", body: emailBodyTemplate },
+      { field: "title", header: "Supplier Name", body: titleBodyTemplate },
+      {
+        field: "contact",
+        header: "Supplier Contact",
+        body: contactBodyTemplate,
+      },
+      { field: "email", header: "Supplier Email", body: emailBodyTemplate },
       { header: "Action(s)", body: actionBodyTemplate },
     ];
 
@@ -358,13 +363,13 @@ class Vendor extends Component {
           className="p-mb-3 p-text-bold"
           style={{ marginLeft: "20px", color: "#495057" }}
         >
-          Vendor info
+          Supplier info
         </h2>
         <br></br>
         <div className="p-grid p-justify-between cardFstyle">
           <div className="p-col-12 p-lg-6">
             <CardDemo
-              title="Total vendors"
+              title="Total Suppliers"
               icon="pi pi-shopping-cart"
               color="#cae6fc"
               iconColor="#2196f3"
@@ -375,7 +380,7 @@ class Vendor extends Component {
 
           <div className="p-col-12 p-lg-6">
             <CardDemo
-              title="Active vendors"
+              title="Active Suppliers"
               icon="pi pi-folder-open"
               color="#e7cbec"
               iconColor="#9c27b0"
@@ -389,7 +394,7 @@ class Vendor extends Component {
         <div className="datatable-responsive-demo">
           <div>
             <TableUI
-              tableHeader="Manage Vendors"
+              tableHeader="Manage Suppliers"
               columns={vendorColumns}
               fetchFunction={this.props.fetchVendors}
               clickFunction={() => this.handleOpen("createToggler")}
@@ -399,13 +404,6 @@ class Vendor extends Component {
                 marginBottom: "0px",
                 marginTop: "0px",
               }}
-              figment={{
-                position: "absolute",
-                top: "4%",
-                left: "30%",
-                height: "35px",
-                width: "40%",
-              }}
             />
           </div>
         </div>
@@ -413,8 +411,8 @@ class Vendor extends Component {
         <Dialog
           draggable={false}
           visible={this.state["createToggler"]}
-          style={{ width: "30vw" }}
-          header="Add New Vendor"
+          style={{ width: "35vw" }}
+          header="Add New Supplier"
           modal
           className="p-fluid"
           footer={this.createVendorDialogFooter}
@@ -429,7 +427,8 @@ class Vendor extends Component {
                 title: values.title,
                 contact: values.contact,
                 email: values.email,
-                website: values.website,
+                url: values.url,
+                description: values.description,
               };
               this.props.createVendor(postData);
             }}
@@ -445,13 +444,14 @@ class Vendor extends Component {
                         <InputText
                           id="title"
                           type="text"
-                          placeholder="Vendor Name"
+                          placeholder="Supplier Name"
                           value={values.title}
                           onChange={(event) => handleChange(event, "title")}
-                          className={
-                            errors.title ? "p-invalid p-d-block" : "p-d-block"
-                          }
+                          tooltipOptions={{ position: "bottom" }}
+                          tooltip="Name of Supplier"
                         />
+                        <small>eg: CompuGhana</small>
+                        <div className="error-message mt-1">{errors.title}</div>
                       </div>
 
                       <div className="field col-12">
@@ -459,13 +459,14 @@ class Vendor extends Component {
                         <InputText
                           id="email"
                           type="text"
-                          placeholder="Vendor Email"
+                          placeholder="Supplier Email"
                           value={values.email}
                           onChange={(event) => handleChange(event, "email")}
-                          className={
-                            errors.email ? "p-invalid p-d-block" : "p-d-block"
-                          }
+                          tooltipOptions={{ position: "bottom" }}
+                          tooltip="Email of Supplier"
                         />
+                        <small>eg: compugh@mail.com</small>
+                        <div className="error-message mt-1">{errors.email}</div>
                       </div>
 
                       <div className="field col-12">
@@ -474,29 +475,55 @@ class Vendor extends Component {
                         <InputText
                           id="contact"
                           type="text"
-                          placeholder="000-0000000"
+                          placeholder="0000000000"
                           maxlength={10}
                           value={values.contact}
                           onChange={(event) => handleChange(event, "contact")}
-                          className={
-                            errors.contact ? "p-invalid p-d-block" : "p-d-block"
-                          }
+                          tooltipOptions={{ position: "bottom" }}
+                          tooltip="Contact of Supplier"
                         />
+                        <small>eg: 0234578632</small>
+                        <div className="error-message mt-1">
+                          {errors.contact}
+                        </div>
                       </div>
 
                       <div className="field col-12">
                         <label htmlFor="email">Website</label>
                         <InputText
-                          id="website"
-                          name="website"
-                          placeholder="Vendor Website"
+                          id="url"
+                          name="url"
+                          placeholder="Supplier Website"
                           type="text"
-                          value={values.website}
-                          onChange={(event) => handleChange(event, "website")}
-                          className={
-                            errors.website ? "p-invalid p-d-block" : "p-d-block"
-                          }
+                          value={values.url}
+                          onChange={(event) => handleChange(event, "url")}
+                          tooltipOptions={{ position: "bottom" }}
+                          tooltip="Website of Supplier"
                         />
+                        <small>eg: https://www.compugh.com</small>
+                        <div className="error-message mt-1">{errors.url}</div>
+                      </div>
+
+                      <div className="field col-12">
+                        <label htmlFor="name" className="block font-normal">
+                          Supplier Description
+                        </label>
+                        <InputTextarea
+                          id="description"
+                          placeholder="Description"
+                          name="description"
+                          value={values.description}
+                          onChange={(event) =>
+                            handleChange(event, "description")
+                          }
+                          tooltipOptions={{ position: "bottom" }}
+                          tooltip="Brief Description"
+                        />
+                        <small>eg: Supplier for PC hardware</small>
+
+                        <div className="error-message mt-1">
+                          {errors.description}
+                        </div>
                       </div>
                     </div>
                   </Form>
@@ -509,8 +536,8 @@ class Vendor extends Component {
         <Dialog
           draggable={false}
           visible={this.state["toggler"]}
-          style={{ width: "30vw" }}
-          header="Edit Vendor Details"
+          style={{ width: "35vw" }}
+          header="Edit Supplier Details"
           modal
           className="p-fluid"
           footer={this.editVendorDialogFooter}
@@ -518,7 +545,7 @@ class Vendor extends Component {
         >
           <div className="formgrid grid">
             <div className="field col-12">
-              <label htmlFor="namefItem">Vendor name</label>
+              <label htmlFor="namefItem">Supplier name</label>
               <InputText
                 id="title"
                 name="title"
@@ -527,7 +554,7 @@ class Vendor extends Component {
               />
             </div>
             <div className="field col-12">
-              <label htmlFor="namefItem">Vendor Email</label>
+              <label htmlFor="namefItem">Supplier Email</label>
               <InputText
                 id="email"
                 name="email"
@@ -537,7 +564,7 @@ class Vendor extends Component {
             </div>
 
             <div className="field col-12">
-              <label htmlFor="namefItem">Vendor Contact</label>
+              <label htmlFor="namefItem">Supplier Contact</label>
               <InputText
                 id="contact"
                 name="contact"
@@ -548,12 +575,21 @@ class Vendor extends Component {
               />
             </div>
             <div className="field col-12">
-              <label htmlFor="namefItem">Vendor Website</label>
+              <label htmlFor="namefItem">Supplier Website</label>
               <InputText
-                id="website"
-                name="website"
-                defaultValue={this.state.info.website}
-                onChange={(event) => this.handleChange(event, "website")}
+                id="url"
+                name="url"
+                defaultValue={this.state.info.url}
+                onChange={(event) => this.handleChange(event, "url")}
+              />
+            </div>
+            <div className="field col-12">
+              <label htmlFor="namefItem">Description</label>
+              <InputTextarea
+                id="description"
+                name="description"
+                defaultValue={this.state.info.description}
+                onChange={(event) => this.handleChange(event, "description")}
               />
             </div>
           </div>
@@ -562,7 +598,7 @@ class Vendor extends Component {
         <Dialog
           draggable={false}
           visible={this.state["deleteToggler"]}
-          style={{ width: "450px" }}
+          style={{ width: "30vw" }}
           header="Confirm Delete"
           modal
           footer={this.deleteVendorDialogFooter}
@@ -583,7 +619,7 @@ class Vendor extends Component {
         <Dialog
           draggable={false}
           visible={this.state["disableToggler"]}
-          style={{ width: "450px" }}
+          style={{ width: "30vw" }}
           header="Confirm Delete"
           modal
           footer={this.disableVendorDialogFooter}
@@ -605,8 +641,8 @@ class Vendor extends Component {
         <Dialog
           draggable={false}
           visible={this.state["toggler2"]}
-          style={{ width: "30vw" }}
-          header="Vendor Info"
+          style={{ width: "35vw" }}
+          header="Supplier Info"
           modal
           className="p-fluid"
           footer={this.infoDialogFooter}
@@ -614,7 +650,7 @@ class Vendor extends Component {
         >
           <div className="formgrid grid">
             <div className="field col-12">
-              <label htmlFor="namefItem">Vendor name</label>
+              <label htmlFor="namefItem">Supplier name</label>
               <InputText value={this.state.info.title} disabled />
             </div>
             <div className="field col-12">
@@ -628,27 +664,20 @@ class Vendor extends Component {
             </div>
             <div className="field col-12">
               <label htmlFor="namefItem">Website</label>
-              <InputText value={this.state.info.website} disabled />
+              <InputText value={this.state.info.url} disabled />
+            </div>
+            <div className="field col-12">
+              <label htmlFor="namefItem">Description</label>
+              <InputTextarea value={this.state.info.description} disabled />
             </div>
           </div>
-
-          {/* <div className="p-formgrid p-grid">
-            <div className="p-field p-col">
-            <label htmlFor="namefItem">Category</label>
-              <InputText
-                  value={this.state.info.category}
-                  disabled
-                />
-              
-            </div>
-          </div> */}
         </Dialog>
 
         <Dialog
           draggable={false}
           visible={this.state["addToggler"]}
-          style={{ width: "30vw" }}
-          header="Add Vendor To Category"
+          style={{ width: "35vw" }}
+          header="Add Supplier To Category"
           modal
           className="p-fluid"
           footer={this.addDialogFooter}
@@ -658,22 +687,6 @@ class Vendor extends Component {
             <div className="p-field p-col">
               <label htmlFor="namefItem">Category name</label>
 
-              {/* <Select
-                searchable={true}
-                onBlurResetsInput={false}
-                onCloseResetsInput={false}
-                placeholder="Select Category"
-                styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
-                menuPortalTarget={document.body}
-                onChange={this.onCategoryChange}
-                isClearable
-                labelKey="title"
-                valuekey="id"
-                autoload={false}
-                isLoading={this.state.isLoading}
-                options={this.state.categoryoptions}
-                onFocus={this.maybeLoadOptions}
-              /> */}
               <AutoComplete
                 className="w-full"
                 dropdown

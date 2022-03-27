@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { vendorActions } from "./types";
 export const fetchVendors = () => (dispatch) => {
   return api
-    .get("/vendors?search=status&value=true")
+    .get("/vendors")
     .then((res) => res.data)
     .then((vendors) =>
       dispatch({
@@ -22,7 +22,7 @@ export const createVendor = (postData) => (dispatch) => {
           payload: post,
         },
         Swal.fire({
-          title: "Vendor added successfully",
+          title: "Supplier added successfully",
           icon: "success",
           timer: 2000,
           showConfirmButton: false,
@@ -41,34 +41,36 @@ export const createVendor = (postData) => (dispatch) => {
     }
   });
 };
-
+//196.43.196.108:3100/openapi.json/categories/{resource_id}/append-{resource}
 export const addVenCategory = (catid, venid) => (dispatch) => {
-  return api.put(`/categories/${catid}/vendors`, [venid]).then((update) => {
-    if (update.status === 200) {
-      dispatch(
-        {
-          type: vendorActions.ADD_VENDOR_CATEGORY,
-          payload: update,
-        },
+  return api
+    .put(`/categories/${catid}/append-vendors`, [venid])
+    .then((update) => {
+      if (update.status === 200) {
+        dispatch(
+          {
+            type: vendorActions.ADD_VENDOR_CATEGORY,
+            payload: update,
+          },
+          Swal.fire({
+            title: "Category added successfully",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          }).then(function () {
+            window.location.reload();
+          })
+        );
+      } else {
         Swal.fire({
-          title: "Category added successfully",
-          icon: "success",
+          icon: "error",
+          text: update.data,
+          title: "Failed",
           timer: 2000,
           showConfirmButton: false,
-        }).then(function () {
-          window.location.reload();
-        })
-      );
-    } else {
-      Swal.fire({
-        icon: "error",
-        text: update.data,
-        title: "Failed",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-    }
-  });
+        });
+      }
+    });
 };
 
 export const editVendor = (id, updateData) => (dispatch) => {
@@ -80,7 +82,7 @@ export const editVendor = (id, updateData) => (dispatch) => {
           payload: update,
         },
         Swal.fire({
-          title: "Vendor updated successfully",
+          title: "Supplier updated successfully",
           icon: "success",
           timer: 2000,
           showConfirmButton: false,
@@ -109,7 +111,7 @@ export const disableVendor = (id, updateData) => (dispatch) => {
           payload: update,
         },
         Swal.fire({
-          title: "Vendor has been removed",
+          title: "Supplier has been removed",
           icon: "success",
           timer: 2000,
           showConfirmButton: false,
@@ -133,14 +135,14 @@ export const deleteVendor = (id) => (dispatch) => {
   return api
     .delete(`/vendors/${id}`)
     .then((remove) => {
-      if (remove.status === 200) {
+      if (remove.status === 204) {
         dispatch(
           {
             type: vendorActions.DELETE_VENDORS_SUCCESS,
             payload: remove,
           },
           Swal.fire({
-            title: "Vendor has been permanently removed",
+            title: "Supplier has been permanently removed",
             icon: "success",
             timer: 2000,
             showConfirmButton: false,
