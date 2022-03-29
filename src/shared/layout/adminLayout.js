@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
 import Topnav from "../components/topnav/Topnav";
 
-function Layout(props) {
+function AdminLayout(props) {
   return (
     <Fragment>
       <div className="flex w-screen ">
@@ -11,7 +11,7 @@ function Layout(props) {
           <Sidebar />
         </div>
         <div style={{ width: "84vw" }}>
-          <Topnav />
+          {/* <Topnav /> */}
 
           <div className="mt-auto relative">
             <Outlet></Outlet>
@@ -22,4 +22,4 @@ function Layout(props) {
   );
 }
 
-export default Layout;
+export default AdminLayout;

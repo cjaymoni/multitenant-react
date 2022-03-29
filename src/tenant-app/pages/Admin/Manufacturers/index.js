@@ -146,7 +146,7 @@ class Manufacturers extends Component {
   render() {
     const initialValues = {
       title: "",
-      website: "",
+      url: "",
       contact: "",
       description: "",
       email: "",
@@ -200,7 +200,7 @@ class Manufacturers extends Component {
     const manufacturerColumns = [
       { field: "title", header: "Manufacturer Name" },
       { field: "email", header: "Email Address" },
-      { field: "website", header: "Website" },
+      { field: "url", header: "Website" },
 
       { field: "contact", header: "Contact" },
 
@@ -276,7 +276,7 @@ class Manufacturers extends Component {
                 scheme: this.props.tenantInfo.scheme,
                 description: values.description,
                 email: values.email,
-                website: values.website,
+                url: values.url,
                 contact: values.contact,
               };
               this.props.createManufacturer(jsonToFormData(postData));
@@ -361,17 +361,17 @@ class Manufacturers extends Component {
                           Manufacturer Website
                         </label>
                         <InputText
-                          id="website"
+                          id="url"
                           type="text"
-                          name="website"
+                          name="url"
                           placeholder="Manufacturer Website"
-                          onChange={(event) => handleChange(event, "website")}
-                          value={values.website}
+                          onChange={(event) => handleChange(event, "url")}
+                          value={values.url}
                           tooltipOptions={{ position: "bottom" }}
                           tooltip="Manufacturer's website address"
                         />
                         <small>eg: https://www.hp.com</small>
-                        <div className="error-message">{errors.website}</div>
+                        <div className="error-message">{errors.url}</div>
                       </div>
 
                       <div className="field col-6">
@@ -463,12 +463,12 @@ class Manufacturers extends Component {
                 Manufacturer Website
               </label>
               <InputText
-                id="website"
+                id="url"
                 type="text"
-                name="website"
+                name="url"
                 placeholder="Manufacturer Website"
-                defaultValue={this.state.info.website}
-                onChange={(event) => this.handleChange(event, "website")}
+                defaultValue={this.state.info.url}
+                onChange={(event) => this.handleChange(event, "url")}
               />
             </div>
             <div className="field col-6">
@@ -512,7 +512,7 @@ class Manufacturers extends Component {
             </div>{" "}
             <div className="field col-6">
               <label htmlFor="namefItem">Manufacturer Website</label>
-              <InputText value={this.state.info.website} disabled />
+              <InputText value={this.state.info.url} disabled />
             </div>
             <div className="field col-6">
               <label htmlFor="namefItem">Description</label>

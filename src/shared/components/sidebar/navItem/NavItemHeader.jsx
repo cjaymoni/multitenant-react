@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import style from "./navItem.module.css";
+import Can from "../../../casl/can";
 
 const resolveLinkPath = (childTo, parentTo) => `${parentTo}${childTo}`;
 
@@ -9,9 +10,8 @@ const NavItemHeader = (props) => {
   const { label, Icon, to, children } = item;
   const location = useLocation();
 
-  const [expanded, setExpand] =
-    useState();
-    // location.pathname.includes(headerToPath)
+  const [expanded, setExpand] = useState();
+  // location.pathname.includes(headerToPath)
 
   const onExpandChange = (e) => {
     e.preventDefault();
@@ -59,19 +59,21 @@ const NavItemHeader = (props) => {
             }
 
             return (
-              <NavLink
-                key={key}
-                to={to}
-                className={style.navItem}
-                activeClassName="activeNavItem"
+              <Can do="view" on={item.name}>
+                <NavLink
+                  key={key}
+                  to={to}
+                  className={style.navItem}
+                  activeClassName="activeNavItem"
 
-                // activeClassName={style.activeNavItem}
-              >
-                {Icon}
+                  // activeClassName={style.activeNavItem}
+                >
+                  {Icon}
 
-                {/* <Icon className={style.navIcon} /> */}
-                <span className={style.navLabel}>{label}</span>
-              </NavLink>
+                  {/* <Icon className={style.navIcon} /> */}
+                  <span className={style.navLabel}>{label}</span>
+                </NavLink>
+              </Can>
             );
           })}
         </div>

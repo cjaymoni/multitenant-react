@@ -28,6 +28,11 @@ const assetReducer = (state = initialState, action) => {
         loading: false,
         error: false,
       };
+    case assetActionTypes.FETCH_ASSET_BY_ID:
+      return {
+        ...state,
+        assetinfo: action.payload,
+      };
     case assetActionTypes.FETCHAVAILABLE_ASSETS:
       return {
         ...state,

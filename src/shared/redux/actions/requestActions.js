@@ -4,7 +4,7 @@ import { requestActions } from "./types";
 
 export const fetchRequests = () => (dispatch) => {
   return api
-    .get("/requests")
+    .get("/request")
     .then((res) => res.data)
     .then((requests) =>
       dispatch({
@@ -16,7 +16,7 @@ export const fetchRequests = () => (dispatch) => {
 
 export const fetchUserRequests = () => (dispatch) => {
   return api
-    .get(`users/${localStorage.user_id}/requests`)
+    .get(`users/${localStorage.user_id}/request`)
     .then((res) => res.data)
     .then((userrequests) =>
       dispatch({
@@ -27,7 +27,7 @@ export const fetchUserRequests = () => (dispatch) => {
 };
 export const fetchDepartmentRequests = () => (dispatch) => {
   return api
-    .get(`departments/${localStorage.department_id}/requests`)
+    .get(`departments/${localStorage.department_id}/request`)
     .then((res) => res.data)
     .then((departmentrequest) =>
       dispatch({
@@ -38,7 +38,7 @@ export const fetchDepartmentRequests = () => (dispatch) => {
 };
 
 export const issueRequest = (issueData) => (dispatch) => {
-  return api.post("/requests", issueData).then((issue) => {
+  return api.post("/request", issueData).then((issue) => {
     if (issue.status === 201) {
       dispatch(
         {
@@ -67,7 +67,7 @@ export const issueRequest = (issueData) => (dispatch) => {
 };
 
 export const issueHeadRequest = (issueData) => (dispatch) => {
-  return api.post("/requests", issueData).then((issue) => {
+  return api.post("/request", issueData).then((issue) => {
     if (issue.status === 201) {
       dispatch(
         {
@@ -90,7 +90,7 @@ export const issueHeadRequest = (issueData) => (dispatch) => {
 };
 
 export const editRequest = (updateData, id) => (dispatch) => {
-  return api.patch(`/requests/${id}`, updateData).then((update) => {
+  return api.patch(`/request/${id}`, updateData).then((update) => {
     if (update.status === 200) {
       dispatch(
         {

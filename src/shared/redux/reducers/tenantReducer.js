@@ -5,6 +5,7 @@ const initialState = {
   tenant: {}, ///post
   tenantitems: [],
   tenantConfig: {},
+  tenantScheme: "",
   pagesize: "",
   booksize: "",
 };
@@ -24,6 +25,7 @@ const tenantReducer = (state = initialState, action) => {
       return {
         ...state,
         tenantConfig: action.payload.data[0],
+        tenantScheme: action.payload.data[0].scheme,
       };
 
     case tenantActions.ADD_TENANT_SUCCESS:

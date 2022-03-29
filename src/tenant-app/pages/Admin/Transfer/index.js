@@ -25,7 +25,7 @@ import PropTypes from "prop-types";
 import Can from "../../../../shared/casl/can";
 import moment from "moment";
 import { fetchDepartments } from "../../../../shared/redux/actions/departmentActions";
-import { invManagerTemplate } from "./const";
+import { managerBodyTemplate } from "../Inventory/const";
 import TableUI from "../../../../shared/components/Table/Table";
 import { AutoComplete } from "primereact/autocomplete";
 
@@ -342,11 +342,11 @@ class Transfer extends Component {
     ];
     const inventoryColumns = [
       { field: "title", header: "Inventory Name" },
-      { header: "Inventory Manager", body: invManagerTemplate },
       {
         field: "description",
         header: "Description",
       },
+      { header: "Manager", body: managerBodyTemplate },
       { header: "Action(s)", body: inventoryAction },
     ];
     const totAssets = this.props.assetSize;
@@ -404,7 +404,7 @@ class Transfer extends Component {
               <TableUI
                 tableHeader="Transfer Asset"
                 columns={assetColumns}
-                fetchFunction={this.props.fetchAvailableAssets}
+                fetchFunction={this.props.fetchAssets}
                 style={{
                   width: "76vw",
                   marginLeft: "15px",

@@ -14,6 +14,7 @@ const initialState = {
   passwordReset: {},
   verifieddata: {},
   testingdata: null,
+  accountType: "",
 };
 
 const authReducer = (state = initialState, action) => {
@@ -45,6 +46,13 @@ const authReducer = (state = initialState, action) => {
         user_id: action.payload.user.id,
         jwt: jwt_decode(action.payload.access_token),
         error: false,
+      };
+
+    case authActions.LOGIN_ADMIN_SUCCESS:
+      return {
+        loggedIn: true,
+        user: { ...action.payload.user },
+        accountType: action.payload.user.account,
       };
     case authActions.LOGIN_ERROR:
       console.log(action.payload);

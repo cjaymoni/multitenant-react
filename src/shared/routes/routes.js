@@ -29,8 +29,9 @@ import ForwardedProposals from "../../tenant-app/pages/Procurement/Forwardedprop
 import Manufacturers from "../../tenant-app/pages/Admin/Manufacturers";
 import Consumables from "../../tenant-app/pages/Admin/Consumables";
 import CategoryInfo from "../../tenant-app/pages/Admin/CategoryInfo";
+import SystemDashboard from "../../tenant-app/pages/System/SystemDashboard";
 
-const routes = [
+export const routes = [
   {
     element: <Home />,
     path: "/home",
@@ -245,4 +246,33 @@ const routes = [
   },
 ];
 
-export default routes;
+export const adminRoutes = [
+  {
+    element: <Home />,
+    path: "admin/dashboard",
+    exact: true,
+    layout: Layout,
+    name: "Dashboard",
+  },
+  {
+    element: <Tenant />,
+    path: "/tenant",
+    exact: true,
+    layout: Layout,
+    name: "Tenant",
+  },
+  {
+    element: <TenantForm />,
+    path: "/tenantform",
+    exact: true,
+    layout: Layout,
+    name: "Tenant",
+  },
+  {
+    element: <Logs />,
+    path: "/logs",
+    exact: true,
+    layout: Layout,
+    name: "Logs",
+  },
+];

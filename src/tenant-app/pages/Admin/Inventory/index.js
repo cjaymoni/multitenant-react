@@ -19,12 +19,7 @@ import PropTypes from "prop-types";
 import Can from "../../../../shared/casl/can";
 import { Form, Formik } from "formik";
 import { InventorySchema } from "../../../../shared/utils/validation";
-import {
-  CardData,
-  managerBodyTemplate,
-  descriptionBodyTemplate,
-  titleBodyTemplate,
-} from "./const";
+import { managerBodyTemplate } from "./const";
 import TableUI from "../../../../shared/components/Table/Table";
 import { AutoComplete } from "primereact/autocomplete";
 

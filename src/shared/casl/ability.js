@@ -27,7 +27,6 @@ const defineRulesFor = (auth) => {
       can("edit", "Dashboard");
       can("view", "Asset");
       can("info", "Asset");
-      // can("edit", "Asset");
       can("assign", "Asset");
       can("view", "AssetInfo");
       can("info", "AssetInfo");
@@ -91,6 +90,8 @@ const defineRulesFor = (auth) => {
       can("edit", "Asset");
       can("assign", "Asset");
       can("add", "Asset");
+      can("view", "AssetForm");
+
       can("view", "Categories");
       can("info", "Categories");
       can("edit", "Categories");
@@ -212,6 +213,7 @@ const defineRulesFor = (auth) => {
       can("assign", "Asset");
       can("add", "Asset");
       can("add", "Inventory");
+      can("view", "AssetForm");
 
       can("view", "Inventory");
       can("info", "Inventory");

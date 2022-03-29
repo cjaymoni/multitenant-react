@@ -1,14 +1,11 @@
 import React from "react";
-import Layout from "../layout";
+import AdminLayout from "../layout/adminLayout";
 import NoMatch from "../../tenant-app/pages/main/404";
-import About from "../../tenant-app/pages/about";
-import Home from "../../tenant-app/pages/home";
-import MarketPlace from "../../tenant-app/pages/marketplace";
+
 import {
   Route,
   BrowserRouter as Router,
   Routes,
-  Navigate,
   useLocation,
 } from "react-router-dom";
 import { createBrowserHistory } from "history";
@@ -17,9 +14,9 @@ import AuthVerify from "../services/jwt";
 import { logout } from "../redux/actions/authActions";
 import { useDispatch } from "react-redux";
 import store from "../redux/store";
-import { routes } from "./routes";
+import { adminRoutes } from "./routes";
 
-function RouterFunction({ children, ...rest }) {
+function AdminRoutes({ children, ...rest }) {
   const dispatch = useDispatch();
   const logOut = () => {
     dispatch(logout());
@@ -31,7 +28,7 @@ function RouterFunction({ children, ...rest }) {
       <Routes>
         <Route exact path="/" element={<Login />} />
 
-        {routes.map((route, index) => {
+        {adminRoutes.map((route, index) => {
           return (
             <Route element={<RequireAuth />}>
               <Route
@@ -65,11 +62,11 @@ function RequireAuth() {
     // trying to go to when they were redirected. This allows us to send them
     // along to that page after they login, which is a nicer user experience
     // than dropping them off on the home page.
-    return <Layout />;
+    return <AdminLayout />;
     // return <Navigate to="/" state={{ from: location }} />;
   } else if (auth) {
-    return <Layout />;
+    return <AdminLayout />;
   }
 }
 
-export default RouterFunction;
+export default AdminRoutes;

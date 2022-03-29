@@ -12,7 +12,6 @@ import { Divider } from "primereact/divider";
 import { Toolbar } from "primereact/toolbar";
 import {
   createRecommendation,
-  fetchRecommendations,
   fetchUserRecommendations,
   fetchPriorities,
 } from "../../../../shared/redux/actions/recommendationActions";
@@ -21,7 +20,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { RecommendationSchema } from "../../../../shared/utils/validation";
 import {
-  CardData,
   titleBodyTemplate,
   statusBodyTemplate,
   justificationBodyTemplate,
@@ -253,13 +251,6 @@ class RequestRecommendation extends Component {
                 marginLeft: "15px",
                 marginBottom: "0px",
                 marginTop: "0px",
-              }}
-              figment={{
-                position: "absolute",
-                left: "30%",
-                top: "4%",
-                height: "35px",
-                width: "30%",
               }}
             />
           </div>

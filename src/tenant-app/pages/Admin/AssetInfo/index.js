@@ -1,70 +1,70 @@
-import React, { Component } from 'react';
-import { Divider } from 'primereact/divider';
-import { TabView, TabPanel } from 'primereact/tabview';
-import { Button } from 'primereact/button';
-import { FileUpload } from 'primereact/fileupload';
-import { Timeline } from 'primereact/timeline';
-import { Skeleton } from 'primereact/skeleton';
-import { Tag } from 'primereact/tag';
-import { Chip } from 'primereact/chip';
-import { Avatar } from 'primereact/avatar';
-import { InputText } from 'primereact/inputtext';
-import { Calendar } from 'primereact/calendar';
-import moment from 'moment';
-import { InputNumber } from 'primereact/inputnumber';
-import Can from '../../../../shared/casl/can';
-import { connect } from 'react-redux';
-import { PropTypes } from 'prop-types';
-import { fetchAssetById } from '../../../../shared/redux/actions/assetActions';
+import React, { Component } from "react";
+import { Divider } from "primereact/divider";
+import { TabView, TabPanel } from "primereact/tabview";
+import { Button } from "primereact/button";
+import { FileUpload } from "primereact/fileupload";
+import { Timeline } from "primereact/timeline";
+import { Skeleton } from "primereact/skeleton";
+import { Tag } from "primereact/tag";
+import { Chip } from "primereact/chip";
+import { Avatar } from "primereact/avatar";
+import { InputText } from "primereact/inputtext";
+import { Calendar } from "primereact/calendar";
+import moment from "moment";
+import { InputNumber } from "primereact/inputnumber";
+import Can from "../../../../shared/casl/can";
+import { connect } from "react-redux";
+import { PropTypes } from "prop-types";
+import { fetchAssetById } from "../../../../shared/redux/actions/assetActions";
 class AssetInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      info: '',
-      activeIndex: '',
+      info: "",
+      activeIndex: "",
       disable: true,
       assetDetails: [],
       saveButton: false,
     };
     this.events1 = [
       {
-        status: 'Ordered',
-        description: 'Osafo requested for HP Lenovo.',
-        date: '15/10/2020 10:30',
-        icon: 'pi pi-shopping-cart',
-        color: '#9C27B0',
-        image: 'game-controller.jpg',
+        status: "Ordered",
+        description: "Osafo requested for HP Lenovo.",
+        date: "15/10/2020 10:30",
+        icon: "pi pi-shopping-cart",
+        color: "#9C27B0",
+        image: "game-controller.jpg",
       },
       {
-        status: 'Processing',
-        description: 'Mary processed HP Lenovo for John.',
-        date: '15/10/2020 14:00',
-        icon: 'pi pi-cog',
-        color: '#673AB7',
+        status: "Processing",
+        description: "Mary processed HP Lenovo for John.",
+        date: "15/10/2020 14:00",
+        icon: "pi pi-cog",
+        color: "#673AB7",
       },
       {
-        status: 'Shipped',
-        description: 'Delilah delivered HP Lenovo to Teddy.',
-        date: '15/10/2020 16:15',
-        icon: 'pi pi-shopping-cart',
-        color: '#FF9800',
+        status: "Shipped",
+        description: "Delilah delivered HP Lenovo to Teddy.",
+        date: "15/10/2020 16:15",
+        icon: "pi pi-shopping-cart",
+        color: "#FF9800",
       },
       {
-        status: 'Delivered',
-        description: 'Ama received HP Lenovo.',
-        date: '16/10/2020 10:00',
-        icon: 'pi pi-check',
-        color: '#607D8B',
+        status: "Delivered",
+        description: "Ama received HP Lenovo.",
+        date: "16/10/2020 10:00",
+        icon: "pi pi-check",
+        color: "#607D8B",
       },
     ];
     // this.enableInput = this.enableInput.bind(this)
-    this.events2 = ['2020', '2021', '2022', '2023'];
+    this.events2 = ["2020", "2021", "2022", "2023"];
   }
 
   async componentDidMount() {
     await this.props.fetchAssetById(localStorage.assetid);
 
-    return this.setState({ assetDetails: this.props.assetinfo[0] });
+    return this.setState({ assetDetails: this.props.assetinfo });
   }
   enableInput(e) {
     this.setState({
@@ -78,14 +78,14 @@ class AssetInfo extends Component {
         <i
           className="pi pi-image p-mt-3 p-p-5"
           style={{
-            fontSize: '5em',
-            borderRadius: '50%',
-            backgroundColor: 'var(--surface-b)',
-            color: 'var(--surface-d)',
+            fontSize: "5em",
+            borderRadius: "50%",
+            backgroundColor: "var(--surface-b)",
+            color: "var(--surface-d)",
           }}
         ></i>
         <span
-          style={{ fontSize: '1.2em', color: 'var(--text-color-secondary)' }}
+          style={{ fontSize: "1.2em", color: "var(--text-color-secondary)" }}
           className="p-my-5"
         >
           Drag and Drop Image Here
@@ -96,17 +96,17 @@ class AssetInfo extends Component {
 
   depreciationTemplate() {
     const data = this.state.assetDetails.depreciation_algorithm;
-    if (data === 'straight_line_depreciation') {
+    if (data === "straight_line_depreciation") {
       return (
         (
           <React.Fragment>
             <h4>Straight Line Depreciation</h4>
           </React.Fragment>
         ),
-        console.log('straight')
+        console.log("straight")
       );
     } else {
-      return 'Declining Balance Depreciation', console.log('decline');
+      return "Declining Balance Depreciation", console.log("decline");
     }
   }
 
@@ -115,21 +115,21 @@ class AssetInfo extends Component {
     // const [activeIndex, setActiveIndex] = useState(0);
 
     const chooseOptions = {
-      icon: 'pi pi-fw pi-images',
+      icon: "pi pi-fw pi-images",
       iconOnly: true,
-      className: 'custom-choose-btn p-button-rounded p-button-outlined',
+      className: "custom-choose-btn p-button-rounded p-button-outlined",
     };
     const uploadOptions = {
-      icon: 'pi pi-fw pi-cloud-upload',
+      icon: "pi pi-fw pi-cloud-upload",
       iconOnly: true,
       className:
-        'custom-upload-btn p-button-success p-button-rounded p-button-outlined',
+        "custom-upload-btn p-button-success p-button-rounded p-button-outlined",
     };
     const cancelOptions = {
-      icon: 'pi pi-fw pi-times',
+      icon: "pi pi-fw pi-times",
       iconOnly: true,
       className:
-        'custom-cancel-btn p-button-danger p-button-rounded p-button-outlined',
+        "custom-cancel-btn p-button-danger p-button-rounded p-button-outlined",
     };
 
     return (
@@ -147,14 +147,14 @@ class AssetInfo extends Component {
             <div class="flex-initial flex align-items-center justify-content-center font-bold text-white m-2 px-5 py-3 border-round ">
               <div>
                 <div className="font-medium text-3xl text-900">
-                  {this.state.assetDetails['title']}
+                  {this.state.assetDetails["title"]}
                   <span>
-                    {' '}
+                    {" "}
                     <div className="flex align-items-center mt-3">
                       <i className="pi pi-users mr-2"></i>
                       <Chip
                         label="Not available"
-                        style={{ backgroundColor: '#f9acac' }}
+                        style={{ backgroundColor: "#f9acac" }}
                       />
                     </div>
                   </span>
@@ -171,7 +171,7 @@ class AssetInfo extends Component {
                   </div>
                   <div className="flex align-items-center mt-3">
                     <i className="pi pi-clock mr-2"></i>
-                    <span>Code: {this.state.assetDetails['code']}</span>
+                    <span>Code: {this.state.assetDetails["code"]}</span>
                   </div>
                 </div>
               </div>
@@ -198,13 +198,13 @@ class AssetInfo extends Component {
           </div>
         </div>
 
-        <Divider style={{ width: '82vw' }} />
+        <Divider style={{ width: "82vw" }} />
         <TabView
           style={{
-            backgroundColor: 'aliceblue',
-            width: '82vw',
-            marginLeft: '15px',
-            color: 'black',
+            backgroundColor: "aliceblue",
+            width: "82vw",
+            marginLeft: "15px",
+            color: "black",
           }}
         >
           <TabPanel header="Overview">
@@ -213,32 +213,32 @@ class AssetInfo extends Component {
                 Asset Information
               </div>
               <div className="text-500 mb-5">All Details About the Asset</div>
-              <ul className="list-none p-0 m-0" style={{ width: '78vw' }}>
+              <ul className="list-none p-0 m-0" style={{ width: "78vw" }}>
                 <li className="flex align-items-center py-3 px-2 border-top-1 border-300 ">
                   <div className="text-500 w-6 md:w-2 font-medium">Name</div>
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
                     <InputText
                       style={{
-                        border: 'none',
-                        fontSize: '18px',
-                        color: 'black',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        color: "black",
+                        fontWeight: "bold",
                       }}
                       disabled={this.state.disable}
-                      value={this.state.assetDetails['title']}
+                      value={this.state.assetDetails["title"]}
                     />
                   </div>
                   <div className="text-500 w-6 md:w-2 font-medium">Code</div>
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
                     <InputText
                       style={{
-                        border: 'none',
-                        fontSize: '18px',
-                        color: 'black',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        color: "black",
+                        fontWeight: "bold",
                       }}
                       disabled={this.state.disable}
-                      value={this.state.assetDetails['code']}
+                      value={this.state.assetDetails["code"]}
                     />
                   </div>
                 </li>
@@ -249,26 +249,26 @@ class AssetInfo extends Component {
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
                     <InputText
                       style={{
-                        border: 'none',
-                        fontSize: '18px',
-                        color: 'black',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        color: "black",
+                        fontWeight: "bold",
                       }}
                       disabled={this.state.disable}
-                      value={this.state.assetDetails['serial_number']}
+                      value={this.state.assetDetails["serial_number"]}
                     />
                   </div>
                   <div className="text-500 w-6 md:w-2 font-medium">Make</div>
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
                     <InputText
                       style={{
-                        border: 'none',
-                        fontSize: '18px',
-                        color: 'black',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        color: "black",
+                        fontWeight: "bold",
                       }}
                       disabled={this.state.disable}
-                      value={this.state.assetDetails['make']}
+                      value={this.state.assetDetails["make"]}
                     />
                   </div>
                 </li>
@@ -277,13 +277,13 @@ class AssetInfo extends Component {
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
                     <InputText
                       style={{
-                        border: 'none',
-                        fontSize: '18px',
-                        color: 'black',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        color: "black",
+                        fontWeight: "bold",
                       }}
                       disabled={this.state.disable}
-                      value={this.state.assetDetails['model']}
+                      value={this.state.assetDetails["model"]}
                     />
                   </div>
                   <div className="text-500 w-6 md:w-2 font-medium">
@@ -292,10 +292,10 @@ class AssetInfo extends Component {
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
                     <InputText
                       style={{
-                        border: 'none',
-                        fontSize: '18px',
-                        color: 'black',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        color: "black",
+                        fontWeight: "bold",
                       }}
                       disabled={this.state.disable}
                       value="
@@ -314,15 +314,15 @@ class AssetInfo extends Component {
                   <div className="text-500 w-6 md:w-2 font-medium">Price</div>
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
                     <InputNumber
-                      value={this.state.assetDetails['amount']}
+                      value={this.state.assetDetails["price"]}
                       mode="currency"
                       locale="en-US"
                       inputId="currency-us"
                       currency="USD"
                       inputStyle={{
-                        border: 'none',
-                        fontSize: '18px',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        fontWeight: "bold",
                       }}
                     ></InputNumber>
                   </div>
@@ -336,14 +336,14 @@ class AssetInfo extends Component {
                     <Calendar
                       disabled={this.state.disable}
                       inputStyle={{
-                        border: 'none',
-                        fontSize: '18px',
-                        color: 'black',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        color: "black",
+                        fontWeight: "bold",
                       }}
                       placeholder={moment(
-                        this.state.assetDetails['purchase_date']
-                      ).format('DD-MM-YYYY')}
+                        this.state.assetDetails["purchase_date"]
+                      ).format("DD-MM-YYYY")}
                     ></Calendar>
                   </div>
                   <div className="text-500 w-6 md:w-2 font-medium">
@@ -353,14 +353,14 @@ class AssetInfo extends Component {
                     <Calendar
                       disabled={this.state.disable}
                       inputStyle={{
-                        border: 'none',
-                        fontSize: '18px',
-                        color: 'black',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        color: "black",
+                        fontWeight: "bold",
                       }}
                       placeholder={moment(
-                        this.state.assetDetails['warranty_date']
-                      ).format('DD-MM-YYYY')}
+                        this.state.assetDetails["warranty_date"]
+                      ).format("DD-MM-YYYY")}
                     ></Calendar>
                   </div>
                 </li>
@@ -372,14 +372,14 @@ class AssetInfo extends Component {
                     <Calendar
                       disabled={this.state.disable}
                       inputStyle={{
-                        border: 'none',
-                        fontSize: '18px',
-                        color: 'black',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        color: "black",
+                        fontWeight: "bold",
                       }}
                       placeholder={moment(
-                        this.state.assetDetails['service_date']
-                      ).format('DD-MM-YYYY')}
+                        this.state.assetDetails["service_date"]
+                      ).format("DD-MM-YYYY")}
                     ></Calendar>
                   </div>
                   <div className="text-500 w-6 md:w-2 font-medium">
@@ -387,14 +387,14 @@ class AssetInfo extends Component {
                   </div>
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
                     <InputNumber
-                      value={this.state.assetDetails['salvage_amount']}
+                      value={this.state.assetDetails["salvage_price"]}
                       currency="USD"
                       mode="currency"
                       locale="en-US"
                       inputStyle={{
-                        border: 'none',
-                        fontSize: '18px',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        fontWeight: "bold",
                       }}
                     ></InputNumber>
                   </div>
@@ -405,11 +405,11 @@ class AssetInfo extends Component {
                   </div>
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
                     <InputNumber
-                      value={this.state.assetDetails['lifespan']}
+                      value={this.state.assetDetails["lifespan"]}
                       inputStyle={{
-                        border: 'none',
-                        fontSize: '18px',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        fontWeight: "bold",
                       }}
                     ></InputNumber>
                   </div>
@@ -418,11 +418,11 @@ class AssetInfo extends Component {
                   </div>
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
                     <InputNumber
-                      value={this.state.assetDetails['dep_factor']}
+                      value={this.state.assetDetails["dep_factor"]}
                       inputStyle={{
-                        border: 'none',
-                        fontSize: '18px',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        fontWeight: "bold",
                       }}
                     ></InputNumber>
                   </div>
@@ -434,13 +434,13 @@ class AssetInfo extends Component {
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
                     <InputText
                       style={{
-                        border: 'none',
-                        fontSize: '18px',
-                        color: 'black',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        color: "black",
+                        fontWeight: "bold",
                       }}
                       disabled={this.state.disable}
-                      value={this.state.assetDetails['depreciation_algorithm']}
+                      value={this.state.assetDetails["depreciation_algorithm"]}
                     />
                   </div>
                   <div className="text-500 w-6 md:w-2 font-medium">
@@ -449,13 +449,13 @@ class AssetInfo extends Component {
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
                     <InputText
                       style={{
-                        border: 'none',
-                        fontSize: '18px',
-                        color: 'black',
-                        fontWeight: 'bold',
+                        border: "none",
+                        fontSize: "18px",
+                        color: "black",
+                        fontWeight: "bold",
                       }}
                       disabled={this.state.disable}
-                      value={this.state.assetDetails['description']}
+                      value={this.state.assetDetails["description"]}
                     />
                   </div>
                 </li>
@@ -465,7 +465,7 @@ class AssetInfo extends Component {
           <TabPanel header="Documents">
             <h5>Template</h5>
             <FileUpload
-              ref={el => (this.fileUploadRef = el)}
+              ref={(el) => (this.fileUploadRef = el)}
               name="demo[]"
               url="https://primefaces.org/primereact/showcase/upload.php"
               multiple
@@ -487,11 +487,11 @@ class AssetInfo extends Component {
             <div className="card">
               <Timeline
                 value={this.events1}
-                opposite={item => item.status}
-                content={item => (
+                opposite={(item) => item.status}
+                content={(item) => (
                   <div>
                     <div>
-                      {' '}
+                      {" "}
                       <medium className="p-text-secondary">
                         {item.description}
                       </medium>
@@ -512,7 +512,7 @@ AssetInfo.propTypes = {
   assetinfo: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   assetinfo: state.assets.assetinfo,
 });
 

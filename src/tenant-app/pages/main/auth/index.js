@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
   loginUser,
+  loginAdmin,
   requestReset,
   verifyEmail,
 } from "../../../../shared/redux/actions/authActions";
@@ -13,7 +14,7 @@ import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { LoginSchema } from "../../../../shared/utils/validation";
 import { Checkbox } from "primereact/checkbox";
-
+// import store from "../../../../shared/redux/store";
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +27,9 @@ class Login extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.SendConfirmation = this.SendConfirmation.bind(this);
   }
+  // componentDidMount() {
+  //   console.log(store.getState().tenants.tenantConfig.scheme);
+  // }
 
   handleOpen() {
     this.setState({ confirmResDialog: true });
@@ -114,17 +118,47 @@ class Login extends React.Component {
 
                   { setStatus, setSubmitting }
                 ) => {
-                  await this.props.loginUser(email, password);
-                  return (
-                    new WebSocket(
-                      `ws://196.43.196.108:3345/ws/${localStorage.user_id}`
-                    ),
-                    setStatus(),
-                    (error) => {
-                      setSubmitting(false);
-                      setStatus(error);
+                  if (window.location.href.includes("admin")) {
+                    await this.props.loginAdmin(email, password, "admin");
+                    return (
+                      window.location.assign("admin/dashboard"),
+                      new WebSocket(
+                        `ws://196.43.196.108:3345/ws/${localStorage.user_id}`
+                      ),
+                      setStatus(),
+                      (error) => {
+                        setSubmitting(false);
+                        setStatus(error);
+                      }
+                    );
+                  } else {
+                    await this.props.loginUser(email, password);
+                    if (this.props.user.role.title === "Staff") {
+                      return (
+                        window.location.assign("/request"),
+                        new WebSocket(
+                          `ws://196.43.196.108:3345/ws/${localStorage.user_id}`
+                        ),
+                        setStatus(),
+                        (error) => {
+                          setSubmitting(false);
+                          setStatus(error);
+                        }
+                      );
+                    } else {
+                      return (
+                        window.location.assign("/dashboard"),
+                        new WebSocket(
+                          `ws://196.43.196.108:3345/ws/${localStorage.user_id}`
+                        ),
+                        setStatus(),
+                        (error) => {
+                          setSubmitting(false);
+                          setStatus(error);
+                        }
+                      );
                     }
-                  );
+                  }
                 }}
               >
                 {(errors, status, touched, isSubmitting) => (
@@ -285,7 +319,12 @@ Login.propTypes = {
   requestReset: PropTypes.func.isRequired,
   verifyEmail: PropTypes.func.isRequired,
 };
-
-export default connect(null, {
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+  verifieddata: state.auth.verifieddata,
+  testingdata: state.auth.testingdata,
+});
+export default connect(mapStateToProps, {
   loginUser,
+  loginAdmin,
 })(Login);

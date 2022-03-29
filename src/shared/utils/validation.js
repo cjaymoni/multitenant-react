@@ -239,7 +239,7 @@ export const ManufacturerSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email address format"),
 
   description: Yup.string(),
-  website: Yup.string().url(),
+  url: Yup.string().url(),
 });
 
 export const UserSchema = Yup.object().shape({

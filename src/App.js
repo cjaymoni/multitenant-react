@@ -11,6 +11,7 @@ import { connect, useDispatch } from "react-redux";
 //   makeSelectItemsBySubDomain,
 // } from "./shared/redux/selectors/tenantSelectors";
 import SubDomainError from "./tenant-app/pages/main/subdomainError";
+import AdminRoutes from "./shared/routes/admin";
 
 function App(props) {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function App(props) {
   if (host.includes("admin")) {
     return (
       <div className=" overflow-x-hidden">
-        <RouterFunction />
+        <AdminRoutes />
       </div>
     );
   } else if (Object.keys(tenantInfo).length === 0) {

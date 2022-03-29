@@ -10,11 +10,13 @@ export const sideMenu = [
     Icon: <i className="pi pi-shopping-cart text-xl mr-3 text-white" />,
     children: [
       {
+        name: "AssetForm",
         label: "New ",
         to: "/assetform",
         Icon: <i className="pi pi-plus text-xl mr-3 text-white" />,
       },
       {
+        name: "Asset",
         label: "Asset List",
         to: "/asset",
         Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
@@ -98,12 +100,14 @@ export const sideMenu = [
 
     children: [
       {
-        label: "Base Departments List",
+        name: "Department",
+        label: "Departments List",
         to: "/base-department",
         Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
       },
       {
-        label: "Branch Department List",
+        name: "Department",
+        label: "Assigned Departments List",
         to: "/branch-department",
         Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
       },
@@ -158,11 +162,13 @@ export const sideMenu = [
 
     children: [
       {
+        name: "Tenant",
         label: "New",
         to: "/tenant",
         Icon: <i className="pi pi-plus text-xl mr-3 text-white" />,
       },
       {
+        name: "Tenant",
         label: "Tenant List",
         to: "/tenant",
         Icon: <i className="pi pi-plus text-xl mr-3 text-white" />,
@@ -177,16 +183,19 @@ export const sideMenu = [
 
     children: [
       {
+        name: "Tenant Config",
         label: "Edit Configuration",
         to: "/tenant-config",
         Icon: <i className="pi pi-pencil text-xl mr-3 text-white" />,
       },
       {
+        name: "Tenant Config",
         label: "Tenant Aggregations",
         to: "/aggregation",
         Icon: <i className="fa fa-anchor text-xl mr-3 text-white" />,
       },
       {
+        name: "Tenant Config",
         label: "Logs",
         to: "/logs",
         Icon: <i className="pi pi-list text-xl mr-3 text-white" />,

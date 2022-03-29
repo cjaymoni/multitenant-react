@@ -131,7 +131,7 @@ export const createAsset = (postData) => (dispatch) => {
           timer: 2000,
           showConfirmButton: false,
         }).then(function () {
-          window.location.reload();
+          window.location.assign("/asset");
         })
       );
     } else {

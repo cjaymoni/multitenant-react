@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 
 import { Button } from "primereact/button";
-import { connect, useSelector } from "react-redux";
-import {
-  AssetSchema,
-  AssSchema,
-  jsonToFormData,
-} from "../../../../shared/utils/validation";
+import { connect } from "react-redux";
+import { AssSchema } from "../../../../shared/utils/validation";
 import { FormikProvider, useFormik } from "formik";
 import PropTypes from "prop-types";
 import { Field, ErrorMessage } from "formik";
@@ -84,9 +80,9 @@ const DynamicForm = (props) => {
     onSubmit: (values) => {
       // console.log(values);
       formik.setErrors();
-      if (formik.errors) {
-        alert("Please fill all the required fields");
-      }
+      // if (formik.errors) {
+      //   alert("Please fill all the required fields");
+      // }
     },
 
     validationSchema: AssSchema,
@@ -127,7 +123,10 @@ const DynamicForm = (props) => {
     //   console.log(typeof formik.errors);
     //   props.createAsset(jsonToFormData(postData));
     // }
-    if (formik.errors === undefined || formik.errors === {}) {
+    if (
+      formik.errors === undefined ||
+      Object.keys(formik.errors).length === 0
+    ) {
       props.createAsset(postData);
     } else {
       console.log("error occured");

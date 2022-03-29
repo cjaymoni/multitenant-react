@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import CardDemo from "../../../../shared/components/card/CardDemo";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import classNames from "classnames";
+
 import { Calendar } from "primereact/calendar";
 import moment from "moment";
 import { InputText } from "primereact/inputtext";
 import { connect } from "react-redux";
-import { fetchAvailableAssets } from "../../../../shared/redux/actions/assetActions";
+import {
+  fetchAvailableAssets,
+  fetchAssets,
+} from "../../../../shared/redux/actions/assetActions";
 import {
   issueRequest,
   fetchUserRequests,
@@ -17,16 +18,10 @@ import {
 import PropTypes from "prop-types";
 import { Form, Formik } from "formik";
 import { RequestSchema } from "../../../../shared/utils/validation";
-import { dateTemplate } from "../../../../shared/utils/functions";
 import { fetchPriorities } from "../../../../shared/redux/actions/recommendationActions";
-import {
-  fetchCategories,
-  fetchCategoryItems,
-} from "../../../../shared/redux/actions/categoryActions";
+import { fetchCategoryItems } from "../../../../shared/redux/actions/categoryActions";
 import { ListBox } from "primereact/listbox";
 import {
-  CardData,
-  typeSelect,
   codeBodyTemplate,
   titleBodyTemplate,
   modelBodyTemplate,
@@ -359,11 +354,6 @@ class Request extends Component {
     const actionBodyTemplate = (rowData) => {
       return (
         <React.Fragment>
-          {/* <Button icon="pi pi-info" className="p-button-rounded p-button-info mr-2"
-                  onClick={()=> this.fetchAssetDetails()}
-                 tooltip="More Info"
-                                   tooltipOptions={{ position: 'bottom' }}
- />&nbsp; */}
           <Button
             icon="pi pi-external-link"
             className="p-button-rounded p-button-success"
@@ -379,10 +369,10 @@ class Request extends Component {
       );
     };
     const assetcolumns = [
-      { field: "title", header: "Asset Name", body: titleBodyTemplate },
-      { field: "code", header: "Asset Code", body: codeBodyTemplate },
-      { field: "model", header: "Model", body: modelBodyTemplate },
-      { field: "amount", header: "Price ", body: priceBodyTemplate },
+      { field: "title", header: "Asset Name" },
+      { field: "code", header: "Asset Code" },
+      { field: "model", header: "Model" },
+      { field: "formatted_price", header: "Price " },
       {
         field: "purchase_date",
         header: "Purchase Date",
@@ -416,7 +406,7 @@ class Request extends Component {
               color="#cae6fc"
               iconColor="#2196f3"
               update="1"
-              content={this.props.userbooksize}
+              content={this.props.userbooksize || 0}
             ></CardDemo>
           </div>
           <div className="flex">
@@ -445,7 +435,7 @@ class Request extends Component {
           <div>
             <TableUI
               columns={assetcolumns}
-              fetchFunction={this.props.fetchAvailableAssets}
+              fetchFunction={this.props.fetchAssets}
               style={{
                 width: "76vw",
                 marginLeft: "15px",
@@ -460,7 +450,7 @@ class Request extends Component {
                 width: "30%",
               }}
               tableHeader="Assets"
-              addOn="AvailableAsset"
+              // addOn="AvailableAsset"
               clickFunction={() => handleOpen("toggler2")}
             />
           </div>
@@ -827,6 +817,6 @@ export default connect(mapStateToProps, {
   fetchPriorities,
   fetchUserRequests,
   issueRequest,
-  // fetchCategories,
+  fetchAssets,
   fetchCategoryItems,
 })(Request);

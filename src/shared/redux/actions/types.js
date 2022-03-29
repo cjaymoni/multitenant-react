@@ -31,6 +31,7 @@ export const consumablesActionTypes = Object.freeze({
 export const authActions = Object.freeze({
   LOGIN_REQUEST: "LOGIN_REQUEST",
   LOGIN_SUCCESS: "LOGIN_SUCCESS",
+  LOGIN_ADMIN_SUCCESS: "LOGIN_ADMIN_SUCCESS",
   LOGIN_ERROR: "LOGIN_ERROR",
   LOGOUT: "LOGOUT",
   REQUEST_RESET: "REQUEST_RESET",

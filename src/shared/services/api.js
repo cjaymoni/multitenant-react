@@ -16,7 +16,7 @@ const api = axios.create({
 api.defaults.headers.get["Accept"] = "application/json"; // default header for all get request
 api.defaults.headers.post["Accept"] = "application/json"; // default header for all POST request
 axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
-api.defaults.headers["Tenant-Key"] = localStorage["tenantId"];
+api.defaults.headers["Tenant-Key"] = localStorage.getItem("tenantId");
 api.defaults.headers.Authorization =
   "Bearer " + localStorage.getItem("user.usertoken");
 
@@ -89,6 +89,74 @@ api.interceptors.response.use(
         html: "<div>User Account Not Verified</div>",
         showConfirmButton: false,
         timer: 3000,
+      });
+    } else if (
+      error.response.status === 409 &&
+      error.config.url === "/requests"
+    ) {
+      Swal.fire({
+        title: "Request Error",
+        icon: "error",
+        text: "Active request for item already exits",
+        showConfirmButton: true,
+      });
+    } else if (
+      error.response.status === 409 &&
+      error.config.url === "/assets"
+    ) {
+      Swal.fire({
+        title: "Request Error",
+        icon: "error",
+        html: "<div>Asset with similar info already exits<br/>Check Unique Fields</div>",
+        showConfirmButton: true,
+      });
+    } else if (error.response.status === 409) {
+      Swal.fire({
+        title: JSON.stringify(error.response.status),
+        icon: "error",
+        html: "<div>Data Duplicate<br/> Already Exist</div>",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    } else if (error.response.status === 404) {
+      Swal.fire({
+        title: JSON.stringify(error.response.status),
+        icon: "error",
+        html: "<div>Not found<br/> Check Data </div>",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    } else if (error.response.status === 401) {
+      Swal.fire({
+        title: JSON.stringify(error.response.status),
+        icon: "error",
+        text: "Unauthorized",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    } else if (error.response.status === 400) {
+      Swal.fire({
+        title: JSON.stringify(error.response.status),
+        icon: "error",
+        html: "<div>Bad Request<br/> Check Data </div>",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    } else if (error.response.status === 408) {
+      Swal.fire({
+        title: JSON.stringify(error.response.status),
+        icon: "error",
+        text: "Request Timed Out",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    } else if (error.response.status === 500) {
+      Swal.fire({
+        title: JSON.stringify(error.response.status),
+        icon: "error",
+        html: "<div>Internal Server Error<br/> Data Validation Error</div>",
+        showConfirmButton: false,
+        timer: 2000,
       });
     }
     return Promise.reject(error);

@@ -11,7 +11,9 @@ export const loginUser = (email, password) => (dispatch) => {
       .post("/login?account=users", { email, password })
       .then((login) => {
         dispatch(success(login));
-        window.location.assign("/dashboard");
+        // console.log(login["data"].role);
+
+        // window.location.assign("/dashboard");
       })
       .catch((error) => {
         dispatch(failure(error));
@@ -19,6 +21,19 @@ export const loginUser = (email, password) => (dispatch) => {
   );
 };
 
+export const loginAdmin = (email, password) => (dispatch) => {
+  return (
+    dispatch(request({ email, password })),
+    api
+      .post("/login?account=administrators", { email, password })
+      .then((login) => {
+        dispatch(adminSuccess(login));
+      })
+      .catch((error) => {
+        dispatch(failure(error));
+      })
+  );
+};
 // export const loginUser = (email, password) => (dispatch) => {
 //   return api.post("/login?account=users", { email, password }).then((login) => {
 //     if (login.status === 200) {
@@ -62,6 +77,9 @@ function request(user) {
 }
 function success(user) {
   return { type: authActions.LOGIN_SUCCESS, payload: user.data };
+}
+function adminSuccess(user) {
+  return { type: authActions.LOGIN_ADMIN_SUCCESS, payload: user.data };
 }
 function failure(error) {
   return { type: authActions.LOGIN_ERROR, payload: error };
