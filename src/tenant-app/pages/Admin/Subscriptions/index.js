@@ -4,24 +4,22 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import CardDemo from "../../../../shared/components/card/CardDemo";
-import {
-  createManufacturer,
-  updateManufacturer,
-  fetchManufacturers,
-  deleteManufacturer,
-  disableManufacturer,
-} from "../../../../shared/redux/actions/manufacturerActions";
 import { Formik, Form } from "formik";
 import { connect } from "react-redux";
 import { Dialog } from "primereact/dialog";
 import Can from "../../../../shared/casl/can";
 import {
-  ManufacturerSchema,
+  SubPackageSchema,
   jsonToFormData,
 } from "../../../../shared/utils/validation";
 import TableUI from "../../../../shared/components/Table/Table";
+import {
+  fetchSubscriptionPackages,
+  createSubscriptionPackage,
+  updateSubscriptionPackage,
+} from "../../../../shared/redux/actions/subPackageActions";
 
-class Manufacturers extends Component {
+class Subscriptions extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +35,7 @@ class Manufacturers extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+
   handleChange(evt, field) {
     this.setState({ [field]: evt.target.value });
   }
@@ -64,7 +63,7 @@ class Manufacturers extends Component {
     this.setState({ openinfo: false });
   }
 
-  addManufacturerFooter = (
+  addSubPackageFooter = (
     <React.Fragment>
       <Button
         label="Close"
@@ -98,7 +97,7 @@ class Manufacturers extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  editManufacturerDialogFooter = (
+  editSubPackageDialogFooter = (
     <React.Fragment>
       <Button
         label="Cancel"
@@ -111,14 +110,14 @@ class Manufacturers extends Component {
         icon="pi pi-check"
         className="p-button-text"
         onClick={() => {
-          this.update();
+          this.updateSubPackage();
           this.handleClose();
         }}
       />
     </React.Fragment>
   );
 
-  deleteManufacturerDialogFooter = (
+  deleteSubPackageDialogFooter = (
     <React.Fragment>
       <Button
         label="No"
@@ -131,28 +130,27 @@ class Manufacturers extends Component {
         icon="pi pi-check"
         className="p-button-text"
         onClick={() => {
-          this.disableLocation();
+          this.deleteSubPackage();
           this.handleClose();
         }}
       />
     </React.Fragment>
   );
 
-  update() {}
+  updateSubPackage() {}
 
-  deleteManufacturer() {}
+  deleteSubPackage() {}
 
-  disableManufacturer() {}
-
+  disableSubPackage() {}
   render() {
     const initialValues = {
       title: "",
-      url: "",
-      contact: "",
+      service_owner_phone: "",
+      service_owner_email: "",
       description: "",
-      email: "",
+      service_owner_url: "",
+      logo: "",
     };
-
     const actionBodyTemplate = (rowData) => {
       return (
         <React.Fragment>
@@ -199,29 +197,28 @@ class Manufacturers extends Component {
       );
     };
 
-    const manufacturerColumns = [
+    const packageColumns = [
       { field: "title", header: "Manufacturer Name" },
-      { field: "email", header: "Email Address" },
-      { field: "url", header: "Website" },
-
-      { field: "contact", header: "Contact" },
-
+      { field: "service_owner_email", header: "Email Address" },
+      { field: "service_owner_url", header: "Website" },
+      { field: "service_owner_phone", header: "Contact" },
+      { field: "description", header: "Description" },
       { header: "Action(s)", body: actionBodyTemplate },
     ];
-
     return (
       <div>
         <h2
           className="p-mb-3 p-text-bold"
           style={{ marginLeft: "20px", color: "#495057" }}
         >
-          Manufacturers info
+          Subscription packages
         </h2>
         <br></br>
+
         <div className="p-grid p-justify-between cardFstyle">
           <div className="p-col-12 p-lg-6">
             <CardDemo
-              title="Total manufacturers"
+              title="Total packages"
               icon="pi pi-shopping-cart"
               color="#cae6fc"
               iconColor="#2196f3"
@@ -231,7 +228,7 @@ class Manufacturers extends Component {
           </div>
           <div className="p-col-12 p-lg-6">
             <CardDemo
-              title="Active manufacturers"
+              title="Active packages"
               icon="pi pi-shopping-cart"
               color="#e7cbec"
               iconColor="#9c27b0"
@@ -244,9 +241,9 @@ class Manufacturers extends Component {
         <div className="datatable-responsive-demo">
           <div>
             <TableUI
-              tableHeader="Manage Manufacturers"
-              columns={manufacturerColumns}
-              fetchFunction={this.props.fetchManufacturers}
+              tableHeader="Subscription Packages"
+              columns={packageColumns}
+              fetchFunction={this.props.fetchSubscriptionPackages}
               clickFunction={() => this.handleOpen("toggler")}
               style={{
                 width: "76vw",
@@ -262,27 +259,27 @@ class Manufacturers extends Component {
           draggable={false}
           visible={this.state["toggler"]}
           style={{ width: "35vw" }}
-          header="Add New Manufacturer"
+          header="Add New Package"
           modal
           className="p-fluid"
-          footer={this.addManufacturerFooter}
+          footer={this.addSubPackageFooter}
           onHide={this.handleClose}
         >
           <Formik
-            validationSchema={ManufacturerSchema}
+            validationSchema={SubPackageSchema}
             validateOnChange={true}
             initialValues={initialValues}
             onSubmit={(values) => {
               // var head = 'htpp://'
               const postData = {
                 title: values.title,
-                scheme: this.props.tenantInfo.scheme,
                 description: values.description,
-                email: values.email,
-                url: values.url,
-                contact: values.contact,
+                service_owner_phone: values.service_owner_phone,
+                service_owner_email: values.service_owner_email,
+                service_owner_url: values.service_owner_url,
+                logo: values.logo,
               };
-              this.props.createManufacturer(jsonToFormData(postData));
+              this.props.createSubscriptionPackage(jsonToFormData(postData));
               this.handleClose();
             }}
           >
@@ -298,19 +295,19 @@ class Manufacturers extends Component {
                           htmlFor="firstname6"
                           className="block font-normal"
                         >
-                          Manufacturer Name
+                          Package Name
                         </label>
                         <InputText
                           id="title"
                           type="text"
                           name="title"
-                          placeholder="Manufacturer Name"
+                          placeholder="Package Name"
                           onChange={(event) => handleChange(event, "title")}
                           value={values.title}
                           tooltipOptions={{ position: "bottom" }}
-                          tooltip="Name of Manufacturer"
+                          tooltip="Name of Pacakage"
                         />
-                        <small>eg:HP</small>
+                        <small>eg: AITI Internet</small>
                         <div className="error-message">{errors.title}</div>
                       </div>
                       <div className="field col-6">
@@ -318,42 +315,50 @@ class Manufacturers extends Component {
                           htmlFor="firstname6"
                           className="block font-normal"
                         >
-                          Manufacturer Contact
+                          Service Provider Contact
                         </label>
                         <InputText
-                          id="contact"
+                          id="service_owner_phone"
                           type="text"
-                          name="contact"
+                          name="service_owner_phone"
                           maxlength={10}
-                          placeholder="Manufacturer Contact "
-                          onChange={(event) => handleChange(event, "contact")}
-                          value={values.contact}
+                          placeholder="Service Provider Contact "
+                          onChange={(event) =>
+                            handleChange(event, "service_owner_phone")
+                          }
+                          value={values.service_owner_phone}
                           tooltipOptions={{ position: "bottom" }}
-                          tooltip="Manufacturer's Phone Number"
+                          tooltip="Service Provider's Phone Number"
                         />
                         <small>eg: 02011002200</small>
 
-                        <div className="error-message">{errors.contact}</div>
+                        <div className="error-message">
+                          {errors.service_owner_phone}
+                        </div>
                       </div>
                       <div className="field col-6">
                         <label
                           htmlFor="firstname6"
                           className="block font-normal"
                         >
-                          Manufacturer Email Address
+                          Service Provider Email
                         </label>
                         <InputText
-                          id="email"
-                          type="email"
-                          name="email"
-                          placeholder="Manufacturer Email Address"
-                          onChange={(event) => handleChange(event, "email")}
-                          value={values.email}
+                          id="service_owner_email"
+                          type="service_owner_email"
+                          name="service_owner_email"
+                          placeholder="Service Provider Email"
+                          onChange={(event) =>
+                            handleChange(event, "service_owner_email")
+                          }
+                          value={values.service_owner_email}
                           tooltipOptions={{ position: "bottom" }}
-                          tooltip="Manufacturer's email address"
+                          tooltip="Service Provider's email address"
                         />
                         <small>eg: example@mail.com</small>
-                        <div className="error-message">{errors.email}</div>
+                        <div className="error-message">
+                          {errors.service_owner_email}
+                        </div>
                       </div>
 
                       <div className="field col-6">
@@ -361,20 +366,24 @@ class Manufacturers extends Component {
                           htmlFor="firstname6"
                           className="block font-normal"
                         >
-                          Manufacturer Website
+                          Service Provider Website
                         </label>
                         <InputText
-                          id="url"
+                          id="service_owner_url"
                           type="text"
-                          name="url"
-                          placeholder="Manufacturer Website"
-                          onChange={(event) => handleChange(event, "url")}
-                          value={values.url}
+                          name="service_owner_url"
+                          placeholder="Service Provider Website"
+                          onChange={(event) =>
+                            handleChange(event, "service_owner_url")
+                          }
+                          value={values.service_owner_url}
                           tooltipOptions={{ position: "bottom" }}
-                          tooltip="Manufacturer's website address"
+                          tooltip="Service Provider's website address"
                         />
                         <small>eg: https://www.hp.com</small>
-                        <div className="error-message">{errors.url}</div>
+                        <div className="error-message">
+                          {errors.service_owner_url}
+                        </div>
                       </div>
 
                       <div className="field col-6">
@@ -388,7 +397,7 @@ class Manufacturers extends Component {
                           id="description"
                           type="text"
                           name="description"
-                          placeholder="Manufacturer's Description"
+                          placeholder="Package's Description"
                           onChange={(event) =>
                             handleChange(event, "description")
                           }
@@ -396,10 +405,29 @@ class Manufacturers extends Component {
                           tooltipOptions={{ position: "bottom" }}
                           tooltip="Description"
                         />
-                        <small>eg: manufacture for hP laptops</small>
+                        <small>eg: Service Provider for hP laptops</small>
                         <div className="error-message">
                           {errors.description}
                         </div>
+                      </div>
+                      <div className="field col-6">
+                        <label
+                          htmlFor="firstname6"
+                          className="block font-normal"
+                        >
+                          Logo
+                        </label>
+                        <InputText
+                          id="logo"
+                          type="file"
+                          name="logo"
+                          placeholder="Service Provider's logo"
+                          onChange={(event) => handleChange(event, "logo")}
+                          value={values.logo}
+                          tooltipOptions={{ position: "bottom" }}
+                          tooltip="Service Provider's logo"
+                        />
+                        <div className="error-message">{errors.logo}</div>
                       </div>
                     </div>
                   </Form>
@@ -408,164 +436,20 @@ class Manufacturers extends Component {
             }}
           </Formik>
         </Dialog>
-
-        <Dialog
-          draggable={false}
-          visible={this.state["toggler2"]}
-          style={{ width: "35vw" }}
-          header="Edit Manufacturer Details"
-          modal
-          className="p-fluid"
-          footer={this.editManufacturerDialogFooter}
-          onHide={this.handleClose}
-        >
-          <div className="formgrid grid">
-            <div className="field col-6">
-              <label htmlFor="namefItem" className="block font-normal">
-                Manufacturer name
-              </label>
-              <InputText
-                id="title"
-                name="title"
-                defaultValue={this.state.info.title}
-                onChange={(event) => this.handleChange(event, "title")}
-              />
-            </div>
-
-            <div className="field col-6">
-              <label htmlFor="firstname6" className="block font-normal">
-                Manufacturer Contact
-              </label>
-              <InputText
-                id="contact"
-                type="text"
-                name="contact"
-                maxlength={10}
-                placeholder="Branch Contact"
-                onChange={(event) => this.handleChange(event, "contact")}
-                defaultValue={this.state.info.contact}
-              />
-            </div>
-
-            <div className="field col-6">
-              <label htmlFor="firstname6" className="block font-normal">
-                Manufacturer Email Address
-              </label>
-              <InputText
-                id="email"
-                type="email"
-                name="email"
-                placeholder="Branch Email Address"
-                onChange={(event) => this.handleChange(event, "email")}
-                defaultValue={this.state.info.email}
-              />
-            </div>
-
-            <div className="field col-6">
-              <label htmlFor="firstname6" className="block font-normal">
-                Manufacturer Website
-              </label>
-              <InputText
-                id="url"
-                type="text"
-                name="url"
-                placeholder="Manufacturer Website"
-                defaultValue={this.state.info.url}
-                onChange={(event) => this.handleChange(event, "url")}
-              />
-            </div>
-            <div className="field col-6">
-              <label htmlFor="firstname6" className="block font-normal">
-                Description
-              </label>
-              <InputTextarea
-                id="description"
-                type="text"
-                name="description"
-                placeholder="Manufacturer's Description"
-                onChange={(event) => this.handleChange(event, "description")}
-                defaultValue={this.state.info.description}
-              />
-            </div>
-          </div>
-        </Dialog>
-
-        <Dialog
-          draggable={false}
-          visible={this.state["toggler1"]}
-          style={{ width: "35vw" }}
-          header="Manufacturer Info"
-          modal
-          className="p-fluid"
-          footer={this.infoDialogFooter}
-          onHide={this.handleClose}
-        >
-          <div className="formgrid grid">
-            <div className="field col-6">
-              <label htmlFor="namefItem">Manufacturer name</label>
-              <InputText value={this.state.info.title} disabled />
-            </div>
-            <div className="field col-6">
-              <label htmlFor="namefItem">Manufacturer Contact</label>
-              <InputText value={this.state.info.contact} disabled />
-            </div>
-            <div className="field col-6">
-              <label htmlFor="namefItem">Email Address</label>
-              <InputText value={this.state.info.email} disabled />
-            </div>{" "}
-            <div className="field col-6">
-              <label htmlFor="namefItem">Manufacturer Website</label>
-              <InputText value={this.state.info.url} disabled />
-            </div>
-            <div className="field col-6">
-              <label htmlFor="namefItem">Description</label>
-              <InputTextarea value={this.state.info.description} disabled />
-            </div>
-          </div>
-        </Dialog>
-
-        <Dialog
-          draggable={false}
-          visible={this.state["toggler3"]}
-          style={{ width: "30vw" }}
-          header="Confirm Delete"
-          modal
-          footer={this.deleteManufacturerDialogFooter}
-          onHide={this.handleClose}
-        >
-          <div className="confirmation-content">
-            <i
-              className="pi pi-exclamation-triangle mr-2"
-              style={{ fontSize: "2rem" }}
-            />
-            {this.state.info && (
-              <span>
-                Are you sure you want to delete <b>{this.state.info.title}</b>?
-              </span>
-            )}
-          </div>
-        </Dialog>
       </div>
     );
   }
 }
 
-Manufacturers.propTypes = {
-  createManufacturer: PropTypes.func.isRequired,
-  deleteManufacturer: PropTypes.func.isRequired,
-  disableManufacturer: PropTypes.func.isRequired,
-  fetchManufacturers: PropTypes.func.isRequired,
-  updateManufacturer: PropTypes.func.isRequired,
+Subscriptions.propTypes = {
+  fetchSubscriptionPackages: PropTypes.func.isRequired,
+  createSubscriptionPackage: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
-  tenantInfo: state.tenants.tenantConfig,
-  booksize: state.manufacturers.booksize,
-  pagesize: state.manufacturers.pagesize,
+  booksize: state.subscriptionPackages.booksize,
+  pagesize: state.subscriptionPackages.pagesize,
 });
 export default connect(mapStateToProps, {
-  fetchManufacturers,
-  createManufacturer,
-  updateManufacturer,
-  disableManufacturer,
-  deleteManufacturer,
-})(Manufacturers);
+  fetchSubscriptionPackages,
+  createSubscriptionPackage,
+})(Subscriptions);

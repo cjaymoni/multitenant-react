@@ -19,6 +19,8 @@ import dashboardReducer from "./dashboardReducer";
 import manufacturerReducer from "./manufacturerReducer";
 import consumableReducer from "./consumablesReducer";
 import currencyReducer from "./currencyReducer";
+import subscriptionReducer from "./subscriptionReducer";
+import subscriptionPackageReducer from "./subPackageReducer";
 
 const persistConfig = {
   key: "root",
@@ -45,6 +47,8 @@ const allReducers = combineReducers({
   manufacturers: manufacturerReducer,
   consumables: consumableReducer,
   currencies: currencyReducer,
+  subscriptions: subscriptionReducer,
+  subscriptionPackages: subscriptionPackageReducer,
 });
 
 export default persistReducer(persistConfig, allReducers);

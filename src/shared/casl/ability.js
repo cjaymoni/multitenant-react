@@ -61,6 +61,11 @@ const defineRulesFor = (auth) => {
       can("view", "Consumables");
       can("info", "Consumables");
       can("assign", "Consumables");
+      can("view", "Subscriptions");
+      can("info", "Subscriptions");
+      can("edit", "Subscriptions");
+      can("disable", "Subscriptions");
+      can("add", "Subscriptions");
 
       break;
 
@@ -285,6 +290,11 @@ const defineRulesFor = (auth) => {
       can("edit", "Manufacturers");
       can("assign", "Manufacturers");
       can("add", "Manufacturers");
+      can("view", "Subscriptions");
+      can("info", "Subscriptions");
+      can("edit", "Subscriptions");
+      can("disable", "Subscriptions");
+      can("add", "Subscriptions");
       break;
 
     case "Systems":

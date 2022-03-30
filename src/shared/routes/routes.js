@@ -30,6 +30,7 @@ import Manufacturers from "../../tenant-app/pages/Admin/Manufacturers";
 import Consumables from "../../tenant-app/pages/Admin/Consumables";
 import CategoryInfo from "../../tenant-app/pages/Admin/CategoryInfo";
 import SystemDashboard from "../../tenant-app/pages/System/SystemDashboard";
+import Subscriptions from "../../tenant-app/pages/Admin/Subscriptions";
 
 export const routes = [
   {
@@ -38,6 +39,13 @@ export const routes = [
     exact: true,
     layout: Layout,
     name: "Dashboard",
+  },
+  {
+    element: <Subscriptions />,
+    path: "/subscriptions",
+    exact: true,
+    layout: Layout,
+    name: "Subscriptions",
   },
 
   {

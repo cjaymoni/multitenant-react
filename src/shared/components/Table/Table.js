@@ -307,6 +307,22 @@ const TableUI = (props) => {
           </div>
         );
 
+      case "Subscription Packages":
+        return (
+          <div className=" flex justify-content-between flex-wrap md:flex-wrap">
+            <h2 className="mt-2 flex">{props.tableHeader}</h2>
+            {search}
+            <Can do="add" on="Subscriptions">
+              <Button
+                icon="pi pi-plus"
+                label="Package"
+                className="flex  p-button-raised p-button-outlined h-3rem"
+                onClick={() => props.clickFunction()}
+              ></Button>
+            </Can>
+          </div>
+        );
+
       case "Recommendation History":
         return (
           <div className="flex  flex-wrap md:flex-wrap  justify-content-between">

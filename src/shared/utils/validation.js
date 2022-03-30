@@ -242,6 +242,15 @@ export const ManufacturerSchema = Yup.object().shape({
   url: Yup.string().url(),
 });
 
+export const SubPackageSchema = Yup.object().shape({
+  title: Yup.string().required("Package name is required"),
+  service_owner_phone: Yup.string(),
+  service_owner_email: Yup.string().email("Invalid email address format"),
+  description: Yup.string(),
+  service_owner_url: Yup.string().url(),
+  logo: Yup.string(),
+});
+
 export const UserSchema = Yup.object().shape({
   role_id: Yup.mixed().required(" Role is required"),
   password: Yup.string().required("Status is required"),

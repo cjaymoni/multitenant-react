@@ -142,6 +142,19 @@ export const sideMenu = [
     // ],
   },
   {
+    label: "Subscriptions",
+    to: "/subscriptions",
+    Icon: <i className="pi pi-paperclip text-xl mr-3 text-white" />,
+
+    // children: [
+    //   {
+    //     label: "Manufacturers List",
+    //     to: "/manufacturers",
+    //     Icon: <i className="pi pi-list text-xl mr-3 text-white" />,
+    //   },
+    // ],
+  },
+  {
     label: "Branches",
     to: "/location",
     Icon: <i className="pi pi-map-marker text-xl mr-3 text-white" />,
