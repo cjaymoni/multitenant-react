@@ -21,6 +21,7 @@ import consumableReducer from "./consumablesReducer";
 import currencyReducer from "./currencyReducer";
 import subscriptionReducer from "./subscriptionReducer";
 import subscriptionPackageReducer from "./subPackageReducer";
+import configurationReducer from "./envReducer";
 
 const persistConfig = {
   key: "root",
@@ -49,6 +50,7 @@ const allReducers = combineReducers({
   currencies: currencyReducer,
   subscriptions: subscriptionReducer,
   subscriptionPackages: subscriptionPackageReducer,
+  configurations: configurationReducer,
 });
 
 export default persistReducer(persistConfig, allReducers);

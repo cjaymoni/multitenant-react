@@ -2,6 +2,7 @@ import { roleActions, userActions } from "../actions/types";
 
 const initialState = {
   users: [], ///all fetched users
+  admins: [],
   user: {},
   roles: [],
   bulk: [],
@@ -17,6 +18,13 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         users: action.payload.data,
+        pagesize: action.payload.pg_size,
+        booksize: action.payload.bk_size,
+      };
+    case userActions.FETCH_ADMINS_SUCCESS:
+      return {
+        ...state,
+        admins: action.payload.data,
         pagesize: action.payload.pg_size,
         booksize: action.payload.bk_size,
       };

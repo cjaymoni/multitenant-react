@@ -31,6 +31,8 @@ import Consumables from "../../tenant-app/pages/Admin/Consumables";
 import CategoryInfo from "../../tenant-app/pages/Admin/CategoryInfo";
 import SystemDashboard from "../../tenant-app/pages/System/SystemDashboard";
 import Subscriptions from "../../tenant-app/pages/Admin/Subscriptions";
+import AdministratorsList from "../../tenant-app/pages/System/Administrators";
+import EnvConfigurations from "../../tenant-app/pages/System/EnvConfig";
 
 export const routes = [
   {
@@ -264,21 +266,35 @@ export const adminRoutes = [
   },
   {
     element: <Tenant />,
-    path: "/tenant",
+    path: "admin/tenant",
     exact: true,
     layout: Layout,
     name: "Tenant",
   },
   {
     element: <TenantForm />,
-    path: "/tenantform",
+    path: "admin/tenant-form",
     exact: true,
     layout: Layout,
     name: "Tenant",
   },
   {
     element: <Logs />,
-    path: "/logs",
+    path: "admin/logs",
+    exact: true,
+    layout: Layout,
+    name: "Logs",
+  },
+  {
+    element: <AdministratorsList />,
+    path: "administrators",
+    exact: true,
+    layout: Layout,
+    name: "Logs",
+  },
+  {
+    element: <EnvConfigurations />,
+    path: "admin/env-config",
     exact: true,
     layout: Layout,
     name: "Logs",

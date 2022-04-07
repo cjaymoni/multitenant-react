@@ -14,6 +14,18 @@ export const fetchUsers = () => (dispatch) => {
     );
 };
 
+export const fetchAdmins = () => (dispatch) => {
+  return api
+    .get("/accounts/administrators")
+    .then((res) => res.data)
+    .then((users) =>
+      dispatch({
+        type: userActions.FETCH_USERS_SUCCESS,
+        payload: users,
+      })
+    );
+};
+
 export const fetchByUserId = (id) => (dispatch) => {
   return api
     .get(`/accounts/users/${id}`)

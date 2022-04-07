@@ -11,7 +11,7 @@ import {
   titleTemplate,
 } from "./const";
 import { Form, Formik } from "formik";
-import TableUI from "../../../../shared/components/Table/Table";
+import DataTableDynamicDemo from "../../../../shared/components/Table/AdTable";
 import { InputTextarea } from "primereact/inputtextarea";
 import { TenantSchema } from "../../../../shared/utils/validation";
 import PropTypes from "prop-types";
@@ -23,7 +23,15 @@ import {
   createTenant,
   fetchTenantItems,
 } from "../../../../shared/redux/actions/tenantActions";
-import { fetchCategories } from "../../../../shared/redux/actions/categoryActions";
+import {
+  fetchByUserId,
+  fetchUsers,
+  editUser,
+  deleteUser,
+  disableUser,
+  createUser,
+  fetchRoles,
+} from "../../../../shared/redux/actions/userActions";
 import CardDemo from "../../../../shared/components/card/CardDemo";
 
 class Tenant extends Component {
@@ -50,6 +58,7 @@ class Tenant extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.createNewTenant = this.createNewTenant.bind(this);
   }
 
   // componentDidMount() {
@@ -87,7 +96,9 @@ class Tenant extends Component {
     this.setState({ createToggler: false });
     this.setState({ showlists: false });
   }
-
+  componentDidMount() {
+    // this.props.fetchTenants();
+  }
   createTenant() {
     const tenantPayload = {
       title: this.state.title,
@@ -119,7 +130,7 @@ class Tenant extends Component {
     this.props.disableTenant(id, tenantPayload);
   }
   async createNewTenant() {
-    return this.props.history.push("/tenantform");
+    return window.location.assign("/admin/tenant-form");
   }
 
   editTenantDialogFooter = (
@@ -209,6 +220,18 @@ class Tenant extends Component {
     </React.Fragment>
   );
 
+  headerData = (
+    <React.Fragment>
+      <Button
+        label="Tenant"
+        icon="pi pi-plus"
+        className="p-button-raised p-button-outlined h-3rem"
+        tooltipOptions={{ position: "bottom" }}
+        tooltip="Create New Tenant"
+        onClick={() => this.createNewTenant()}
+      />
+    </React.Fragment>
+  );
   render() {
     const initialValues = {
       title: "",
@@ -218,51 +241,38 @@ class Tenant extends Component {
     const actionBodyTemplate = (rowData) => {
       return (
         <React.Fragment>
-          <Can do="info" on="Tenant">
-            <Button
-              icon="pi pi-info"
-              className="p-button-rounded p-button-info mr-2"
-              onClick={() => this.toggle("toggler2", rowData)}
-              tooltip="More Info"
-              tooltipOptions={{ position: "bottom" }}
-            />
-          </Can>
+          <Button
+            icon="pi pi-info"
+            className="p-button-rounded p-button-info mr-2"
+            onClick={() => this.toggle("toggler2", rowData)}
+            tooltip="More Info"
+            tooltipOptions={{ position: "bottom" }}
+          />
           &nbsp;
-          <Can do="edit" on="Tenant">
-            <Button
-              icon="pi pi-pencil"
-              className="p-button-rounded p-button-warning mr-2"
-              onClick={() => this.toggle("toggler", rowData)}
-              tooltip="Edit Tenant"
-              tooltipOptions={{ position: "bottom" }}
-            />
-          </Can>
+          <Button
+            icon="pi pi-pencil"
+            className="p-button-rounded p-button-warning mr-2"
+            onClick={() => this.toggle("toggler", rowData)}
+            tooltip="Edit Tenant"
+            tooltipOptions={{ position: "bottom" }}
+          />
           &nbsp;
-          <Can do="disable" on="Tenant">
-            <Button
-              icon="pi pi-ban"
-              className="p-button-rounded p-button-danger  mr-2"
-              onClick={() => this.toggle("disableToggler", rowData)}
-              tooltip="Delete Tenant"
-            />
-          </Can>
-          &nbsp;
-          <Can do="delete" on="Tenant">
-            <Button
-              icon="pi pi-trash"
-              className="p-button-rounded p-button-danger  mr-2"
-              // onClick={() => this.toggle("deleteToggler", rowData)}
-              tooltip="Delete Tenant"
-            />
-          </Can>
+          <Button
+            icon="pi pi-ban"
+            className="p-button-rounded p-button-danger  mr-2"
+            onClick={() => this.toggle("disableToggler", rowData)}
+            tooltip="Disable Tenant"
+          />
         </React.Fragment>
       );
     };
     const tenantColumns = [
       { field: "title", header: "Tenant Name" },
+      { field: "sub_domain", header: "Sub Domain" },
+
       {
-        field: "description",
-        header: "Description",
+        field: "scheme",
+        header: "Tenant Id",
       },
       { field: "created_at", header: "Date Created", body: dateBodyTemplate },
       { header: "Action(s)", body: actionBodyTemplate },
@@ -289,7 +299,7 @@ class Tenant extends Component {
               content={this.props.booksize}
             ></CardDemo>
           </div>
-          <div className="p-col-12 p-md-6 p-lg-3">
+          {/* <div className="p-col-12 p-md-6 p-lg-3">
             <CardDemo
               title="New Tenants"
               icon="pi pi-users"
@@ -298,7 +308,7 @@ class Tenant extends Component {
               update="1"
               content={this.props.pagesize}
             ></CardDemo>
-          </div>
+          </div> */}
           <div className="p-col-12 p-md-6 p-lg-3">
             <CardDemo
               title="Active Tenants"
@@ -306,7 +316,7 @@ class Tenant extends Component {
               update="1"
               color="#fde0c2"
               iconColor="#f57c00"
-              content={this.props.booksize - this.props.pagesize}
+              content={this.props.pagesize}
             ></CardDemo>
           </div>
         </div>
@@ -314,17 +324,11 @@ class Tenant extends Component {
 
         <div className="datatable-responsive-demo">
           <div>
-            <TableUI
-              tableHeader="Manage Tenants"
+            <DataTableDynamicDemo
               columns={tenantColumns}
-              fetchFunction={this.props.fetchCategories}
-              clickFunction={() => this.createNewTenant()}
-              style={{
-                width: "76vw",
-                marginLeft: "15px",
-                marginBottom: "0px",
-                marginTop: "0px",
-              }}
+              fetchFunction={this.props.fetchTenants}
+              tableHeader="Manage Tenants"
+              headData={this.headerData}
             />
           </div>
         </div>
@@ -509,26 +513,7 @@ class Tenant extends Component {
             </div>
           </div>
           <div className="datatable-responsive-demo">
-            <div>
-              <TableUI
-                tableHeader="Items in Tenant"
-                columns={infoColumns}
-                // fetchFunction={this.props.fetchTenantItems}
-                style={{
-                  width: "56vw",
-                  marginLeft: "5px",
-                  marginBottom: "0px",
-                  marginTop: "0px",
-                }}
-                figment={{
-                  position: "absolute",
-                  top: "4%",
-                  left: "30%",
-                  height: "35px",
-                  width: "40%",
-                }}
-              />
-            </div>
+            <div></div>
           </div>
         </Dialog>
       </div>
@@ -538,24 +523,21 @@ class Tenant extends Component {
 Tenant.propTypes = {
   fetchTenants: PropTypes.func.isRequired,
   tenants: PropTypes.array.isRequired,
-  editTenant: PropTypes.func.isRequired,
-  deleteTenant: PropTypes.func.isRequired,
-  createTenant: PropTypes.func.isRequired,
-  fetchTenantItems: PropTypes.func.isRequired,
-  tenantitems: PropTypes.array.isRequired,
-  fetchCategories: PropTypes.func.isRequired,
+  // editTenant: PropTypes.func.isRequired,
+  // deleteTenant: PropTypes.func.isRequired,
+  // createTenant: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  // tenants: state.tenants.tenants,
+  tenants: state.tenants.tenants,
   // tenantitems:state.tenants.tenantitems,
-  // booksize:state.tenants.booksize,
-  // pagesize:state.tenants.pagesize
+  booksize: state.tenants.booksize,
+  pagesize: state.tenants.pagesize,
 });
 
 export default connect(mapStateToProps, {
-  fetchCategories,
-  // fetchTenants,
+  fetchTenants,
+  fetchUsers,
   // editTenant,
   // deleteTenant,
   // createTenant,

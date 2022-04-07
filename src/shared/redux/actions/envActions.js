@@ -1,57 +1,29 @@
 import api from "../../services/api";
 import Swal from "sweetalert2";
-import { tenantActions } from "./types";
+import { envActions } from "./types";
 
-export const fetchTenants = () => (dispatch) => {
+export const fetchConfigurations = () => (dispatch) => {
   return api
-    .get("/tenants")
+    .get("/configurations?safe=true")
     .then((res) => res.data)
-    .then((tenants) =>
+    .then((configurations) =>
       dispatch({
-        type: tenantActions.FETCH_TENANT_SUCCESS,
-        payload: tenants,
+        type: envActions.FETCH_ENV_CONFIG_SUCCESS,
+        payload: configurations,
       })
     );
 };
 
-export const fetchTenantInfo = () => (dispatch) => {
-  const host = window.location.host; // gets the full domain of the app
-  const sub_domain = host.split(".")[0];
-  // .slice(0, host.includes("localhost") ? -1 : -2);
-
-  return api
-    .get(`/tenants?sub_domain_id=${sub_domain}`)
-    .then((res) => res.data)
-    .then((tenantitems) => {
-      dispatch({
-        type: tenantActions.FETCH_TENANT_CONFIG,
-        payload: tenantitems,
-      });
-      // console.log(tenantitems.data)
-    });
-};
-
-export const fetchTenantItemsN = (id) => (dispatch) => {
-  return api
-    .get(`/tenants/${id}/items?search=decommission&value=false`)
-    .then((res) => res.data)
-    .then((tenantitems) =>
-      dispatch({
-        type: tenantActions.FETCH_TENANT_SUCCESS,
-        payload: tenantitems,
-      })
-    );
-};
-export const createTenant = (postData) => (dispatch) => {
-  return api.post("/tenants", postData).then((post) => {
+export const createConfiguration = (postData) => (dispatch) => {
+  return api.post("/configurations", postData).then((post) => {
     if (post.status === 201) {
       dispatch(
         {
-          type: tenantActions.ADD_TENANT_SUCCESS,
+          type: envActions.ADD_ENV_CONFIG_SUCCESS,
           payload: post,
         },
         Swal.fire({
-          title: "Tenant added successfully",
+          title: "Configuration added successfully",
           icon: "success",
           timer: 2000,
           showConfirmButton: false,
@@ -71,17 +43,17 @@ export const createTenant = (postData) => (dispatch) => {
   });
 };
 
-export const editTenant = (id, updateData) => (dispatch) => {
-  return api.patch(`/tenants/${id}`, updateData).then((update) => {
+export const updateConfiguration = (id, updateData) => (dispatch) => {
+  return api.patch(`/configurations/${id}`, updateData).then((update) => {
     if (update.status === 200) {
       dispatch(
         {
-          type: tenantActions.UPDATE_TENANT_SUCCESS,
+          type: envActions.UPDATE_ENV_CONFIG_SUCCESS,
           payload: update,
         },
         Swal.fire({
-          title: "Tenant updated successfully",
           icon: "success",
+          title: "Configuration updated successfully",
           timer: 2000,
           showConfirmButton: false,
         }).then(function () {
@@ -100,17 +72,17 @@ export const editTenant = (id, updateData) => (dispatch) => {
   });
 };
 
-export const disableTenant = (id, updateData) => (dispatch) => {
-  return api.patch(`/tenants/${id}`, updateData).then((update) => {
+export const disableConfiguration = (id, updateData) => (dispatch) => {
+  return api.patch(`/configurations/${id}`, updateData).then((update) => {
     if (update.status === 200) {
       dispatch(
         {
-          type: tenantActions.UPDATE_TENANT_SUCCESS,
+          type: envActions.UPDATE_ENV_CONFIG_SUCCESS,
           payload: update,
         },
         Swal.fire({
-          title: "Tenant has been removed",
           icon: "success",
+          title: "Configuration has been removed",
           timer: 2000,
           showConfirmButton: false,
         }).then(function () {
@@ -128,16 +100,17 @@ export const disableTenant = (id, updateData) => (dispatch) => {
     }
   });
 };
-export const deleteTenant = (id) => (dispatch) => {
-  return api.delete(`/tenants/${id}`).then((remove) => {
-    if (remove.status === 200) {
+
+export const deleteConfiguration = (id) => (dispatch) => {
+  return api.delete(`/configurations/${id}`).then((remove) => {
+    if (remove.status === 204) {
       dispatch(
         {
-          type: tenantActions.DELETE_TENANT_SUCCESS,
+          type: envActions.DELETE_ENV_CONFIG_SUCCESS,
           payload: remove,
         },
         Swal.fire({
-          title: "Tenant has been permanently removed",
+          title: "Configuration has been permanently removed",
           icon: "success",
           timer: 2000,
           showConfirmButton: false,
