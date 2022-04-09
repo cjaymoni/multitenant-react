@@ -10,28 +10,31 @@ class AdminNavBar extends Component {
   constructor(props) {
     super(props);
   }
-
+  icons = [
+    {
+      label: "Reset password",
+      icon: "pi pi-fw pi-user-edit",
+      command: () => {
+        this.openPassDialog();
+      },
+    },
+    {
+      label: "Logout",
+      icon: "pi pi-fw pi-power-off",
+      command: () => {
+        this.logout();
+      },
+    },
+  ];
   componentDidMount() {}
 
   render() {
     const rightContents = (
       <React.Fragment>
-        {/* <Can do="view" on="NotiBell">
-          <Notifications
-            // style={{fontSize:'10px',fontFamily:'serif',fontWeight:'bold', backgroundColor:'aliceblue',border: 'none'}}
-            // notificationCard="card-style"
-            // icon={classNames(<i className="pi pi-bell" />)}
-            cardOption={data =>
-              window.location.assign([data].map(m => m.detailPage))
-            }
-            data={data}
-          />
-        </Can> */}
-        &nbsp;
         <SplitButton
           icon="pi pi-fw pi-user"
           onClick={this.openDialog}
-          // label={this.props.user.first_name}
+          label="System Admin"
           model={this.icons}
           className="p-button-info"
         ></SplitButton>

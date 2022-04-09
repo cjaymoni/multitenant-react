@@ -27,7 +27,15 @@ function App(props) {
         <AdminRoutes />
       </div>
     );
-  } else if (Object.keys(tenantInfo).length === 0) {
+  }
+  //  else if (host.indexOf(".") === -1) {
+  //   return (
+  //     <div className=" overflow-x-hidden">
+  //       <AdminRoutes />
+  //     </div>
+  //   );
+  // }
+  else if (Object.keys(tenantInfo).length === 0) {
     return <SubDomainError />;
   } else if (typeof tenantInfo === "undefined") {
     return <SubDomainError />;

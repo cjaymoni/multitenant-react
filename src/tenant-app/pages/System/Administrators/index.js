@@ -12,10 +12,13 @@ import {
   titleTemplate,
 } from "../Tenant/const";
 
-import { fetchAdmins } from "../../../../shared/redux/actions/userActions";
+import {
+  fetchAdmins,
+  createAdmin,
+} from "../../../../shared/redux/actions/userActions";
 import PropTypes from "prop-types";
 import { Form, Formik } from "formik";
-import { UserSchema } from "../../../../shared/utils/validation";
+import { AdminSchema } from "../../../../shared/utils/validation";
 
 class AdministratorsList extends Component {
   constructor(props) {
@@ -116,7 +119,6 @@ class AdministratorsList extends Component {
         icon="pi pi-check"
         className="p-button-text"
         form="postform"
-        onClick={() => this.handleClose()}
       />
     </React.Fragment>
   );
@@ -186,13 +188,8 @@ class AdministratorsList extends Component {
 
   render() {
     const initialValues = {
-      first_name: "",
-      last_name: "",
-      middle_name: "",
-      role_id: "",
-      phone: "",
       email: "",
-      password: this.state.password,
+      password: "",
     };
 
     const actionBodyTemplate = (rowData) => {
@@ -272,32 +269,28 @@ class AdministratorsList extends Component {
             />
           </div>
         </div>
-        {/* 
+
         <Dialog
           draggable={false}
           visible={this.state["toggler"]}
-          header="Add New User"
+          header="Add New Adminsinistrator"
           modal
-          className="p-fluid w-6"
+          className="p-fluid w-5"
           footer={this.adduserDialogFooter}
           onHide={this.handleClose}
         >
           <Formik
-            validationSchema={UserSchema}
+            validationSchema={AdminSchema}
             validateOnChange={true}
             initialValues={initialValues}
             onSubmit={(values) => {
               const postData = {
-                first_name: values.first_name,
-                last_name: values.last_name,
-                middle_name: values.middle_name,
-                role_id: values.role_id.id,
-                phone: values.phone,
                 email: values.email,
                 password: values.password,
               };
               // console.log(postData);
-              this.props.createUser(postData);
+              this.handleClose();
+              this.props.createAdmin(postData);
             }}
           >
             {(props) => {
@@ -306,45 +299,15 @@ class AdministratorsList extends Component {
               return (
                 <>
                   <Form id="postform">
-                    <div className="formgrid grid">
-                      <div className="field col-6">
-                        <label htmlFor="state" className="block font-normal">
-                          User Type
-                        </label>
-                        <AutoComplete
-                          className="w-full"
-                          dropdown
-                          name="role_id"
-                          id="role_id"
-                          suggestions={this.state.filteredRoles}
-                          completeMethod={this.searchRole}
-                          field="title"
-                          placeholder="Select usertype"
-                          value={props.values.role_id}
-                          onChange={(selectedOption) => {
-                            let event = {
-                              target: {
-                                name: "role_id",
-                                value: selectedOption.target.value,
-                              },
-                            };
-                            handleChange(event);
-                          }}
-                          tooltipOptions={{ position: "bottom" }}
-                          tooltip="User's user-type"
-                        />
-                        <small>eg: Head of Department</small>
-
-                        <div className="error-message">{errors.role_id}</div>
-                      </div>
-
-                      <div className="field col-6">
+                    <div className="formgrid grid w-full">
+                      <div className="field col-12">
                         <label htmlFor="staff_id" className="block font-normal">
                           Email
                         </label>
                         <InputText
-                          id="staff_id"
+                          id="email"
                           type="text"
+                          name="email"
                           value={values.email}
                           placeholder="Email"
                           onChange={handleChange("email")}
@@ -354,84 +317,20 @@ class AdministratorsList extends Component {
                         <small>eg: john@mail.com</small>
                       </div>
 
-                      <div className="field col-6">
+                      <div className="field col-12">
                         <label htmlFor="state" className="block font-normal">
                           Password
                         </label>
-                      </div>
-                      <div className="field col-6">
-                        <label
-                          htmlFor="firstname6"
-                          className="block font-normal"
-                        >
-                          Last name
-                        </label>
                         <InputText
-                          id="firstname6"
+                          id="password"
                           type="text"
-                          value={values.last_name}
-                          placeholder="Last name"
-                          onChange={handleChange("last_name")}
+                          name="password"
+                          value={values.password}
+                          placeholder="Password"
+                          onChange={handleChange("password")}
                           tooltipOptions={{ position: "bottom" }}
-                          tooltip="User's lastname"
+                          tooltip="User's password"
                         />
-                        <small>eg: Agyei</small>
-                        <div className="error-message">{errors.last_name}</div>
-                      </div>
-                      <div className="field col-6">
-                        <label
-                          htmlFor="lastname6"
-                          className="block font-normal"
-                        >
-                          First name
-                        </label>
-                        <InputText
-                          id="lastname6"
-                          type="text"
-                          value={values.first_name}
-                          onChange={handleChange("first_name")}
-                          placeholder="First name"
-                          tooltipOptions={{ position: "bottom" }}
-                          tooltip="User's firstname"
-                        />
-                        <small>eg: John</small>
-
-                        <div className="error-message">{errors.first_name}</div>
-                      </div>
-                      <div className="field col-6">
-                        <label htmlFor="email" className="block font-normal">
-                          Middle name
-                        </label>
-                        <InputText
-                          id="email"
-                          type="text"
-                          value={values.middle_name}
-                          placeholder="Middle name"
-                          onChange={handleChange("middle_name")}
-                          tooltipOptions={{ position: "bottom" }}
-                          tooltip="User's middle name"
-                        />
-                        <small>eg: Ato</small>
-                        <div className="error-message">
-                          {errors.middle_name}
-                        </div>
-                      </div>
-
-                      <div className="field col-6">
-                        <label htmlFor="city" className="block font-normal">
-                          Phone
-                        </label>
-                        <InputText
-                          id="phone"
-                          placeholder="0240000000"
-                          maxlength={10}
-                          value={values.phone}
-                          onChange={handleChange("phone")}
-                          tooltipOptions={{ position: "bottom" }}
-                          tooltip="User's phone number"
-                        />
-                        <small>eg: 0240000000</small>
-                        <div className="error-message">{errors.phone}</div>
                       </div>
                     </div>
                   </Form>
@@ -439,7 +338,7 @@ class AdministratorsList extends Component {
               );
             }}
           </Formik>
-        </Dialog> */}
+        </Dialog>
 
         {/* <Dialog
           draggable={false}
@@ -622,6 +521,7 @@ class AdministratorsList extends Component {
 
 AdministratorsList.propTypes = {
   fetchAdmins: PropTypes.func.isRequired,
+  createAdmin: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   booksize: state.users.booksize,
@@ -630,4 +530,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   fetchAdmins,
+  createAdmin,
 })(AdministratorsList);

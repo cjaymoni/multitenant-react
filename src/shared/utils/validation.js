@@ -263,6 +263,13 @@ export const UserSchema = Yup.object().shape({
   phone: Yup.string(),
 });
 
+export const AdminSchema = Yup.object().shape({
+  password: Yup.string().required("Status is required"),
+  email: Yup.string()
+    .email("Invalid email address format")
+    .required("Email is required"),
+});
+
 export const TenantSchema = Yup.object().shape({
   title: Yup.string().required("Provide tenant name"),
   sub_domain_id: Yup.string().required("Provide tenant sub-domain"),

@@ -2,7 +2,7 @@ export const adminMenu = [
   {
     label: "Dashboard",
     Icon: <i className="pi pi-home text-xl mr-3 text-white" />,
-    to: "/dashboard",
+    to: "/admin/dashboard",
   },
 
   {

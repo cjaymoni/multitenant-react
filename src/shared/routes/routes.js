@@ -258,7 +258,7 @@ export const routes = [
 
 export const adminRoutes = [
   {
-    element: <Home />,
+    element: <SystemDashboard />,
     path: "admin/dashboard",
     exact: true,
     layout: Layout,

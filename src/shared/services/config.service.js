@@ -36,6 +36,8 @@ export const getConfig = () => async (dispatch) => {
     return true;
 
     // (window.location.host = "admin.localhost:3000");
+  } else if (host.indexOf(".") === -1) {
+    window.location = `http://admin.${host}`;
   } else if (host.includes(".") && sub_domain !== "admin") {
     try {
       return await api

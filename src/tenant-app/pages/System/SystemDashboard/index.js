@@ -6,22 +6,18 @@ class SystemDashboard extends Component {
     super(props);
   }
 
-  componentWillMount() {}
-
-  componentDidMount() {}
-
-  componentWillReceiveProps(nextProps) {}
-
-  shouldComponentUpdate(nextProps, nextState) {}
-
-  componentWillUpdate(nextProps, nextState) {}
-
-  componentDidUpdate(prevProps, prevState) {}
-
-  componentWillUnmount() {}
-
   render() {
-    return <div></div>;
+    return (
+      <div>
+        <h2
+          className="p-mb-3 p-text-bold"
+          style={{ marginLeft: "20px", color: "#495057" }}
+        >
+          Dashboard
+        </h2>
+        <br></br>
+      </div>
+    );
   }
 }
 
