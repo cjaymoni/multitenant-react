@@ -3,7 +3,7 @@ import RouterFunction from "./shared/routes";
 import React, { useEffect } from "react";
 // import { fetchTenantInfo } from "./shared/redux/actions/tenantActions";
 // import PropTypes from "prop-types";
-import { getConfig } from "./shared/services/config.service";
+import { getConfig, getsubDomain } from "./shared/services/config.service";
 import { connect, useDispatch } from "react-redux";
 // import { createStructuredSelector } from "reselect";
 // import {
@@ -19,7 +19,8 @@ function App(props) {
   const host = window.location.href;
 
   useEffect(() => {
-    dispatch(getConfig());
+    dispatch(getsubDomain());
+    // getsubDomain();
   }, [dispatch]);
   if (host.includes("admin")) {
     return (

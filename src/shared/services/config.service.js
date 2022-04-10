@@ -28,7 +28,41 @@ var isSubdomain = function (url) {
 
   return !!url.match(regex); // make sure it returns boolean
 };
-
+export const getsubDomain = () => async (dispatch) => {
+  const domain = window.location.hostname;
+  var tenant = "";
+  if (
+    domain.indexOf(".") < 0 ||
+    domain.split(".")[0] === "example" ||
+    domain.split(".")[0] === "lvh" ||
+    domain.split(".")[0] === "www" ||
+    domain.split(".")[0] === "easset"
+  ) {
+    tenant = "";
+    window.location = `http://admin.${window.location.host}`;
+  } else {
+    tenant = domain.split(".")[0];
+    console.log(tenant);
+  }
+  if (tenant === "admin") {
+    return true;
+  } else {
+    try {
+      return await api
+        .get(`/tenants?sub_domain=${domain}`)
+        .then((res) => res.data)
+        .then((tenantitems) => {
+          dispatch({
+            type: tenantActions.FETCH_TENANT_CONFIG,
+            payload: tenantitems,
+          });
+          console.log(tenantitems.data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
 export const getConfig = () => async (dispatch) => {
   const host = window.location.host; // gets the full domain of the app
   var sub_domain = host.split(".")[0];
