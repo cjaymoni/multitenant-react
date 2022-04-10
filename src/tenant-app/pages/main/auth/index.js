@@ -123,7 +123,7 @@ class Login extends React.Component {
                     return (
                       window.location.assign("admin/dashboard"),
                       new WebSocket(
-                        `ws://196.43.196.108:3345/ws/${localStorage.user_id}`
+                        `wss://196.43.196.108:3100/ws/${localStorage.user_id}`
                       ),
                       setStatus(),
                       (error) => {
@@ -137,7 +137,7 @@ class Login extends React.Component {
                       return (
                         window.location.assign("/request"),
                         new WebSocket(
-                          `ws://196.43.196.108:3345/ws/${localStorage.user_id}`
+                          `wss://196.43.196.108:3100/ws/${localStorage.user_id}`
                         ),
                         setStatus(),
                         (error) => {
@@ -149,7 +149,7 @@ class Login extends React.Component {
                       return (
                         window.location.assign("/dashboard"),
                         new WebSocket(
-                          `ws://196.43.196.108:3345/ws/${localStorage.user_id}`
+                          `wss://196.43.196.108:3100/ws/${localStorage.user_id}`
                         ),
                         setStatus(),
                         (error) => {
